@@ -1,0 +1,83 @@
+/* Main container styling */
+.example-container {
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* Sidebar styling */
+.sidenav {
+  width: 280px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidenav-toolbar {
+  background-color: #673ab7;
+  color: white;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-nav-list a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.mat-nav-list a:hover {
+  background-color: #f0f0f0;
+  color: #673ab7;
+  border-left: 4px solid #673ab7;
+}
+
+.mat-nav-list mat-icon {
+  margin-right: 12px;
+  color: #673ab7;
+}
+
+/* Toolbar styling */
+.main-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background-color: #673ab7;
+  color: white;
+}
+
+.company-info h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.company-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #ffffffcc;
+}
+
+/* General styles */
+.spacer {
+  flex: 1;
+}
+
+button {
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sidenav {
+    width: 200px;
+  }
+  .main-toolbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

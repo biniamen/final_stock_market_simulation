@@ -1,0 +1,77 @@
+<div class="container">
+    <h2>Publish Stock</h2>
+  
+    <form [formGroup]="publishStockForm" (ngSubmit)="publishStock()">
+      <mat-form-field appearance="fill">
+        <mat-label>Ticker Symbol</mat-label>
+        <input
+          matInput
+          formControlName="ticker_symbol"
+          placeholder="Enter ticker symbol"
+          maxlength="10"
+        />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Total Shares</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="total_shares"
+          placeholder="Enter total shares"
+        />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Current Price</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="current_price"
+          placeholder="Enter current price"
+          step="0.01"
+        />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Available Shares</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="available_shares"
+          placeholder="Enter available shares"
+        />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Max Trader Buy Limit</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="max_trader_buy_limit"
+          placeholder="Enter max buy limit"
+        />
+      </mat-form-field>
+  
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="publishStockForm.invalid || publishedStock"
+      >
+        Publish Stock
+      </button>
+    </form>
+  
+    <div *ngIf="publishedStock" class="published-stock">
+      <h3>Published Stock</h3>
+      <p><strong>Ticker Symbol:</strong> {{ publishedStock.ticker_symbol }}</p>
+      <p><strong>Total Shares:</strong> {{ publishedStock.total_shares }}</p>
+      <p><strong>Current Price:</strong> {{ publishedStock.current_price }}</p>
+      <p><strong>Available Shares:</strong> {{ publishedStock.available_shares }}</p>
+      <p>
+        <strong>Max Trader Buy Limit:</strong> {{ publishedStock.max_trader_buy_limit }}
+      </p>
+    </div>
+  </div>
+  

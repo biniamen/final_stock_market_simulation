@@ -1,0 +1,42 @@
+.container {
+  max-width: 100%; /* Utilize full width of the page */
+  margin: 20px auto;
+  padding: 0 20px; /* Add padding for better alignment */
+}
+
+mat-card {
+  padding: 20px;
+  margin-bottom: 20px; /* Add spacing between cards */
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table.mat-table {
+  width: 100%; /* Ensure the table spans the full width */
+}
+
+mat-paginator {
+  margin-top: 10px; /* Add spacing above the paginator */
+}
+
+.mat-card-title {
+  font-size: 1.5rem; /* Adjust font size for titles */
+  font-weight: bold;
+  text-align: center; /* Center-align titles for better aesthetics */
+}
+
+mat-form-field {
+  width: 100%; /* Ensure form fields span the full width */
+}
+
+mat-button {
+  color: #fff; /* Ensure buttons have readable text */
+  background-color: #673ab7; /* Add custom color to buttons */
+}
+
+mat-card table {
+  overflow-x: auto; /* Ensure table scrolls horizontally on small screens */
+}

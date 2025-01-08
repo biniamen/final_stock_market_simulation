@@ -1,0 +1,70 @@
+<div style="margin: 20px;">
+    <h1>Bid Order Management</h1>
+    <!-- Button to open the modal -->
+    <button mat-raised-button color="primary" (click)="openOrderModal()">Place an Order</button>
+  </div>
+  
+  <!-- Modal Template -->
+  <ng-template #orderModal>
+    <h2 mat-dialog-title>Place an Order</h2>
+    <mat-dialog-content style="display: flex; flex-direction: column; gap: 15px;">
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Select Stock</mat-label>
+        <mat-select [(value)]="selectedStockId" (selectionChange)="onStockChange($event.value)">
+          <mat-option [value]="0" disabled>Select a stock</mat-option>
+          <mat-option *ngFor="let stock of stocks" [value]="stock.id">
+           Ticker: {{ stock.ticker_symbol }} | Available: {{ stock.available_shares }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Action</mat-label>
+        <mat-select [(value)]="action" (selectionChange)="onActionChange()">
+          <mat-option value="Buy">Buy</mat-option>
+          <mat-option value="Sell">Sell</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Order Type</mat-label>
+        <mat-select [(value)]="orderType" (selectionChange)="onOrderTypeChange()">
+          <mat-option value="Market">Market</mat-option>
+          <mat-option value="Limit">Limit</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <div *ngIf="orderType === 'Limit'">
+        <mat-form-field appearance="fill">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" [(ngModel)]="price" name="price" placeholder="Enter Price" (ngModelChange)="onPriceChange()">
+        </mat-form-field>
+      </div>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" [(ngModel)]="quantity" name="quantity" placeholder="Enter Quantity" (ngModelChange)="onQuantityChange()">
+      </mat-form-field>
+  
+      <div *ngIf="action === 'Sell' && selectedStockId > 0">
+        <p>You own {{ userOwnedQuantity }} shares of {{ selectedStockSymbol }}.</p>
+        <div *ngIf="quantity && quantity > userOwnedQuantity" style="color:red;">
+          You do not have enough shares to sell.
+        </div>
+      </div>
+  
+      <div *ngIf="profitOrLoss !== null">
+        <p *ngIf="profitOrLoss > 0" style="color:green;">Potential Profit: {{ profitOrLoss | number:'1.2-2' }}</p>
+        <p *ngIf="profitOrLoss < 0" style="color:red;">Potential Loss: {{ profitOrLoss | number:'1.2-2' }}</p>
+        <p *ngIf="profitOrLoss === 0">No profit/loss.</p>
+      </div>
+  
+    </mat-dialog-content>
+  
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" [disabled]="!canPlaceOrder()" (click)="placeOrder()">Place Order</button>
+    </mat-dialog-actions>
+  </ng-template>
+  

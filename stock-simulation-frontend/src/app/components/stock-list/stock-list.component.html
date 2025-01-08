@@ -1,0 +1,122 @@
+<div class="stock-list-container">
+  <input
+    type="text"
+    placeholder="Search stocks..."
+    [(ngModel)]="searchText"
+    (input)="filterStocks()"
+    class="search-bar-small"
+  />
+
+  <div class="stock-cards">
+    <mat-card
+      *ngFor="let stock of filteredStocks | paginate: { itemsPerPage: 10, currentPage: paginator.pageIndex + 1 }"
+      class="stock-card"
+      id="stock-card-{{ stock.id }}"
+      (mouseover)="hoverEffect(true, stock.id)"
+      (mouseout)="hoverEffect(false, stock.id)"
+    >
+      <mat-card-header>
+        <mat-card-title>{{ stock.ticker_symbol }}</mat-card-title>
+        <mat-card-subtitle>Company ID: {{ stock.company }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Current Price:</strong> {{ stock.current_price }}</p>
+        <p><strong>Total Shares:</strong> {{ stock.total_shares }}</p>
+        <p><strong>Available Shares:</strong> {{ stock.available_shares }}</p>
+        <p><strong>Max Trader Buy Limit:</strong> {{ stock.max_trader_buy_limit }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="openBuyModal(stock)">Buy</button>
+        <button mat-raised-button color="accent" (click)="openDisclosureModal(stock.company)">View Disclosures</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <mat-paginator
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page"
+    #paginator>
+  </mat-paginator>
+</div>
+
+<!-- Disclosure Modal -->
+<ng-template #disclosureModal>
+  <div class="modal-header">
+    <h2>Company Disclosures</h2>
+  </div>
+  <div>
+    <mat-form-field appearance="outline" style="width: 100%; margin-bottom: 10px;">
+      <mat-label>Search Disclosures</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Type to search..." />
+    </mat-form-field>
+    <table mat-table [dataSource]="disclosureDataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let disclosure"> {{ disclosure.id }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let disclosure"> {{ disclosure.type }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Year </th>
+        <td mat-cell *matCellDef="let disclosure"> {{ disclosure.year }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let disclosure"> {{ disclosure.description }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="file">
+        <th mat-header-cell *matHeaderCellDef> File </th>
+        <td mat-cell *matCellDef="let disclosure">
+          <a [href]="disclosure.file" target="_blank">View/Download</a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</ng-template>
+
+<!-- Buy Modal -->
+<ng-template #buyModal>
+  <div class="modal-header">
+    <h2>Buy {{ selectedStock?.ticker_symbol }}</h2>
+  </div>
+  <div class="modal-content">
+    <p><strong>Company:</strong> {{ selectedStock?.company.company_name }}</p>
+    <p><strong>Current Price:</strong> {{ selectedStock?.current_price }}</p>
+    <p><strong>Available Shares:</strong> {{ selectedStock?.available_shares }}</p>
+    <p><strong>Max Trader Buy Limit:</strong> {{ selectedStock?.max_trader_buy_limit }}</p>
+
+    <form>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Quantity</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="quantity"
+          name="quantity"
+          required
+        />
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="modal-actions">
+    <button mat-button (click)="closeModal()">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="placeOrder()"
+    >
+      Place Order
+    </button>
+  </div>
+</ng-template>

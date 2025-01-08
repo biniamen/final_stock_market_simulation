@@ -1,0 +1,41 @@
+/* user-list.component.css */
+
+.user-list-container {
+    padding: 1rem;
+  }
+  
+  /* Adjust table container for optional horizontal scroll if columns overflow */
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  /* Keep actions in one line and spaced */
+  .action-header {
+    white-space: nowrap; /* Prevents the header text from wrapping */
+  }
+  
+  .action-cell {
+    white-space: nowrap; /* Prevents content from wrapping in this cell */
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Action Buttons alignment */
+  .action-buttons {
+    float: right; /* or use flex if you prefer a more responsive approach */
+  }
+  
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+  }
+  
+  /* Example to tighten or reduce spacing between columns */
+  .mat-cell, .mat-header-cell {
+    padding: 0.5rem 1rem;
+  }
+  
+  /* If the text is too long, you might reduce the font size or add more column changes. */
+  

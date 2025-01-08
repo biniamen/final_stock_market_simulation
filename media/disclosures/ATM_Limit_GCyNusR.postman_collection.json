@@ -1,0 +1,371 @@
+{
+	"info": {
+		"_postman_id": "4aaf63e3-5818-40e0-9de2-00d9ebdc0ed2",
+		"name": "ATM_Limit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_all_limits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "update_limits",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newLimit\": 4000,\r\n    \"pan\": \"1234567890123456\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8290/services/ATMLimitDataService/setLimit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8290",
+					"path": [
+						"services",
+						"ATMLimitDataService",
+						"setLimit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_limit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "get_limit Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "set_limit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "get_default",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "proxy-getlimit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "deployedAPI2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "deployedAPI",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "getallChangedPin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "newGetLimit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8290/services/AtmPosWithdrawalLimit/isValid?pan=1234567890123456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8290",
+					"path": [
+						"services",
+						"AtmPosWithdrawalLimit",
+						"isValid"
+					],
+					"query": [
+						{
+							"key": "pan",
+							"value": "1234567890123456"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NewSaveResponse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "NewUpdateLimit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "ProxyNewLimitSetting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "validatePan",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8290/services/PinChangeService/ValidateOldPin?pan=1234567890123456&old_pin_hash=1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8290",
+					"path": [
+						"services",
+						"PinChangeService",
+						"ValidateOldPin"
+					],
+					"query": [
+						{
+							"key": "pan",
+							"value": "1234567890123456"
+						},
+						{
+							"key": "old_pin_hash",
+							"value": "1234"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "storePinChangeRequest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\":\r\n    {\r\n    \"pan\": \"1234567890654321\",\r\n  \"account_number\": \"9876543210\",\r\n  \"customer_id\": \"CUST12345\",\r\n  \"old_pin_hash\": \"abcd1234\",\r\n  \"new_pin_hash\": \"efgh5678\"\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8290/services/PinChangeService/StorePinChangeRequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8290",
+					"path": [
+						"services",
+						"PinChangeService",
+						"StorePinChangeRequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdatePin",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\":\r\n    {\r\n  \"status\": \"COMPLETED\",\r\n  \"pan\": \"1234567890123456\",\r\n  \"old_pin_hash\": \"1234\",\r\n  \"new_pin_hash\": \"5678efgh\"\r\n}\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8290/services/PinChangeService/UpdatePinChangeRequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8290",
+					"path": [
+						"services",
+						"PinChangeService",
+						"UpdatePinChangeRequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "proxy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "CheckChangeCardStatus",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"header\": {\r\n    \"idmsg\": \"MSG123456789\",\r\n    \"mac\": \"A1B2C3D4E5F6\"\r\n  },\r\n  \"initiator\": {\r\n    \"status\": 4,\r\n    \"expiry\": \"2025-12-31\",\r\n    \"card\": \"1234567890123555\",\r\n    \"institution\": \"BankXxx\"\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8290/changeStatusAPI/changeStatus",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8290",
+					"path": [
+						"changeStatusAPI",
+						"changeStatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PinChange",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pan\": \"1234567890123456\",\r\n    \"accountNum\": \"ACC1234567890\",\r\n    \"customerID\": \"CUST12345\",\r\n    \"oldPin\": \"1234\",\r\n    \"newPin\": \"5678\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8290/changePinAPI/changePin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8290",
+					"path": [
+						"changePinAPI",
+						"changePin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

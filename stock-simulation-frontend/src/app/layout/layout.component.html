@@ -1,0 +1,66 @@
+<mat-sidenav-container *ngIf="isLoggedIn" class="example-container">
+  <!-- Sidebar -->
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-toolbar color="primary" class="sidenav-toolbar">
+      <h3>Menu</h3>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/publish-stock">
+        <mat-icon>business</mat-icon>
+        Company Stock
+      </a>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/add-stock">
+        <mat-icon>add</mat-icon>
+        Add Stock
+      </a>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/upload-disclosure">
+        <mat-icon>cloud_upload</mat-icon>
+        Upload Disclosure
+      </a>
+      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/orders">
+        <mat-icon>list</mat-icon>
+        Trader Orders
+      </a>
+      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/stocks">
+        <mat-icon>storefront</mat-icon>
+        Listed Stocks
+      </a>
+      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/bid-order">
+        <mat-icon>gavel</mat-icon>
+        Bid Order
+      </a>
+      <a *ngIf="userRole === 'regulator'" mat-list-item routerLink="/users-list">
+        <mat-icon>people</mat-icon>
+        User List
+      </a>
+      <a mat-list-item href="#" class="menu-item logout" (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="main-toolbar">
+      <div class="company-info" *ngIf="userRole === 'company_admin'">
+        <h3>Welcome, {{ username }}</h3>
+        <p>KYC Status: <strong>{{ kycStatus ? 'Verified' : 'Not Verified' }}</strong></p>
+      </div>
+      <div class="company-info" *ngIf="userRole === 'trader'">
+        <h3>Welcome, {{ username }}</h3>
+        <p>KYC Status: <strong>{{ kycStatus ? 'Verified' : 'Not Verified' }}</strong></p>
+        <p>Account Balance, {{ account_balance }} Profit Balance, {{ profit_balance }}</p><br>
+        
+      </div>
+      <span class="spacer"></span>
+      <button mat-raised-button color="warn" (click)="onLogout()">Logout</button>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- Unauthenticated View -->
+<div *ngIf="!isLoggedIn">
+  <router-outlet></router-outlet>
+</div>

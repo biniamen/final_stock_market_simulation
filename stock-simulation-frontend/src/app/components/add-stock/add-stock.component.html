@@ -1,0 +1,69 @@
+<div class="container" *ngIf="!stockExists; else stockExistsMessage">
+  <mat-card>
+    <mat-card-title>Add New Stock</mat-card-title>
+    <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+      <!-- Company Name -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Company Name</mat-label>
+        <input matInput [value]="companyName" disabled />
+      </mat-form-field>
+
+      <!-- Ticker Symbol -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Ticker Symbol</mat-label>
+        <input matInput formControlName="ticker_symbol"  />
+      </mat-form-field>
+
+      <!-- Total Shares -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Total Shares</mat-label>
+        <input matInput type="number" formControlName="total_shares" (input)="onTotalSharesChange()" />
+        <mat-error *ngIf="stockForm.get('total_shares')?.hasError('required')">
+          Total Shares are required
+        </mat-error>
+        <mat-error *ngIf="stockForm.get('total_shares')?.hasError('min')">
+          Total Shares must be at least 1
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Available Shares -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Available Shares</mat-label>
+        <input matInput type="number" formControlName="available_shares"  />
+      </mat-form-field>
+
+      <!-- Current Price -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Current Price</mat-label>
+        <input matInput type="number" formControlName="current_price" />
+        <mat-error *ngIf="stockForm.get('current_price')?.hasError('required')">
+          Current Price is required
+        </mat-error>
+        <mat-error *ngIf="stockForm.get('current_price')?.hasError('min')">
+          Current Price must be greater than 0
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Max Trader Buy Limit -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Max Trader Buy Limit</mat-label>
+        <input matInput type="number" formControlName="max_trader_buy_limit" />
+        <mat-error *ngIf="getErrorMessage('max_trader_buy_limit')">
+          {{ getErrorMessage('max_trader_buy_limit') }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="stockForm.invalid">
+        Add Stock
+      </button>
+    </form>
+  </mat-card>
+</div>
+
+<ng-template #stockExistsMessage>
+  <mat-card>
+    <mat-card-title>Stock Already Exists</mat-card-title>
+    <p>You cannot add another stock for this company.</p>
+  </mat-card>
+</ng-template>

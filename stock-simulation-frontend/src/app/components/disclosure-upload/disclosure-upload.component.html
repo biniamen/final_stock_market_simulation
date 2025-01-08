@@ -1,0 +1,102 @@
+<div class="container">
+  <!-- Uploaded Disclosures -->
+  <mat-card>
+    <mat-card-title>Uploaded Disclosures</mat-card-title>
+
+    <!-- Button to Open Modal -->
+    <button mat-raised-button color="primary" (click)="openModal()">Add New Disclosure</button>
+
+    <!-- Search Box -->
+    <mat-form-field appearance="fill" style="width: 100%; margin-top: 20px;">
+      <mat-label>Search Disclosures</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search by any field" />
+    </mat-form-field>
+
+    <!-- Table -->
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let disclosure">{{ disclosure.id }}</td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+        <td mat-cell *matCellDef="let disclosure">{{ disclosure.type }}</td>
+      </ng-container>
+
+      <!-- Year Column -->
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+        <td mat-cell *matCellDef="let disclosure">{{ disclosure.year }}</td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+        <td mat-cell *matCellDef="let disclosure">{{ disclosure.description }}</td>
+      </ng-container>
+
+      <!-- File Column -->
+      <ng-container matColumnDef="file">
+        <th mat-header-cell *matHeaderCellDef>File</th>
+        <td mat-cell *matCellDef="let disclosure">
+          <a [href]="disclosure.file" target="_blank" mat-button>View/Download</a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+
+  <!-- Modal Dialog -->
+  <!-- Modal Dialog -->
+<ng-template #modal>
+  <h2 mat-dialog-title>Upload New Disclosure</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="disclosureForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Disclosure Type</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option *ngFor="let t of disclosureTypes" [value]="t">
+            {{ t }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="disclosureForm.get('type')?.invalid">
+          Disclosure type is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Year</mat-label>
+        <input matInput type="number" formControlName="year" required />
+        <mat-error *ngIf="disclosureForm.get('year')?.hasError('required')">
+          Year is required
+        </mat-error>
+        <mat-error *ngIf="disclosureForm.get('year')?.hasError('min')">
+          Please enter a valid year (>= 1900)
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+
+      <div class="full-width">
+        <label for="file">Select File:</label>
+        <input id="file" type="file" (change)="onFileSelected($event)" required />
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeModal()">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="disclosureForm.invalid || !selectedFile" (click)="onSubmit()">Submit</button>
+  </mat-dialog-actions>
+</ng-template>

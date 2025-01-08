@@ -1,0 +1,113 @@
+[33mcommit 0fda3713a4fb5e9b91909357154874588859fb43[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Wed Dec 18 18:07:35 2024 +0300
+
+    Add .env to .gitignore
+
+[33mcommit 9f2ab435c5bfedcc7f995cb128d6bd89f1ae5269[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Wed Dec 18 17:55:32 2024 +0300
+
+    OTP verification is added while user registered
+
+[33mcommit 0c282ee983d5ebf527d160b025b7b7d5a9b7dfa0[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sat Dec 14 00:09:28 2024 +0300
+
+    Registration page Fixed
+
+[33mcommit 703893a7a7f4adcc4b18dd73699e61c9f1739d7e[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Fri Dec 13 22:46:59 2024 +0300
+
+    frontend separated by role
+
+[33mcommit 891cba3b71b5595b789125ebe3493ea7662f1f9a[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Wed Dec 11 00:10:37 2024 +0300
+
+    Real time Notification is enabled using websocket
+
+[33mcommit 568fded921db22c9349f69647aba4c4602d3acec[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sun Dec 8 18:52:17 2024 +0300
+
+    frontend building started
+
+[33mcommit aad309019a37bfb59eabafcb0c19ee452f200ed5[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sat Dec 7 00:11:14 2024 +0300
+
+    Starting the frontend section with angular material
+
+[33mcommit 025d9cf60b08b384181c04c535f0e99bb67c624f[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Fri Dec 6 22:24:07 2024 +0300
+
+    the trading engine is very well fine-tuned80 %
+
+[33mcommit ce5aacaace6592a68b5c88d3c2c9b4ce178d936f[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Fri Dec 6 21:28:10 2024 +0300
+
+    the trading engine is very well fine-tuned75 %
+
+[33mcommit 0c5fb990fa0a79ae18347fa530516adea6264869[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Thu Dec 5 23:46:01 2024 +0300
+
+    Cron Jobs and schedule task created in order to cancel pending order at the end of the day
+
+[33mcommit dfdbb180cf20ea60492e657addd7aa63625d3eb6[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Thu Dec 5 01:04:10 2024 +0300
+
+    Ensured user portfolio creation during order processing if absent, preventing potential errors and Enhanced order handling logic with validation for stock suspension, working hours, and daily trade limits
+
+[33mcommit 2f015a76b67488d79464d6c215392a238dfa40f9[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Wed Dec 4 21:48:14 2024 +0300
+
+    Ensured user portfolio creation during order processing if absent, preventing potential errors and Enhanced order handling logic with validation for stock suspension, working hours, and daily trade limits
+
+[33mcommit 85b4649894da3488dedf257a7bb1b89c53e46029[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Mon Dec 2 23:32:38 2024 +0300
+
+    Added working hours, daily trade limits, and stock suspension checks. Enhanced order matching, trade execution, and portfolio updates.
+
+[33mcommit eaf4d235b8fd43881086bf3a91d4771aa733e00e[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sat Nov 30 21:05:48 2024 +0300
+
+    Enforced stock max_trader_buy_limit and validated user trade history in the Stock app with structured error handling. Improved uniqueness validation and KYC approval checks in the User app
+
+[33mcommit 4e7b3f54441c56227fdf11d4d4cdd91c004de871[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sat Nov 30 18:27:11 2024 +0300
+
+    stock feature changed
+
+[33mcommit f20dda4d4b252ec120415e197a9cb15dfb6ac95e[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sat Nov 16 20:40:58 2024 +0300
+
+    all database table created some issue in order creation
+
+[33mcommit 64795237f2f1bb992fb7b2b269b1fbe65adf51bd[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Mon Oct 7 22:36:58 2024 +0300
+
+    User Attributes added based on user roles
+
+[33mcommit 2c5871b81fb24d85b3d3da57281fdc74596e5e88[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sun Oct 6 20:53:09 2024 +0300
+
+    update
+
+[33mcommit 13d222c293e051b18d153526bbf10f5d09fae8b3[m
+Author: biniyam <biniasella@gmail.com>
+Date:   Sun Oct 6 20:38:27 2024 +0300
+
+    first commit

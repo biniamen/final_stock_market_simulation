@@ -1,0 +1,30 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <span class="header-title">Ethiopian Stock Market Simulation Platform</span>
+</mat-toolbar>
+
+<div class="container">
+  <mat-card class="auth-card">
+    <mat-card-title class="card-title">Welcome Back</mat-card-title>
+    <mat-card-subtitle class="card-subtitle">Login to continue</mat-card-subtitle>
+    <mat-card-content>
+      <form (submit)="onLogin()">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="loginUser.username" name="username" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="loginUser.password" name="password" type="password" required />
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" type="submit">Login</button>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <p class="signup-text">
+        Don't have an account? <a routerLink="/register">Sign up here</a>
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</div>

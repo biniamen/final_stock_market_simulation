@@ -1,0 +1,193 @@
+<!-- user-list.component.html -->
+
+<mat-toolbar color="primary">
+  <span>User List</span>
+</mat-toolbar>
+
+<div class="container user-list-container">
+  <mat-card>
+    <mat-card-title>
+      Registered Users
+      <div class="action-buttons">
+        <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
+        <button mat-raised-button color="primary" (click)="printTable()">Print</button>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <!-- Show spinner while loading -->
+      <div *ngIf="isLoading" class="spinner-container">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+
+      <!-- Filter Input -->
+      <div class="filter-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Username or Email">
+        </mat-form-field>
+      </div>
+
+      <!-- Table Container for Horizontal Scrolling if needed -->
+      <div id="userTable" class="table-container">
+        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
+          </ng-container>
+
+          <!-- Username Column -->
+          <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.username }} </mat-cell>
+          </ng-container>
+
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
+          </ng-container>
+
+          <!-- Role Column -->
+          <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.role | titlecase }} </mat-cell>
+          </ng-container>
+
+          <!-- KYC Verified Column -->
+          <ng-container matColumnDef="kyc_verified">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> KYC </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-icon color="{{ element.kyc_verified ? 'primary' : 'warn' }}">
+                {{ element.kyc_verified ? 'check_circle' : 'cancel' }}
+              </mat-icon>
+            </mat-cell>
+          </ng-container>
+
+          <!-- OTP Verified Column -->
+          <ng-container matColumnDef="otp_verified">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> OTP </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-icon color="{{ element.otp_verified ? 'primary' : 'warn' }}">
+                {{ element.otp_verified ? 'check_circle' : 'cancel' }}
+              </mat-icon>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Is Approved Column -->
+          <ng-container matColumnDef="is_approved">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Approved </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-icon color="{{ element.is_approved ? 'primary' : 'warn' }}">
+                {{ element.is_approved ? 'check_circle' : 'cancel' }}
+              </mat-icon>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Date Registered Column -->
+          <ng-container matColumnDef="date_registered">
+            <!-- Shortened header to "Reg." to reduce overlap -->
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Reg. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> 
+              {{ element.date_registered | date:'short' }} 
+            </mat-cell>
+          </ng-container>
+
+          <!-- Last Login Column -->
+          <ng-container matColumnDef="last_login">
+            <!-- Shortened header to "Login" -->
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Login </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.last_login ? (element.last_login | date:'short') : 'Never' }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef class="action-header"> 
+              Actions 
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="action-cell">
+              <!-- More (Dropdown) Button -->
+              <!-- Only shown to "regulator" users via *ngIf -->
+              <button mat-icon-button [matMenuTriggerFor]="actionMenu"
+                *ngIf="currentUserRole === 'regulator'">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+
+              <!-- Dropdown Menu -->
+              <mat-menu #actionMenu="matMenu">
+                <!-- Approve Menu Item with Tooltip -->
+                <span
+                  [matTooltip]="getApproveTooltip(element)"
+                  matTooltipPosition="above"
+                  class="tooltip-wrapper"
+                >
+                  <button mat-menu-item 
+                          (click)="approveKyc(element)"
+                          [disabled]="!element.otp_verified || element.is_approved || element.kyc_verified">
+                    <mat-icon>check</mat-icon>
+                    <span>Approve</span>
+                  </button>
+                </span>
+
+                <!-- Reject Menu Item with Tooltip (Optional) -->
+                <span
+                  [matTooltip]="getRejectTooltip(element)"
+                  matTooltipPosition="above"
+                  class="tooltip-wrapper"
+                >
+                  <button mat-menu-item 
+                          (click)="rejectKyc(element)"
+                          [disabled]="!element.is_approved && !element.kyc_verified">
+                    <mat-icon>close</mat-icon>
+                    <span>Reject</span>
+                  </button>
+                </span>
+                
+                <!-- Deactivate Menu Item -->
+                <span
+                  [matTooltip]="getDeactivateTooltip(element)"
+                  matTooltipPosition="above"
+                  class="tooltip-wrapper"
+                >
+                  <button mat-menu-item 
+                          (click)="deactivateUser(element)"
+                          [disabled]="!element.is_approved">
+                    <mat-icon>block</mat-icon>
+                    <span>Deactivate</span>
+                  </button>
+                </span>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+
+          <!-- View KYC Column -->
+          <ng-container matColumnDef="view_kyc">
+            <mat-header-cell *matHeaderCellDef> View KYC </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span
+                [matTooltip]="!element.kyc_document ? 'KYC document not available.' : ''"
+                matTooltipPosition="above"
+                class="tooltip-wrapper"
+              >
+                <button mat-icon-button color="accent" (click)="viewKyc(element)"
+                  [disabled]="!element.kyc_document">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </span>
+            </mat-cell>
+          </ng-container>
+          
+          <!-- Define rows -->
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+
+      <!-- Add paginator -->
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,54 @@
+.stock-list-container {
+  margin: 20px;
+}
+
+.search-bar-small {
+  width: 50%;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.stock-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-evenly;
+}
+
+.stock-card {
+  width: 300px;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.stock-card:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.modal-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-paginator {
+  margin-top: 15px;
+  justify-content: center;
+}

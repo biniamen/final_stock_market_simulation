@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+  .auth-card {
+    width: 400px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Style the file input */
+  #kycFile {
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    width: 100%;
+  }
+  

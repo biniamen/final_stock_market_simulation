@@ -1,0 +1,536 @@
+{
+	"info": {
+		"_postman_id": "3ba36cf6-b40e-435f-aeb2-b50e97273666",
+		"name": "ethiopian_stock_market",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user_registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "trader13",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "biniyamkm@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Amen@2461",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "trader",
+							"type": "text"
+						},
+						{
+							"key": "kyc_document",
+							"type": "file",
+							"src": "/C:/Users/binia/Downloads/Global Voyager Spring 2024 .pdf"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/users/register/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"trader1234\",\r\n    \"password\": \"Amen@2461\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/users/login/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approve_user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzMTU1NDI5LCJpYXQiOjE3MzI5ODI2MjksImp0aSI6Ijc0MmZmMTllYTQzZjRkOWFhZmI3NGVmYjVkOWRlNjM2IiwidXNlcl9pZCI6MTAsInVzZXJuYW1lIjoidHJhZGVyMTIzNCIsInJvbGUiOiJyZWd1bGF0b3IiLCJreWNfdmVyaWZpZWQiOnRydWV9._Fj5ntRocGPq2XSBLLTfspg-8okP9QQ-zzEhgrXc6qA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"action\": \"approve\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/users/25/kyc/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"25",
+						"kyc",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "match_order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxOTQ2MDgxLCJpYXQiOjE3MzE3NzMyODEsImp0aSI6IjI2ODAzMjlmMzQ3NDRkNDQ4OWM4ZmJmMzczZDM3YzhkIiwidXNlcl9pZCI6MTB9.5xyxZZaQRJ5pEHDTao3TsokXcoGg_DDKL435sa_sb20",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/stocks/match-orders/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"match-orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all_user_portifolio",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/stocks/portfolios/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"portfolios",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all_listed_company",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/stocks/companies/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"companies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_stocks",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company\": 1,\r\n    \"ticker_symbol\": \"AAPL\",\r\n    \"total_shares\": 1000000,\r\n    \"current_price\": 150.00,\r\n    \"available_shares\": 1000000,\r\n    \"max_trader_buy_limit\": 500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/stocks/stocks/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"stocks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": 2,\r\n    \"stock\": 1,\r\n    \"stock_symbol\": \"GBE\",\r\n    \"order_type\": \"Market\",\r\n    \"action\": \"Sell\",\r\n    \"price\": 1000.00,\r\n    \"quantity\": 5\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/stocks/orders/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_single_portifolio",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}//api/stocks/portfolios/2/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"",
+						"api",
+						"stocks",
+						"portfolios",
+						"2",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_company",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"company_name\": \"Ethiopian Airlines\",\r\n  \"sector\": \"Transportation\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/companies/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"companies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_stock_for_company",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company\": 1,\r\n    \"ticker_symbol\": \"AAPL\",\r\n    \"total_shares\": 1000000,\r\n    \"current_price\": 150.00,\r\n    \"available_shares\": 1000000,\r\n    \"max_trader_buy_limit\": 500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/stocks/stocks/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"stocks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_all_orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/stocks/orders/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_all_trade",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/stocks/trades/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"stocks",
+						"trades",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change_password",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "getting_working_hour",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/regulationsworking-hours/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"regulationsworking-hours",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_suspension",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"trader\": 1,\r\n  \"stock\": 3,\r\n  \"suspension_type\": \"Specific Stock\",\r\n  \"initiator\": \"Regulatory Body\",\r\n  \"reason\": \"Market manipulation detected\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/regulationssuspensions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"regulationssuspensions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_all_system_users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNDExODc0NiwiaWF0IjoxNzMzNTEzOTQ2LCJqdGkiOiI1MzM1ODc1ZjI0N2Q0NGEzYjk4NDgzMGMwYjU3OWRhZCIsInVzZXJfaWQiOjEwLCJ1c2VybmFtZSI6InRyYWRlcjEyMzQiLCJyb2xlIjoicmVndWxhdG9yIiwia3ljX3ZlcmlmaWVkIjp0cnVlfQ.CBFIWImujj05dr1KVqD5AVdkICENAOW_rTSkMYj6Z6U",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/users/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/user/orders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-singleuser-order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODQzNDk5LCJpYXQiOjE3MzM2NzA2OTksImp0aSI6ImJkMTRmNjliM2M1ZDQ2MjhiOTg2Y2ViMDU4YTVmNjU4IiwidXNlcl9pZCI6OSwidXNlcm5hbWUiOiJ0cmFkZXIxMjMiLCJyb2xlIjoidHJhZGVyIiwia3ljX3ZlcmlmaWVkIjp0cnVlLCJhY2NvdW50X2JhbGFuY2UiOiI4NTAwLjAwIiwicHJvZml0X2JhbGFuY2UiOiIwLjAwIn0.MclOZcBGYwF5EnbFXKkG3mewGvZYsMTfgJSEPgqysmc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/stocks/user/trades/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"stocks",
+						"user",
+						"trades",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

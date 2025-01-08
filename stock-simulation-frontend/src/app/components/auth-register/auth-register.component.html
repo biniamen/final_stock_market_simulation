@@ -1,0 +1,53 @@
+<mat-toolbar color="primary">
+  <span>Register</span>
+</mat-toolbar>
+
+<div class="container">
+  <mat-card class="auth-card">
+    <mat-card-title>Register</mat-card-title>
+    <mat-card-content>
+      <form (submit)="onRegister()">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="user.username" name="username" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="user.email" name="email" type="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="user.password" name="password" type="password" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select [(ngModel)]="user.role" name="role" required>
+            <mat-option value="trader">Trader</mat-option>
+            <!-- <mat-option value="regulator">Regulator</mat-option> -->
+            <mat-option value="company_admin">Company Admin</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="user.role === 'company_admin'">
+          <mat-form-field appearance="outline">
+            <mat-label>Select Company</mat-label>
+            <mat-select [(ngModel)]="user.company_id" name="company_id" required>
+              <mat-option *ngFor="let company of companies" [value]="company.id">
+                {{ company.company_name +" || "+ company.sector }} 
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- File input (no mat-form-field around this) -->
+        <label for="kycFile">KYC Document:</label>
+        <input id="kycFile" type="file" (change)="onFileSelected($event)" />
+
+        <button mat-raised-button color="primary" type="submit">Register</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
