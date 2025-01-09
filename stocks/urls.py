@@ -27,6 +27,7 @@ router.register(r'trades', TradeViewSet, basename='trade')
 router.register(r'dividends', DividendViewSet, basename='dividend')
 router.register(r'disclosures', DisclosureViewSet, basename='disclosure')
 
+
 # Custom URL patterns
 urlpatterns = [
     # Trader orders

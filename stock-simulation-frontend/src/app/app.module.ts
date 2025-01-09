@@ -18,9 +18,12 @@ import { MatSortModule } from '@angular/material/sort'; // For sorting
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
 
 
 // Components
+
 import { AppComponent } from './app.component';
 import { AuthLoginComponent } from './components/auth-login/auth-login.component';
 import { AuthRegisterComponent } from './components/auth-register/auth-register.component';
@@ -40,6 +43,7 @@ import { DisclosureUploadComponent } from './components/disclosure-upload/disclo
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UserPortfolioComponent } from './components/user-portfolio/user-portfolio.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     StockListComponent,
     BidOrderComponent,
     AddStockComponent,
-    DisclosureUploadComponent
+    DisclosureUploadComponent,
+    UserPortfolioComponent
   ],
   imports: [
     BrowserModule,
@@ -88,6 +93,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     NgxPaginationModule,
     MatIconModule,
     MatTooltipModule, 
+    MatGridListModule,
+    MatSnackBarModule, // Add MatSnackBarModule here
+
 
   ],
   providers: [],

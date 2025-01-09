@@ -1,11 +1,20 @@
+# stocks/serializers.py
 from rest_framework import serializers
-from .models import Disclosure, SuspiciousActivity, UsersPortfolio, ListedCompany, Stocks, Orders, Trade, Dividend
+
+# Import everything ACTUALLY in `models.py`
+from .models import (
+    Disclosure, UsersPortfolio, ListedCompany,
+    Stocks, Orders, Trade, Dividend
+)
+
+# Import SuspiciousActivity from its own file
+from .models_suspicious import SuspiciousActivity
 
 
 class UsersPortfolioSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsersPortfolio
-        fields = '__all__'
+        fields = ['id', 'user', 'quantity', 'average_purchase_price', 'total_investment']
 
 
 class ListedCompanySerializer(serializers.ModelSerializer):
@@ -24,14 +33,16 @@ class OrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders
         fields = '__all__'
+
+
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders
         fields = ['user', 'stock', 'stock_symbol', 'order_type', 'action', 'price', 'quantity']
 
     def create(self, validated_data):
-        # The Orders model logic or signals handle the matching and saving
         return Orders.objects.create(**validated_data)
+
 
 class TradeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,6 +55,7 @@ class DividendSerializer(serializers.ModelSerializer):
         model = Dividend
         fields = '__all__'
 
+
 class DirectStockPurchaseSerializer(serializers.Serializer):
     stock_symbol = serializers.CharField(required=True)
     quantity = serializers.IntegerField(required=True, min_value=1)
@@ -51,16 +63,13 @@ class DirectStockPurchaseSerializer(serializers.Serializer):
     def validate(self, attrs):
         stock_symbol = attrs.get('stock_symbol')
         quantity = attrs.get('quantity')
-
-        # Check if stock exists
         try:
             stock = Stocks.objects.get(ticker_symbol=stock_symbol)
         except Stocks.DoesNotExist:
             raise serializers.ValidationError("Stock with the given symbol does not exist.")
-
         attrs['stock'] = stock
         return attrs
-    
+
 
 class DisclosureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,7 +77,7 @@ class DisclosureSerializer(serializers.ModelSerializer):
         fields = ['id', 'company', 'type', 'year', 'file', 'description', 'uploaded_at']
         read_only_fields = ['uploaded_at']
 
-   
+
 class SuspiciousActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = SuspiciousActivity

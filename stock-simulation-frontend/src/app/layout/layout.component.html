@@ -9,6 +9,10 @@
         <mat-icon>business</mat-icon>
         Company Stock
       </a>
+      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/portfolio">
+        <mat-icon>account_balance_wallet</mat-icon>
+        Portfolio
+      </a>
       <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/add-stock">
         <mat-icon>add</mat-icon>
         Add Stock

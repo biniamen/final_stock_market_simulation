@@ -1,0 +1,38 @@
+/* src/app/components/user-portfolio/user-portfolio.component.scss */
+
+.portfolio-container {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+  }
+  
+  .portfolio-card {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .portfolio-details {
+    margin-top: 16px;
+  }
+  
+  .detail-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loading-container, .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .loading-container p, .error-container p {
+    margin-top: 16px;
+    font-size: 1.2em;
+    color: #555;
+  }
+  

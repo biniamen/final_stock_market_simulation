@@ -13,6 +13,7 @@ import { StockListComponent } from './components/stock-list/stock-list.component
 import { BidOrderComponent } from './components/bid-order/bid-order.component';
 import { AddStockComponent } from './components/add-stock/add-stock.component';
 import { DisclosureUploadComponent } from './components/disclosure-upload/disclosure-upload.component';
+import { UserPortfolioComponent } from './components/user-portfolio/user-portfolio.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -42,6 +43,7 @@ const routes: Routes = [
       { path: 'add-stock', component: AddStockComponent },
       { path: 'upload-disclosure', component: DisclosureUploadComponent },
       { path: 'users-list', component: UserListComponent },
+      { path: 'portfolio', component: UserPortfolioComponent}, // Apply AuthGuard if available
 
 
       // { path: 'otp-verification', component: OtpVerificationComponent },

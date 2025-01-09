@@ -3,6 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
 from .models import Disclosure, UsersPortfolio, ListedCompany, Stocks, Orders, Trade, Dividend
 from .serializers import (
     DirectStockPurchaseSerializer,
@@ -18,16 +20,16 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import SuspiciousActivity
+from .models_suspicious import SuspiciousActivity
 from .serializers import SuspiciousActivitySerializer
 from django.db import transaction
 import logging
 logger = logging.getLogger(__name__)
 
 
-class UsersPortfolioViewSet(viewsets.ModelViewSet):
-    queryset = UsersPortfolio.objects.all()
-    serializer_class = UsersPortfolioSerializer
+# class UsersPortfolioViewSet(viewsets.ModelViewSet):
+#     queryset = UsersPortfolio.objects.all()
+#     serializer_class = UsersPortfolioSerializer
 
 
 class ListedCompanyViewSet(viewsets.ModelViewSet):
@@ -257,3 +259,37 @@ def suspicious_activities(request):
         activity.reviewed = True
         activity.save()
         return Response({"message": "Activity marked as reviewed."})
+    
+class UsersPortfolioViewSet(viewsets.ModelViewSet):
+    queryset = UsersPortfolio.objects.all()
+    serializer_class = UsersPortfolioSerializer
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access
+
+    @action(detail=False, methods=['get'], url_path='user/(?P<user_id>[^/.]+)')
+    def get_portfolio_by_user(self, request, user_id=None):
+        """
+        Retrieve a user's portfolio by their user ID.
+        URL: /api/stocks/portfolios/user/<user_id>/
+        """
+        # Convert user_id to integer and handle potential errors
+        try:
+            user_id = int(user_id)
+        except ValueError:
+            return Response(
+                {'detail': 'Invalid user ID format.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Check permissions: users can only access their own portfolio unless they're admins
+        if not request.user.is_staff and request.user.id != user_id:
+            raise PermissionDenied("You do not have permission to view this portfolio.")
+
+        try:
+            portfolio = UsersPortfolio.objects.get(user__id=user_id)
+            serializer = self.get_serializer(portfolio)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except UsersPortfolio.DoesNotExist:
+            return Response(
+                {'detail': 'Portfolio not found for the given user ID.'},
+                status=status.HTTP_404_NOT_FOUND
+            )

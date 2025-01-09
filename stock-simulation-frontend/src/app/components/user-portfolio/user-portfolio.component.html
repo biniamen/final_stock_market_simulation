@@ -1,0 +1,62 @@
+<!-- src/app/components/user-portfolio/user-portfolio.component.html -->
+
+<div class="portfolio-container" *ngIf="!isLoading && portfolio; else loading">
+    <mat-card class="portfolio-card">
+      <mat-card-header>
+        <mat-card-title>Your Portfolio</mat-card-title>
+        <mat-card-subtitle>Total Investment: ${{ portfolio.total_investment }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="portfolio-details">
+          <mat-grid-list cols="2" rowHeight="100px" gutterSize="16px">
+            <mat-grid-tile>
+              <mat-card class="detail-card">
+                <mat-card-title>Quantity Owned</mat-card-title>
+                <mat-card-content>
+                  {{ portfolio.quantity }}
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-card class="detail-card">
+                <mat-card-title>Average Purchase Price</mat-card-title>
+                <mat-card-content>
+                  ${{ portfolio.average_purchase_price }}
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-card class="detail-card">
+                <mat-card-title>Remaining Investment</mat-card-title>
+                <mat-card-content>
+                  ${{ getRemainingInvestment() }}
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="fetchPortfolio()">
+          <mat-icon>refresh</mat-icon>
+          Refresh
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  
+  <ng-template #loading>
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading your portfolio...</p>
+    </div>
+  </ng-template>
+  
+  <div *ngIf="error && !isLoading" class="error-container">
+    <mat-card>
+      <mat-card-content>
+        <p>{{ error }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
