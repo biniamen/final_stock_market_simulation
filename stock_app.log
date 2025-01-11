@@ -9139,3 +9139,13 @@ Watching for file changes with StatReloader
 D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+SuspiciousActivity #1 created for Trade #529 by user 'binitest'. Reasons: ['High trading frequency: 2 trades of GBE in the last 10 minutes.']
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 339
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+SuspiciousActivity #2 created for Trade #530 by user 'binitest'. Reasons: ['High trading frequency: 3 trades of GBE in the last 10 minutes.']
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
