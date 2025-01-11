@@ -14,6 +14,8 @@ import { BidOrderComponent } from './components/bid-order/bid-order.component';
 import { AddStockComponent } from './components/add-stock/add-stock.component';
 import { DisclosureUploadComponent } from './components/disclosure-upload/disclosure-upload.component';
 import { UserPortfolioComponent } from './components/user-portfolio/user-portfolio.component';
+import { TradesWithOrderInfoComponent } from './components/trades-with-order-info/trades-with-order-info.component';
+import { TransactionAuditListComponent } from './components/transaction-audit-list/transaction-audit-list.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -44,7 +46,8 @@ const routes: Routes = [
       { path: 'upload-disclosure', component: DisclosureUploadComponent },
       { path: 'users-list', component: UserListComponent },
       { path: 'portfolio', component: UserPortfolioComponent}, // Apply AuthGuard if available
-
+      { path: 'tradingInfo', component: TradesWithOrderInfoComponent}, // Apply AuthGuard if available
+      { path: 'audit-trails', component: TransactionAuditListComponent },
 
       // { path: 'otp-verification', component: OtpVerificationComponent },
      // { path: 'kyc-pending', component: KycPendingComponent }, // Page after success

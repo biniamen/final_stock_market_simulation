@@ -3,17 +3,18 @@
   </mat-toolbar> -->
   
   <div class="container">
+    <mat-card-title>
+      Orders
+      <div style="float: right;">
+        <!-- Export Button -->
+        <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
+
+        <!-- Print Button -->
+      <button mat-raised-button color="primary" (click)="printTable()">Print</button>
+      </div>
+    </mat-card-title>
     <mat-card>
-      <mat-card-title>
-        Orders
-        <div style="float: right;">
-          <!-- Export Button -->
-          <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
-  
-          <!-- Print Button -->
-          <button mat-raised-button color="primary" (click)="printTable()">Print</button>
-        </div>
-      </mat-card-title>
+      
       <mat-card-content>
         <!-- Show spinner while loading -->
         <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>

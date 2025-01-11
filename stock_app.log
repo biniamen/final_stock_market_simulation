@@ -8306,3 +8306,836 @@ Watching for file changes with StatReloader
 D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Bad Request: /api/stocks/orders/
+"POST /api/stocks/orders/ HTTP/1.1" 400 52
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19370
+"GET /admin/regulations/workinghours/3/change/ HTTP/1.1" 200 18151
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/regulations/workinghours/3/change/ HTTP/1.1" 302 0
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19611
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14508
+"POST /api/stocks/orders/ HTTP/1.1" 201 281
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+Internal Server Error: /api/stocks/orders/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 244, in save
+    Orders.match_and_execute_orders(self)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 315, in match_and_execute_orders
+    cls._handle_buy_order(new_order)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 347, in _handle_buy_order
+    trade_buyer, trade_seller = Trade.execute_trade(buy_order, pending_sell, trade_quantity, trade_price)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 581, in execute_trade
+    detect_suspicious_trade(trade_buyer)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py", line 41, in detect_suspicious_trade
+    upper_limit = 1.2 * avg_price
+                  ~~~~^~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'float' and 'decimal.Decimal'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 64, in create
+    order = serializer.save()  # Automatically triggers matching logic
+            ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 1008, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Orders.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Orders.objects.create()`. You may need to make the field read-only, or override the OrdersSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 244, in save
+    Orders.match_and_execute_orders(self)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 315, in match_and_execute_orders
+    cls._handle_buy_order(new_order)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 347, in _handle_buy_order
+    trade_buyer, trade_seller = Trade.execute_trade(buy_order, pending_sell, trade_quantity, trade_price)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 581, in execute_trade
+    detect_suspicious_trade(trade_buyer)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py", line 41, in detect_suspicious_trade
+    upper_limit = 1.2 * avg_price
+                  ~~~~^~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'float' and 'decimal.Decimal'
+
+"POST /api/stocks/orders/ HTTP/1.1" 500 193089
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14508
+"POST /api/stocks/orders/ HTTP/1.1" 201 279
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+Internal Server Error: /api/stocks/orders/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 244, in save
+    Orders.match_and_execute_orders(self)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 315, in match_and_execute_orders
+    cls._handle_buy_order(new_order)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 347, in _handle_buy_order
+    trade_buyer, trade_seller = Trade.execute_trade(buy_order, pending_sell, trade_quantity, trade_price)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 581, in execute_trade
+    detect_suspicious_trade(trade_buyer)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py", line 41, in detect_suspicious_trade
+    upper_limit = 1.2 * avg_price
+                  ~~~~^~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'float' and 'decimal.Decimal'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 64, in create
+    order = serializer.save()  # Automatically triggers matching logic
+            ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 1008, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Orders.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Orders.objects.create()`. You may need to make the field read-only, or override the OrdersSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 244, in save
+    Orders.match_and_execute_orders(self)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 315, in match_and_execute_orders
+    cls._handle_buy_order(new_order)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 347, in _handle_buy_order
+    trade_buyer, trade_seller = Trade.execute_trade(buy_order, pending_sell, trade_quantity, trade_price)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 581, in execute_trade
+    detect_suspicious_trade(trade_buyer)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py", line 41, in detect_suspicious_trade
+    upper_limit = 1.2 * avg_price
+                  ~~~~^~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'float' and 'decimal.Decimal'
+
+"POST /api/stocks/orders/ HTTP/1.1" 500 193008
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 651
+"POST /api/users/login/ HTTP/1.1" 200 652
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+Bad Request: /api/stocks/orders/
+"POST /api/stocks/orders/ HTTP/1.1" 400 52
+"GET /admin/ HTTP/1.1" 200 20592
+"GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19370
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/regulations/workinghours/7/change/ HTTP/1.1" 200 18145
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19370
+"GET /admin/regulations/workinghours/6/change/ HTTP/1.1" 200 18151
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/regulations/workinghours/6/change/ HTTP/1.1" 302 0
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19604
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"OPTIONS /api/stocks/portfolios/user/146/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 98
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/user/146/trades/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/user/146/portfolio/66/ HTTP/1.1" 200 0
+Not Found: /api/stocks/user/146/portfolio/66/
+"GET /api/stocks/user/146/portfolio/66/ HTTP/1.1" 404 14508
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 281
+"OPTIONS /api/stocks/user/orders/ HTTP/1.1" 200 0
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 429
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Watching for file changes with StatReloader
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Internal Server Error: /api/stocks/orders/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 244, in save
+    Orders.match_and_execute_orders(self)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 315, in match_and_execute_orders
+    cls._handle_buy_order(new_order)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 347, in _handle_buy_order
+    trade_buyer, trade_seller = Trade.execute_trade(buy_order, pending_sell, trade_quantity, trade_price)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 581, in execute_trade
+    detect_suspicious_trade(trade_buyer)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py", line 41, in detect_suspicious_trade
+    upper_limit = 1.2 * avg_price
+                  ~~~~^~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'float' and 'decimal.Decimal'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 64, in create
+    order = serializer.save()  # Automatically triggers matching logic
+            ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 1008, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Orders.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Orders.objects.create()`. You may need to make the field read-only, or override the OrdersSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 244, in save
+    Orders.match_and_execute_orders(self)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 315, in match_and_execute_orders
+    cls._handle_buy_order(new_order)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 347, in _handle_buy_order
+    trade_buyer, trade_seller = Trade.execute_trade(buy_order, pending_sell, trade_quantity, trade_price)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py", line 581, in execute_trade
+    detect_suspicious_trade(trade_buyer)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py", line 41, in detect_suspicious_trade
+    upper_limit = 1.2 * avg_price
+                  ~~~~^~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'float' and 'decimal.Decimal'
+
+"POST /api/stocks/orders/ HTTP/1.1" 500 192804
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"OPTIONS /api/stocks/user/146/portfolio/67/ HTTP/1.1" 200 0
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14508
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14508
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 281
+"POST /api/users/login/ HTTP/1.1" 200 651
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14508
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 279
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 287
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14508
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 279
+"POST /api/users/login/ HTTP/1.1" 200 651
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 287
+"POST /api/stocks/orders/ HTTP/1.1" 201 287
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14508
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 279
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 98
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 427
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 287
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 217
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 217
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 168
+"OPTIONS /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 200 0
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 651
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 338
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 98
+"OPTIONS /api/stocks/portfolios/user/146/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 98
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 652
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+Bad Request: /api/stocks/orders/
+"POST /api/stocks/orders/ HTTP/1.1" 400 54
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 288
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 169
+"OPTIONS /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 200 0
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 2
+"OPTIONS /api/stocks/user/orders/ HTTP/1.1" 200 0
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+Not Found: /api/stocks/portfolios/user/146/
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 404 55
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 2
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/user/146/trades/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/user/146/portfolio/67/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14836
+"POST /api/stocks/orders/ HTTP/1.1" 201 280
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 288
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 218
+"OPTIONS /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 169
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 651
+"OPTIONS /api/stocks/user/orders/ HTTP/1.1" 200 0
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 441
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 339
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19363
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"OPTIONS /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 200 0
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 653
+"OPTIONS /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 2
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+Watching for file changes with StatReloader
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14836
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 280
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+"POST /api/stocks/orders/ HTTP/1.1" 201 288
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 218
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 169
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14836
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"OPTIONS /api/stocks/user/146/portfolio/66/ HTTP/1.1" 200 0
+Not Found: /api/stocks/user/146/portfolio/66/
+"GET /api/stocks/user/146/portfolio/66/ HTTP/1.1" 404 14836
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14836
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 280
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 2
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 2
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 437
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Unauthorized: /api/stocks/user/orders/
+- Broken pipe from ('127.0.0.1', 56598)
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/direct_buy/ HTTP/1.1" 200 0
+Unexpected error during direct stock purchase: type object 'Trade' has no attribute '_update_portfolio'
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 99
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Unexpected error during direct stock purchase: type object 'Trade' has no attribute '_update_portfolio'
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 99
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+User 146 purchased 7 shares of HBS for 8400.00, fee 84.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 220
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+User 146 purchased 7 shares of GBE for 7000.00, fee 70.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 14836
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 280
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 429
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 2
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 653
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 288
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 169
+"OPTIONS /api/stocks/portfolios/user/147/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 98
+Unauthorized: /api/stocks/portfolios/user/146/
+"POST /api/stocks/portfolios/user/146/ HTTP/1.1" 401 58
+"POST /api/users/login/ HTTP/1.1" 200 652
+Method Not Allowed: /api/stocks/portfolios/user/146/
+"POST /api/stocks/portfolios/user/146/ HTTP/1.1" 405 41
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 92
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"OPTIONS /api/stocks/portfolios/user/146/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 169
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 218
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 139
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 652
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/ HTTP/1.1" 401 58
+Watching for file changes with StatReloader
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/ HTTP/1.1" 401 58
+"OPTIONS /api/stocks/audit-trails/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"OPTIONS /api/stocks/portfolios/user/147/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 401 58
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 401 58
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 401 58
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 401 58
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"OPTIONS /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 200 1563
+"POST /api/users/login/ HTTP/1.1" 200 652
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/?page=1&ordering=-timestamp HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"OPTIONS /api/users/list/ HTTP/1.1" 200 0
+"GET /api/users/list/ HTTP/1.1" 200 2240
+"OPTIONS /api/stocks/portfolios/user/147/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/users/list/ HTTP/1.1" 200 2240
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/users/list/ HTTP/1.1" 200 2240
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/ HTTP/1.1" 401 58
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/ HTTP/1.1" 401 58
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/users/list/ HTTP/1.1" 200 2240
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"OPTIONS /api/stocks/audit-trails/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1563
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19363
+"GET /admin/regulations/workinghours/6/change/ HTTP/1.1" 200 18151
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/regulations/workinghours/6/change/ HTTP/1.1" 302 0
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19612
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/direct_buy/ HTTP/1.1" 200 0
+User 146 purchased 6 shares of HBS for 7200.00, fee 72.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+User 146 purchased 2 shares of GBE for 2000.00, fee 20.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 290
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+User 146 purchased 1 shares of GBE for 1000.00, fee 10.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 290
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 339
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models_suspicious.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\surveillance.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader

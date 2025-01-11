@@ -1,0 +1,88 @@
+<div class="container">
+    <!-- Page Title -->
+    <div class="page-header">
+      <h1 class="page-title">Trades With Order Info</h1>
+      
+    </div>
+    <mat-card-title>
+        Table Actions
+        <div style="float: right;">
+          <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
+          <button mat-raised-button color="primary" (click)="printTable()">Print</button>
+        </div>
+      </mat-card-title>
+  
+    <!-- Main Content -->
+    <mat-card>
+      
+      <mat-card-content>
+        <!-- Show spinner while loading -->
+        <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  
+        <!-- Data Table -->
+        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 full-width-table">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+          </ng-container>
+  
+          <!-- Stock Symbol Column -->
+          <ng-container matColumnDef="stock_symbol">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Stock Symbol</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.stock_symbol }}</mat-cell>
+          </ng-container>
+  
+          <!-- Order Type Column -->
+          <ng-container matColumnDef="order_type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Order Type</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.order_type }}</mat-cell>
+          </ng-container>
+  
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.action }}</mat-cell>
+          </ng-container>
+  
+          <!-- Price Column -->
+          <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.price | number:'1.2-2' }}</mat-cell>
+          </ng-container>
+  
+          <!-- Quantity Column -->
+          <ng-container matColumnDef="quantity">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+          </ng-container>
+  
+          <!-- Transaction Fee Column -->
+          <ng-container matColumnDef="transaction_fee">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Fee</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.transaction_fee | number:'1.2-2' }}</mat-cell>
+          </ng-container>
+  
+          <!-- Total Buying Price Column -->
+          <ng-container matColumnDef="total_buying_price">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Total Buying Price</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.total_buying_price | number:'1.2-2' }}</mat-cell>
+          </ng-container>
+  
+          <!-- Trade Time Column -->
+          <ng-container matColumnDef="trade_time">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Trade Time</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.trade_time | date:'short' }}</mat-cell>
+          </ng-container>
+  
+          <!-- Define rows -->
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+  
+        <!-- Paginator -->
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

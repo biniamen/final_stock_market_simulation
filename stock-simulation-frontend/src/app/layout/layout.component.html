@@ -21,6 +21,10 @@
         <mat-icon>cloud_upload</mat-icon>
         Upload Disclosure
       </a>
+      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/tradingInfo">
+        <mat-icon>list</mat-icon>
+        Trader Trading Info
+      </a>
       <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/orders">
         <mat-icon>list</mat-icon>
         Trader Orders
@@ -36,6 +40,10 @@
       <a *ngIf="userRole === 'regulator'" mat-list-item routerLink="/users-list">
         <mat-icon>people</mat-icon>
         User List
+      </a>
+      <a *ngIf="userRole === 'regulator'" mat-list-item routerLink="/audit-trails">
+        <mat-icon>people</mat-icon>
+        Audit Trial
       </a>
       <a mat-list-item href="#" class="menu-item logout" (click)="onLogout()">
         <mat-icon>logout</mat-icon>

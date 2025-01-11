@@ -186,6 +186,13 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Ethiopian Stock Marke
 COMPANY_EMAIL = config('COMPANY_EMAIL', default=None)  # Set to None if not required
 
 
+SUSPICIOUS_TRADE_THRESHOLDS = {
+    'unusual_volume_ratio': 0.1,  # 10% of float
+    'price_deviation': 0.2,      # ±20% from average price
+    'trade_frequency_threshold': 2,
+    'trade_frequency_minutes': 10,
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 

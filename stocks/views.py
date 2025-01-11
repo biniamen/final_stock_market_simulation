@@ -5,10 +5,14 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+
+from stocks.models_audit import TransactionAuditTrail
 from .models import Disclosure, UsersPortfolio, ListedCompany, Stocks, Orders, Trade, Dividend
 from .serializers import (
     DirectStockPurchaseSerializer,
     DisclosureSerializer,
+    TradeWithOrderSerializer,
+    TransactionAuditTrailSerializer,
     UsersPortfolioSerializer,
     ListedCompanySerializer,
     StocksSerializer,
@@ -268,10 +272,8 @@ class UsersPortfolioViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='user/(?P<user_id>[^/.]+)')
     def get_portfolio_by_user(self, request, user_id=None):
         """
-        Retrieve a user's portfolio by their user ID.
-        URL: /api/stocks/portfolios/user/<user_id>/
+        Retrieve a user's portfolio by their user ID and include account_balance and profit_balance.
         """
-        # Convert user_id to integer and handle potential errors
         try:
             user_id = int(user_id)
         except ValueError:
@@ -286,10 +288,36 @@ class UsersPortfolioViewSet(viewsets.ModelViewSet):
 
         try:
             portfolio = UsersPortfolio.objects.get(user__id=user_id)
+            user = portfolio.user  # Fetch the associated user
             serializer = self.get_serializer(portfolio)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            portfolio_data = serializer.data
+            # Include account_balance and profit_balance from the user model
+            portfolio_data['account_balance'] = user.account_balance
+            portfolio_data['profit_balance'] = user.profit_balance
+            return Response(portfolio_data, status=status.HTTP_200_OK)
         except UsersPortfolio.DoesNotExist:
             return Response(
                 {'detail': 'Portfolio not found for the given user ID.'},
                 status=status.HTTP_404_NOT_FOUND
             )
+
+            
+class UserTradesWithOrderInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id, *args, **kwargs):
+        """
+        Returns trades for a given user_id, including order_type, action, and stock_symbol from the Order model.
+        """
+        trades = Trade.objects.filter(user_id=user_id)
+        serializer = TradeWithOrderSerializer(trades, many=True)
+        return Response(serializer.data, status=200)
+    
+# for audit trail
+class TransactionAuditTrailViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for viewing transaction audit trails.
+    """
+    queryset = TransactionAuditTrail.objects.all().order_by('-timestamp')
+    serializer_class = TransactionAuditTrailSerializer
+    permission_classes = [IsAuthenticated]

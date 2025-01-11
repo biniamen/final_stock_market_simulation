@@ -1,5 +1,3 @@
-<!-- src/app/components/user-portfolio/user-portfolio.component.html -->
-
 <div class="portfolio-container" *ngIf="!isLoading && portfolio; else loading">
     <mat-card class="portfolio-card">
       <mat-card-header>
@@ -8,28 +6,48 @@
       </mat-card-header>
       <mat-card-content>
         <div class="portfolio-details">
-          <mat-grid-list cols="2" rowHeight="100px" gutterSize="16px">
+          <mat-grid-list cols="2" rowHeight="120px" gutterSize="16px">
             <mat-grid-tile>
               <mat-card class="detail-card">
-                <mat-card-title>Quantity Owned</mat-card-title>
+                <mat-card-header>
+                  <mat-icon color="primary">equalizer</mat-icon>
+                  <mat-card-title>Quantity Owned</mat-card-title>
+                </mat-card-header>
                 <mat-card-content>
-                  {{ portfolio.quantity }}
+                  <h2>{{ portfolio.quantity }}</h2>
                 </mat-card-content>
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
               <mat-card class="detail-card">
-                <mat-card-title>Average Purchase Price</mat-card-title>
+                <mat-card-header>
+                  <mat-icon color="accent">attach_money</mat-icon>
+                  <mat-card-title>Average Purchase Price</mat-card-title>
+                </mat-card-header>
                 <mat-card-content>
-                  ${{ portfolio.average_purchase_price }}
+                  <h2>${{ portfolio.average_purchase_price }}</h2>
                 </mat-card-content>
               </mat-card>
             </mat-grid-tile>
             <mat-grid-tile>
               <mat-card class="detail-card">
-                <mat-card-title>Remaining Investment</mat-card-title>
+                <mat-card-header>
+                  <mat-icon color="warn">account_balance_wallet</mat-icon>
+                  <mat-card-title>Account Balance</mat-card-title>
+                </mat-card-header>
                 <mat-card-content>
-                  ${{ getRemainingInvestment() }}
+                  <h2>${{ portfolio.account_balance }}</h2>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-card class="detail-card">
+                <mat-card-header>
+                  <mat-icon color="primary">trending_up</mat-icon>
+                  <mat-card-title>Profit Balance</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <h2>${{ getProfitBalance() }}</h2>
                 </mat-card-content>
               </mat-card>
             </mat-grid-tile>

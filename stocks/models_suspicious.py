@@ -4,7 +4,7 @@ from django.db import models
 
 class SuspiciousActivity(models.Model):
     trade = models.ForeignKey(
-        'stocks.Trade',             # <--- references 'stocks.Trade' by string
+        'stocks.Trade',  # Ensure the correct app label and model name
         on_delete=models.CASCADE,
         related_name='suspicious_activities'
     )

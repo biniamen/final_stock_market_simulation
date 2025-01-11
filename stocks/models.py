@@ -621,6 +621,11 @@ class Trade(models.Model):
                 is_buy=True
             )
 
+            # After completing the trade execution, invoke suspicious trade detection
+            detect_suspicious_trade(trade_buyer)
+            if trade_seller:
+                detect_suspicious_trade(trade_seller)
+
             return trade_buyer, trade_seller
 
     @staticmethod
@@ -640,7 +645,8 @@ class Trade(models.Model):
                     portfolio.average_purchase_price = (portfolio.total_investment / portfolio.quantity).quantize(Decimal('0.01'))
             else:
                 portfolio.quantity -= quantity
-                portfolio.total_investment -= quantity * price
+                #portfolio.total_investment -= quantity * price
+                portfolio.total_investment -= quantity * portfolio.average_purchase_price
                 if portfolio.quantity > 0:
                     portfolio.average_purchase_price = (portfolio.total_investment / portfolio.quantity).quantize(Decimal('0.01'))
                 else:

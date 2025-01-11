@@ -44,6 +44,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserPortfolioComponent } from './components/user-portfolio/user-portfolio.component';
+import { TradesWithOrderInfoComponent } from './components/trades-with-order-info/trades-with-order-info.component';
+import { TransactionAuditListComponent } from './components/transaction-audit-list/transaction-audit-list.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { UserPortfolioComponent } from './components/user-portfolio/user-portfol
     BidOrderComponent,
     AddStockComponent,
     DisclosureUploadComponent,
-    UserPortfolioComponent
+    UserPortfolioComponent,
+    TradesWithOrderInfoComponent,
+    TransactionAuditListComponent
   ],
   imports: [
     BrowserModule,

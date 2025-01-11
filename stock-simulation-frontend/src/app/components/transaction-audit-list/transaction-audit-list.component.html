@@ -1,0 +1,104 @@
+<!-- src/app/components/transaction-audit-list/transaction-audit-list.component.html -->
+
+<mat-toolbar color="primary">
+    <span>Transaction Audit Trails</span>
+  </mat-toolbar>
+  
+  <div class="mat-elevation-z8 container">
+    <mat-card>
+      <mat-card-title>
+        Audit Trails
+        <div class="actions">
+          <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
+          <button mat-raised-button color="primary" (click)="printTable()">Print</button>
+        </div>
+      </mat-card-title>
+  
+      <mat-card-content>
+        <!-- Loading Spinner -->
+        <div class="loading-container" *ngIf="isLoading">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+  
+        <!-- Data Table -->
+        <div *ngIf="!isLoading">
+          <mat-table [dataSource]="dataSource" matSort class="full-width-table">
+  
+            <!-- Event Type Column -->
+            <ng-container matColumnDef="event_type">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Event Type</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.event_type }}</mat-cell>
+            </ng-container>
+  
+            <!-- Timestamp Column -->
+            <ng-container matColumnDef="timestamp">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
+              <mat-cell *matCellDef="let row">{{ row.timestamp | date:'medium' }}</mat-cell>
+            </ng-container>
+  
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <button mat-icon-button (click)="toggleRow(row)">
+                  <mat-icon>
+                    {{ expandedElement === row ? 'expand_less' : 'expand_more' }}
+                  </mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+  
+            <!-- Expanded Detail Row -->
+            <ng-container matColumnDef="expandedDetail">
+              <mat-row
+                *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
+                class="detail-row"
+              >
+                <mat-cell [attr.colspan]="displayedColumns.length">
+                  <div class="element-detail" *ngIf="expandedElement === row">
+                    <!-- If details is a string -->
+                    <div *ngIf="!isDetailsObject(row.details); else showObjectDetails">
+                      {{ row.details }}
+                    </div>
+  
+                    <!-- If details is an object -->
+                    <ng-template #showObjectDetails>
+                      <h3>Details</h3>
+                      <table class="detail-table mat-elevation-z2">
+                        <tbody>
+                          <tr *ngFor="let item of getDetailKeyValuePairs(row.details)">
+                            <th>{{ item.key }}</th>
+                            <td>{{ item.value }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ng-template>
+                  </div>
+                </mat-cell>
+              </mat-row>
+            </ng-container>
+  
+            <!-- Header Row -->
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <!-- Data Rows -->
+            <mat-row
+              *matRowDef="let row; columns: displayedColumns;"
+              class="element-row"
+            ></mat-row>
+  
+          </mat-table>
+  
+          <!-- Paginator -->
+          <mat-paginator
+            [length]="totalRecords"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+            (page)="onPageChange($event)"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
