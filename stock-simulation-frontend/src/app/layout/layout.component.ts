@@ -9,7 +9,7 @@ export class LayoutComponent implements OnInit {
   isLoggedIn = false;
   userRole: string | null = null;
   username: string | null = null;
-  kycStatus: boolean = false;
+  kycStatus = false;
   companyName: string | null = null;
   account_balance: string | null = null;
   profit_balance: string | null = null;
@@ -18,6 +18,7 @@ export class LayoutComponent implements OnInit {
   ngOnInit(): void {
     // Check if the user is logged in
     this.isLoggedIn = !!localStorage.getItem('access_token');
+    
     if (this.isLoggedIn) {
       // Fetch user details from local storage
       this.userRole = localStorage.getItem('role');

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+from decouple import config
+
 #BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,6 +41,14 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# Celery Configuration
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis broker URL
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Redis backend for storing results
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'UTC'  # Adjust to your timezone if needed
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,7 +66,7 @@ INSTALLED_APPS = [
     'regulations',
     # Third-party apps
     'debug_toolbar',  # Add this if you are using Django Debug Toolbar
-    'django_celery_beat',
+    # 'django_celery_beat',
      'channels',
 
 ]

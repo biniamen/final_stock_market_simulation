@@ -9149,3 +9149,305 @@ SuspiciousActivity #1 created for Trade #529 by user 'binitest'. Reasons: ['High
 "GET /api/stocks/stocks/ HTTP/1.1" 200 365
 SuspiciousActivity #2 created for Trade #530 by user 'binitest'. Reasons: ['High trading frequency: 3 trades of GBE in the last 10 minutes.']
 "POST /api/stocks/orders/ HTTP/1.1" 201 289
+"POST /api/users/login/ HTTP/1.1" 200 652
+"OPTIONS /api/stocks/portfolios/user/147/ HTTP/1.1" 200 0
+Not Found: /api/stocks/portfolios/user/147/
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 404 55
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/audit-trails/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1792
+Not Found: /api/stocks/portfolios/user/147/
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 404 55
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1792
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Not Found: /api/stocks/portfolios/user/147/
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 404 55
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1792
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Not Found: /api/suspicious-activities/
+"GET /api/suspicious-activities/ HTTP/1.1" 404 2903
+"GET /api/stocks/ HTTP/1.1" 200 6609
+"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 5360
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 313
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 508
+"OPTIONS /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 200 0
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 183
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks HTTP/1.1" 301 0
+"GET /api/stocks/ HTTP/1.1" 200 541
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+"OPTIONS /api/stocks/audit-trails/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 1792
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 652
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+"POST /api/users/login/ HTTP/1.1" 200 652
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 58
+"OPTIONS /api/stocks/suspicious-activities/ HTTP/1.1" 200 0
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"OPTIONS /api/stocks/suspicious-activities/2/suspend-trader/ HTTP/1.1" 200 0
+Unauthorized: /api/stocks/suspicious-activities/2/suspend-trader/
+"POST /api/stocks/suspicious-activities/2/suspend-trader/ HTTP/1.1" 401 58
+Unauthorized: /api/stocks/suspicious-activities/2/suspend-trader/
+"POST /api/stocks/suspicious-activities/2/suspend-trader/ HTTP/1.1" 401 58
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+Unauthorized: /api/stocks/suspicious-activities/2/suspend-trader/
+"POST /api/stocks/suspicious-activities/2/suspend-trader/ HTTP/1.1" 401 58
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"OPTIONS /api/regulationssuspensions/ HTTP/1.1" 200 0
+"POST /api/regulationssuspensions/ HTTP/1.1" 201 251
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"OPTIONS /api/stocks/suspicious-activities/ HTTP/1.1" 200 0
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"POST /api/regulationssuspensions/ HTTP/1.1" 201 251
+"OPTIONS /api/stocks/portfolios/user/147/ HTTP/1.1" 200 0
+Not Found: /api/stocks/portfolios/user/147/
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 404 55
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 650
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/direct_buy/ HTTP/1.1" 200 0
+User 146 tried to buy outside working hours.
+Unexpected error during direct stock purchase: [ErrorDetail(string='Cannot place orders outside of working hours.', code='invalid')]
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 128
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"POST /api/regulationssuspensions/ HTTP/1.1" 201 251
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"POST /api/regulationssuspensions/ HTTP/1.1" 201 251
+"GET /admin/ HTTP/1.1" 200 20656
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19371
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/regulations/workinghours/9/change/ HTTP/1.1" 200 18145
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/regulations/workinghours/9/change/ HTTP/1.1" 302 0
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19608
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+User 146 has insufficient balance. Required 3030.00, available 910.00.
+Unexpected error during direct stock purchase: [ErrorDetail(string='Insufficient account balance to complete purchase and fees.', code='invalid')]
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 142
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+Unexpected error during direct stock purchase: [ErrorDetail(string='Trading for this user is suspended.', code='invalid')]
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 118
+Unexpected error during direct stock purchase: [ErrorDetail(string='Trading for this user is suspended.', code='invalid')]
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 118
+User 146 purchased 3 shares of HBS for 3600.00, fee 36.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 291
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/audit-trails/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 2175
+"OPTIONS /api/users/list/ HTTP/1.1" 200 0
+"GET /api/users/list/ HTTP/1.1" 200 2240
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\celery.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\celery.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\celery.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\celery.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\apps.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\apps.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\__init__.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\tasks.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /admin/django_celery_beat/periodictask/ HTTP/1.1" 200 21813
+"GET /static/admin/img/search.svg HTTP/1.1" 304 0
+"GET /static/admin/img/icon-no.svg HTTP/1.1" 304 0
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+"GET /admin/django_celery_beat/periodictask/add/ HTTP/1.1" 200 40311
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /static/admin/img/icon-calendar.svg HTTP/1.1" 304 0
+"GET /admin/django_celery_beat/intervalschedule/add/?_to_field=id&_popup=1 HTTP/1.1" 200 8410
+"GET /static/admin/js/inlines.js HTTP/1.1" 200 15526
+"GET /static/admin/img/icon-unknown.svg HTTP/1.1" 304 0
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/django_celery_beat/periodictask/add/ HTTP/1.1" 200 40561
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/django_celery_beat/intervalschedule/add/?_to_field=id&_popup=1 HTTP/1.1" 200 8410
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/django_celery_beat/crontabschedule/add/?_to_field=id&_popup=1 HTTP/1.1" 200 47527
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19334
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/regulations/workinghours/add/ HTTP/1.1" 200 17834
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 2175
+Unauthorized: /api/stocks/audit-trails/
+"GET /api/stocks/audit-trails/ HTTP/1.1" 401 183
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 651
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/user/146/trades/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/user/146/portfolio/66/ HTTP/1.1" 200 0
+Not Found: /api/stocks/user/146/portfolio/66/
+"GET /api/stocks/user/146/portfolio/66/ HTTP/1.1" 404 18112
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 581
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+Bad Request: /api/stocks/orders/
+"POST /api/stocks/orders/ HTTP/1.1" 400 52
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19334
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/regulations/workinghours/10/change/ HTTP/1.1" 200 18147
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/regulations/workinghours/10/change/ HTTP/1.1" 302 0
+"GET /admin/regulations/workinghours/ HTTP/1.1" 200 19577
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /api/stocks/orders/ HTTP/1.1" 201 281
+Watching for file changes with StatReloader
+"GET /admin/django_celery_beat/crontabschedule/ HTTP/1.1" 200 19674
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/django_celery_beat/periodictask/ HTTP/1.1" 200 26788
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/django_celery_beat/periodictask/ HTTP/1.1" 200 16902
+"GET /static/admin/js/cancel.js HTTP/1.1" 200 884
+"POST /admin/django_celery_beat/periodictask/ HTTP/1.1" 302 0
+"GET /admin/django_celery_beat/periodictask/ HTTP/1.1" 200 18805
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"GET /admin/django_celery_beat/crontabschedule/ HTTP/1.1" 200 19674
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /admin/django_celery_beat/crontabschedule/ HTTP/1.1" 200 16626
+"POST /admin/django_celery_beat/crontabschedule/ HTTP/1.1" 302 0
+"GET /admin/django_celery_beat/crontabschedule/ HTTP/1.1" 200 15396
+"GET /admin/jsi18n/ HTTP/1.1" 200 3342
+"POST /api/stocks/orders/ HTTP/1.1" 201 281
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\tasks.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\tasks.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\__init__.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\apps.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\__init__.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/stocks/orders/ HTTP/1.1" 201 281
+"POST /api/stocks/orders/ HTTP/1.1" 201 281
+"GET /api/stocks/stocks/ HTTP/1.1" 200 365
+"OPTIONS /api/stocks/user/146/portfolio/67/ HTTP/1.1" 200 0
+Not Found: /api/stocks/user/146/portfolio/67/
+"GET /api/stocks/user/146/portfolio/67/ HTTP/1.1" 404 18112
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 581
+Bad Request: /api/stocks/orders/
+"POST /api/stocks/orders/ HTTP/1.1" 400 39

@@ -1,10 +1,16 @@
-/* Main container styling */
-.example-container {
+/**************************************
+ * Container and Layout
+ **************************************/
+ .example-container {
   height: 100vh;
   background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Sidebar styling */
+/**************************************
+ * Sidebar (Sidenav)
+ **************************************/
 .sidenav {
   width: 280px;
   background-color: #ffffff;
@@ -12,7 +18,7 @@
 }
 
 .sidenav-toolbar {
-  background-color: #673ab7;
+  background-color: #673ab7; /* Primary color for your sidebar header */
   color: white;
   padding: 16px;
   display: flex;
@@ -20,13 +26,15 @@
   justify-content: center;
 }
 
+/* Sidebar Links */
 .mat-nav-list a {
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: #333;
+  text-decoration: none;
 }
 
 .mat-nav-list a:hover {
@@ -35,43 +43,128 @@
   border-left: 4px solid #673ab7;
 }
 
+/* Active link highlight */
+.active-link {
+  background-color: #e0e0e0;
+  border-left: 4px solid #673ab7;
+}
+
+/* Icons in the sidebar */
 .mat-nav-list mat-icon {
   margin-right: 12px;
   color: #673ab7;
 }
 
-/* Toolbar styling */
+/**************************************
+ * Top Toolbar
+ **************************************/
 .main-toolbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 0 16px;
-  background-color: #673ab7;
+  background-color: #673ab7; /* Primary color */
   color: white;
 }
 
-.company-info h3 {
-  margin: 0;
+/**************************************
+ * Brand Section
+ **************************************/
+.brand-section {
+  display: flex;
+  align-items: center;
+}
+
+.brand-icon {
+  margin-right: 8px;
+  font-size: 28px; /* Slightly larger icon for brand */
+}
+
+.brand-name {
   font-size: 20px;
   font-weight: 600;
 }
 
-.company-info p {
-  margin: 0;
-  font-size: 14px;
-  color: #ffffffcc;
+/**************************************
+ * User Info in Toolbar
+ **************************************/
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
 }
 
-/* General styles */
+.user-avatar {
+  margin-right: 8px;
+  font-size: 32px; /* Larger user icon */
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 14px;
+  color: #dedede;
+  margin-top: 2px;
+}
+
+.kyc-status {
+  display: flex;
+  align-items: center;
+  color: #ffffffcc;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.kyc-status .verified {
+  color: #4caf50; /* Green icon for verified */
+  margin-right: 4px;
+}
+
+.kyc-status .not-verified {
+  color: #ffc107; /* Amber icon for not verified */
+  margin-right: 4px;
+}
+
+.balances {
+  font-size: 13px;
+  color: #ffffffcc;
+  margin-top: 2px;
+}
+
+/**************************************
+ * Notifications Button
+ **************************************/
+.notif-btn {
+  margin-right: 1rem;
+}
+
+/**************************************
+ * Spacer
+ **************************************/
 .spacer {
   flex: 1;
 }
 
+/**************************************
+ * Buttons
+ **************************************/
 button {
   font-weight: 600;
 }
 
-/* Responsive design */
+/**************************************
+ * Responsive Design
+ **************************************/
 @media (max-width: 768px) {
   .sidenav {
     width: 200px;
@@ -79,5 +172,8 @@ button {
   .main-toolbar {
     flex-wrap: wrap;
     justify-content: center;
+  }
+  .user-info {
+    margin-top: 0.5rem;
   }
 }

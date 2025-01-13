@@ -1,0 +1,37 @@
+.suspicious-activities-card {
+    margin: 24px;
+    padding: 16px;
+  }
+  
+  .title-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
+  .loading-spinner {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .search-input {
+    margin-bottom: 16px;
+    width: 100%;
+  }
+  
+  .mat-table {
+    width: 100%;
+    min-width: 800px;
+  }
+  
+  .trade-row {
+    margin-bottom: 4px;
+  }
+  
+  .reviewed-text {
+    margin-left: 4px;
+  }
+  
+  .mat-paginator {
+    margin-top: 16px;
+  }
+  

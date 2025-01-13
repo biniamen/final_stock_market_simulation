@@ -2,6 +2,7 @@
 from rest_framework import serializers
 
 from stocks.models_audit import TransactionAuditTrail
+from django.contrib.auth import get_user_model
 
 # Import everything ACTUALLY in `models.py`
 from .models import (
@@ -12,6 +13,7 @@ from .models import (
 # Import SuspiciousActivity from its own file
 from .models_suspicious import SuspiciousActivity
 
+User = get_user_model()
 
 class UsersPortfolioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -117,3 +119,39 @@ class TransactionAuditTrailSerializer(serializers.ModelSerializer):
             'order',
             'trade'
         ]
+        
+class UserBasicInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'role']  # or whichever fields you want
+
+class StockBasicInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stocks
+        fields = ['id', 'ticker_symbol']  # or whichever fields you want
+
+class TradeDetailSerializer(serializers.ModelSerializer):
+    user = UserBasicInfoSerializer(read_only=True)
+    stock = StockBasicInfoSerializer(read_only=True)
+
+    class Meta:
+        model = Trade
+        fields = [
+            'id',
+            'quantity',
+            'price',
+            'trade_time',
+            'user',    # => { id, username, role, ... }
+            'stock',   # => { id, ticker_symbol }
+        ]
+
+class SuspiciousActivityDetailSerializer(serializers.ModelSerializer):
+    """
+    SuspiciousActivity serializer that nests Trade data,
+    which in turn nests User and Stock info.
+    """
+    trade = TradeDetailSerializer(read_only=True)
+
+    class Meta:
+        model = SuspiciousActivity
+        fields = ['id', 'reason', 'flagged_at', 'reviewed', 'trade']

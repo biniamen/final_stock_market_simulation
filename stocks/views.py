@@ -7,10 +7,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 
 from stocks.models_audit import TransactionAuditTrail
+from stocks.permissions import IsRegulatorUser
 from .models import Disclosure, UsersPortfolio, ListedCompany, Stocks, Orders, Trade, Dividend
 from .serializers import (
     DirectStockPurchaseSerializer,
     DisclosureSerializer,
+    SuspiciousActivityDetailSerializer,
     TradeWithOrderSerializer,
     TransactionAuditTrailSerializer,
     UsersPortfolioSerializer,
@@ -321,3 +323,52 @@ class TransactionAuditTrailViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TransactionAuditTrail.objects.all().order_by('-timestamp')
     serializer_class = TransactionAuditTrailSerializer
     permission_classes = [IsAuthenticated]
+    
+    
+#susupicious activity 
+class SuspiciousActivityViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for listing/creating/updating suspicious activities.
+    Access restricted to 'regulator' role only.
+    """
+    queryset = SuspiciousActivity.objects.all().order_by('-flagged_at')
+    serializer_class = SuspiciousActivityDetailSerializer
+    permission_classes = [IsRegulatorUser]  # Only 'regulator' role can access
+
+    @action(detail=True, methods=['post'], url_path='suspend-trader')
+    def suspend_trader(self, request, pk=None):
+        """
+        POST /suspicious-activities/<id>/suspend-trader/
+        Creates a StockSuspension record for the user involved in the suspicious activity's trade.
+        Globally suspends them (All Stocks).
+        """
+        suspicious_activity = self.get_object()
+
+        # Ensure there's a trade associated
+        if not suspicious_activity.trade:
+            return Response(
+                {"detail": "This suspicious activity has no associated trade."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # We'll suspend the user associated with that trade
+        trader_user = suspicious_activity.trade.user
+
+        # Create the suspension (All Stocks by default)
+        suspension = StockSuspension.objects.create(
+            trader=trader_user,
+            stock=None,  # means "All Stocks"
+            suspension_type='All Stocks',
+            initiator='Regulatory Body',
+            reason=f"Suspicious Activity (ID: {suspicious_activity.id}). Reason: {suspicious_activity.reason}",
+            is_active=True,
+            created_at=now()
+        )
+
+        return Response(
+            {
+                "message": f"Trader {trader_user.username} has been suspended from all stocks.",
+                "suspension_id": suspension.id
+            },
+            status=status.HTTP_200_OK
+        )

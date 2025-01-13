@@ -4,6 +4,7 @@ from .views import (
     CompanyDisclosuresView,
     DirectStockPurchaseView,
     DisclosureViewSet,
+    SuspiciousActivityViewSet,
     TraderOrdersView,
     TransactionAuditTrailViewSet,
     UserOrdersView,
@@ -29,6 +30,8 @@ router.register(r'trades', TradeViewSet, basename='trade')
 router.register(r'dividends', DividendViewSet, basename='dividend')
 router.register(r'disclosures', DisclosureViewSet, basename='disclosure')
 router.register(r'audit-trails', TransactionAuditTrailViewSet, basename='audit-trail')
+# Register Suspicious Activity
+router.register(r'suspicious-activities', SuspiciousActivityViewSet, basename='suspicious-activity')
 
 
 # Custom URL patterns
@@ -51,6 +54,7 @@ urlpatterns = [
     path('user/<int:user_id>/trades_with_order_info/', 
          UserTradesWithOrderInfoView.as_view(), 
          name='user_trades_with_order_info'),
+    
     # Company disclosures endpoint
     path('company/<int:company_id>/disclosures/', CompanyDisclosuresView.as_view(), name='company-disclosures'),
 ]

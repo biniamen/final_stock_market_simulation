@@ -16,6 +16,7 @@ import { DisclosureUploadComponent } from './components/disclosure-upload/disclo
 import { UserPortfolioComponent } from './components/user-portfolio/user-portfolio.component';
 import { TradesWithOrderInfoComponent } from './components/trades-with-order-info/trades-with-order-info.component';
 import { TransactionAuditListComponent } from './components/transaction-audit-list/transaction-audit-list.component';
+import { SuspiciousActivitiesComponent } from './components/suspicious-activities/suspicious-activities.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -48,6 +49,7 @@ const routes: Routes = [
       { path: 'portfolio', component: UserPortfolioComponent}, // Apply AuthGuard if available
       { path: 'tradingInfo', component: TradesWithOrderInfoComponent}, // Apply AuthGuard if available
       { path: 'audit-trails', component: TransactionAuditListComponent },
+      { path: 'suspicious-activities', component: SuspiciousActivitiesComponent },
 
       // { path: 'otp-verification', component: OtpVerificationComponent },
      // { path: 'kyc-pending', component: KycPendingComponent }, // Page after success

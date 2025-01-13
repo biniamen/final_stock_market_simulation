@@ -1,0 +1,109 @@
+<mat-card class="suspicious-activities-card">
+    <mat-card-title>
+      <mat-icon color="warn" class="title-icon">warning</mat-icon>
+      Suspicious Activities (Regulator Only)
+    </mat-card-title>
+  
+    <mat-card-content>
+      <!-- Search Input -->
+      <mat-form-field appearance="standard" class="search-input">
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search activities" />
+      </mat-form-field>
+  
+      <!-- Loading Spinner -->
+      <div *ngIf="isLoading" class="loading-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+  
+      <!-- Data Table -->
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8"
+        *ngIf="!isLoading"
+      >
+        <!-- TradeInfo Column -->
+        <ng-container matColumnDef="tradeInfo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Trade / User / Stock</th>
+          <td mat-cell *matCellDef="let activity">
+            <div *ngIf="activity.trade; else noTrade">
+              <div class="trade-row"><strong>Trade ID:</strong> {{ activity.trade.id }}</div>
+              <div class="trade-row">
+                <strong>Trader:</strong> {{ activity.trade.user?.username }} (Role:
+                {{ activity.trade.user?.role }})
+              </div>
+              <div class="trade-row">
+                <strong>Stock:</strong> {{ activity.trade.stock?.ticker_symbol }}
+              </div>
+              <div class="trade-row"><strong>Quantity:</strong> {{ activity.trade.quantity }}</div>
+              <div class="trade-row"><strong>Price:</strong> {{ activity.trade.price }}</div>
+              <div class="trade-row">
+                <strong>Trade Time:</strong> {{ activity.trade.trade_time | date: 'medium' }}
+              </div>
+            </div>
+            <ng-template #noTrade><em>No trade data</em></ng-template>
+          </td>
+        </ng-container>
+  
+        <!-- Reason Column -->
+        <ng-container matColumnDef="reason">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Reason</th>
+          <td mat-cell *matCellDef="let activity">{{ activity.reason }}</td>
+        </ng-container>
+  
+        <!-- flagged_at Column -->
+        <ng-container matColumnDef="flagged_at">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Flagged At</th>
+          <td mat-cell *matCellDef="let activity">
+            {{ activity.flagged_at | date: 'medium' }}
+          </td>
+        </ng-container>
+  
+        <!-- reviewed Column -->
+        <ng-container matColumnDef="reviewed">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Reviewed</th>
+          <td mat-cell *matCellDef="let activity">
+            <ng-container *ngIf="activity.reviewed; else notReviewed">
+              <mat-icon color="primary">check_circle</mat-icon>
+              <span class="reviewed-text">Yes</span>
+            </ng-container>
+            <ng-template #notReviewed>
+              <mat-icon color="warn">highlight_off</mat-icon>
+              <span class="reviewed-text">No</span>
+            </ng-template>
+          </td>
+        </ng-container>
+  
+        <!-- Actions Column -->
+        <!-- Actions Column -->
+<ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let activity">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="suspendTrader(activity)"
+        [disabled]="activity.reviewed" 
+      >
+        <mat-icon>gavel</mat-icon>
+        Suspend Trader
+      </button>
+    </td>
+  </ng-container>
+  
+  
+        <!-- Table Header / Row -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
+      <!-- Pagination -->
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+  

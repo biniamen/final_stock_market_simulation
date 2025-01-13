@@ -46,6 +46,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserPortfolioComponent } from './components/user-portfolio/user-portfolio.component';
 import { TradesWithOrderInfoComponent } from './components/trades-with-order-info/trades-with-order-info.component';
 import { TransactionAuditListComponent } from './components/transaction-audit-list/transaction-audit-list.component';
+import { SuspiciousActivitiesComponent } from './components/suspicious-activities/suspicious-activities.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { TransactionAuditListComponent } from './components/transaction-audit-li
     DisclosureUploadComponent,
     UserPortfolioComponent,
     TradesWithOrderInfoComponent,
-    TransactionAuditListComponent
+    TransactionAuditListComponent,
+    SuspiciousActivitiesComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +99,7 @@ import { TransactionAuditListComponent } from './components/transaction-audit-li
     NgxPaginationModule,
     MatIconModule,
     MatTooltipModule, 
+    MatButtonModule,
     MatGridListModule,
     MatSnackBarModule, // Add MatSnackBarModule here
 
