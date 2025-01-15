@@ -177,3 +177,20 @@ button {
     margin-top: 0.5rem;
   }
 }
+
+/**************************************
+ * Sidebar Header Logo
+ **************************************/
+ .sidebar-logo {
+  height: 40px; /* Adjust the height to fit your design */
+  margin-right: 8px; /* Add spacing between logo and text */
+}
+
+/**************************************
+ * Top Toolbar Brand Logo
+ **************************************/
+.brand-logo {
+  height: 40px; /* Adjust the height to fit your design */
+  margin-right: 8px; /* Add spacing between logo and other elements */
+  border-radius: 50%; /* Optional: Makes the logo circular if needed */
+}

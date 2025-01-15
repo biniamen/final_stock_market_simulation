@@ -27,12 +27,26 @@ class ListedCompanySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# class StocksSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Stocks
+#         fields = '__all__'
+
 class StocksSerializer(serializers.ModelSerializer):
+    company_name = serializers.CharField(source='company.company_name', read_only=True)
+
     class Meta:
         model = Stocks
-        fields = '__all__'
-
-
+        fields = [
+            'id',
+            'ticker_symbol',
+            'total_shares',
+            'current_price',
+            'available_shares',
+            'max_trader_buy_limit',
+            'created_at',
+            'company_name',
+        ]
 class OrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders

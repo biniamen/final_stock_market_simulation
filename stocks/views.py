@@ -52,10 +52,13 @@ class ListedCompanyViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class StocksViewSet(viewsets.ModelViewSet):
-    queryset = Stocks.objects.all()
-    serializer_class = StocksSerializer
+# class StocksViewSet(viewsets.ModelViewSet):
+#     queryset = Stocks.objects.all()
+#     serializer_class = StocksSerializer
 
+class StocksViewSet(viewsets.ModelViewSet):
+    queryset = Stocks.objects.select_related('company').all()
+    serializer_class = StocksSerializer
 
 class OrdersViewSet(viewsets.ModelViewSet):
     queryset = Orders.objects.all()

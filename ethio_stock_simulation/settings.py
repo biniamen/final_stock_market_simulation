@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 from decouple import config
 from decouple import config
+from datetime import timedelta
 
 #BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -96,7 +97,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),  # Tokens expire in 2 days
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=2),  # Tokens expire in 2 days
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Refresh token expires in 7 days
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
