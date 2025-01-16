@@ -13,6 +13,8 @@ from django.conf import settings
 
 from ethio_stock_simulation.utils import generate_otp, send_verification_email
 from users.models import CustomUser
+from users.throttles import LoginThrottle
+from users.utils import verify_captcha
 from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 from django.core.mail import EmailMessage
 from django.contrib.auth.password_validation import validate_password
@@ -23,6 +25,7 @@ User = get_user_model()
 class RegisterUser(generics.CreateAPIView):
     """
     API endpoint to register a new user.
+    Now includes reCAPTCHA validation.
     """
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
@@ -30,32 +33,42 @@ class RegisterUser(generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        # 1. Validate reCAPTCHA
+        captcha_response = request.data.get('g-recaptcha-response')
+        if not captcha_response or not verify_captcha(captcha_response):
+            return Response(
+                {"detail": "Invalid or missing reCAPTCHA. Please try again."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        # Check for uniqueness of username and email
-        if User.objects.filter(username=request.data.get('username')).exists():
+        # 2. Check for uniqueness of username and email
+        username = request.data.get('username')
+        email = request.data.get('email')
+
+        if User.objects.filter(username=username).exists():
             return Response(
                 {"detail": "Username already exists. Please choose a different username."},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        if User.objects.filter(email=request.data.get('email')).exists():
+        if User.objects.filter(email=email).exists():
             return Response(
                 {"detail": "Email already exists. Please use a different email."},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        # 3. Serializer validation
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        # Generate and send OTP
+        # 4. Generate and send OTP if needed
         otp = generate_otp()
         user.otp_code = otp
         user.otp_sent_at = timezone.now()
         user.save()
 
         email_sent = send_verification_email(user.email, user.username, otp)
-
         if email_sent:
             return Response(
                 {
@@ -69,20 +82,24 @@ class RegisterUser(generics.CreateAPIView):
                 {"detail": "Failed to send OTP. Please try again."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-
+            
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
     Custom login endpoint using SimpleJWT.
     Blocks login if the user's KYC is not verified or not approved.
+    Includes throttle to limit attempts.
     """
     serializer_class = CustomTokenObtainPairSerializer
+
+    # Apply custom throttle to this login endpoint
+    throttle_classes = [LoginThrottle]  # This uses the 'login' scope => 3/minute
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         try:
             serializer.is_valid(raise_exception=True)
 
-            # Check if KYC is verified and is approved
+            # Check if KYC is verified and user is approved
             if not serializer.user.kyc_verified:
                 return Response(
                     {"detail": "KYC not verified. Please wait for approval."},
@@ -93,8 +110,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     {"detail": "Your account is not approved yet."},
                     status=status.HTTP_403_FORBIDDEN,
                 )
+
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
+        except ValidationError as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

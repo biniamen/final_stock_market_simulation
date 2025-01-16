@@ -47,6 +47,7 @@ import { UserPortfolioComponent } from './components/user-portfolio/user-portfol
 import { TradesWithOrderInfoComponent } from './components/trades-with-order-info/trades-with-order-info.component';
 import { TransactionAuditListComponent } from './components/transaction-audit-list/transaction-audit-list.component';
 import { SuspiciousActivitiesComponent } from './components/suspicious-activities/suspicious-activities.component';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { SuspiciousActivitiesComponent } from './components/suspicious-activitie
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RecaptchaModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,

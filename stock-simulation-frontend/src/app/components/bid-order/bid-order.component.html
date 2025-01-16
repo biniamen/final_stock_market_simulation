@@ -14,7 +14,7 @@
         <mat-select [(value)]="selectedStockId" (selectionChange)="onStockChange($event.value)">
           <mat-option [value]="0" disabled>Select a stock</mat-option>
           <mat-option *ngFor="let stock of stocks" [value]="stock.id">
-           Ticker: {{ stock.ticker_symbol }} | Available: {{ stock.available_shares }}
+           {{ stock.company_name }} | Current Price: {{ stock.current_price }} | Available: {{ stock.available_shares }}
           </mat-option>
         </mat-select>
       </mat-form-field>

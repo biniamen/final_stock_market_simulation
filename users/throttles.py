@@ -10,3 +10,7 @@ class OTPVerifyRateThrottle(UserRateThrottle):
 
 class OTPResendRateThrottle(UserRateThrottle):
     scope = 'otp_resend'
+
+
+class LoginThrottle(AnonRateThrottle):
+    scope = 'login'

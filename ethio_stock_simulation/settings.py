@@ -15,6 +15,10 @@ from decouple import config
 from decouple import config
 from datetime import timedelta
 
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 #BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -87,6 +91,13 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+     'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',  # For all anonymous requests
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/minute',   # Global rate limit for anonymous users
+        'login': '3/minute',  # Rate limit for the login endpoint
+    },
 }
 
 from datetime import timedelta
@@ -251,3 +262,10 @@ LOGGING = {
         },
     },
 }
+
+# ---------------
+# reCAPTCHA SETTINGS
+# ---------------
+# Ensure to store your SECRET KEY in an environment variable or vault in production
+RECAPTCHA_SITE_KEY = os.getenv('RECAPTCHA_SITE_KEY', '')
+RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_SECRET_KEY', '')

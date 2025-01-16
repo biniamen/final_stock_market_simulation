@@ -9,6 +9,7 @@ interface Stock {
   ticker_symbol: string;
   total_shares: number;
   available_shares: number;
+  company_name: string;
 }
 
 interface UserTrade {

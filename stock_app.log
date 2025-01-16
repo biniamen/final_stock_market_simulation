@@ -9549,3 +9549,140 @@ Watching for file changes with StatReloader
 D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
+"GET /api/stocks/stocks/ HTTP/1.1" 200 19425
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 4768
+"GET /api/stocks/stocks/ HTTP/1.1" 200 4768
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+Unauthorized: /api/stocks/user/146/trades_with_order_info/
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Watching for file changes with StatReloader
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+Bad Request: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 400 63
+Bad Request: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 400 63
+Bad Request: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 400 63
+Too Many Requests: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 429 69
+Too Many Requests: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 429 69
+Bad Request: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 400 63
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\utils.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 652
+"OPTIONS /api/stocks/user/orders/ HTTP/1.1" 200 0
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 4768
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Bad Request: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 400 93
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 4768
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 183
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 4768
+"GET /api/stocks/stocks/ HTTP/1.1" 200 19425
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2858
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 183
+"POST /api/users/login/ HTTP/1.1" 200 652
+"GET /api/stocks/stocks/ HTTP/1.1" 200 4768
+"GET /api/stocks/stocks/ HTTP/1.1" 200 4768
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+Bad Request: /api/users/register/
+"POST /api/users/register/ HTTP/1.1" 400 60
+Bad Request: /api/users/register/
+"POST /api/users/register/ HTTP/1.1" 400 60
+Method Not Allowed: /api/users/register/
+"GET /api/users/register/ HTTP/1.1" 405 9820
+"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2858
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+Bad Request: /api/users/register/
+"POST /api/users/register/ HTTP/1.1" 400 60
+Bad Request: /api/users/register/
+"POST /api/users/register/ HTTP/1.1" 400 60
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+Bad Request: /api/users/register/
+"POST /api/users/register/ HTTP/1.1" 400 60
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+Internal Server Error: /api/users/register/
+"POST /api/users/register/ HTTP/1.1" 500 50
+Watching for file changes with StatReloader
