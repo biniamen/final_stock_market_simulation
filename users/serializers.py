@@ -5,6 +5,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.password_validation import validate_password
 from django.conf import settings
 
+from users.utils import verify_captcha
+
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -26,6 +28,8 @@ class UserSerializer(serializers.ModelSerializer):
             'otp_verified',  
             'otp_attempts',
             'is_approved',
+            'token_version',  # Include token_version
+
 
         )
         extra_kwargs = {
@@ -128,8 +132,19 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     email = serializers.EmailField(read_only=True)
     username = serializers.CharField(read_only=True)
     id = serializers.IntegerField(read_only=True)
+    token_version = serializers.IntegerField(read_only=True)  # Include token_version
 
     def validate(self, attrs):
+        # Extract reCAPTCHA token
+        captcha_token = self.initial_data.get('g-recaptcha-response')
+
+        # if not captcha_token:
+        #     raise serializers.ValidationError({"detail": "reCAPTCHA token is missing."})
+
+        # # Verify reCAPTCHA
+        # if not verify_captcha(captcha_token):
+        #     raise serializers.ValidationError({"detail": "Invalid reCAPTCHA. Please try again."})
+
         data = super().validate(attrs)
 
         # Add additional responses here
@@ -142,6 +157,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             'company_id': self.user.company_id,
             'account_balance': self.user.account_balance,
             'profit_balance': self.user.profit_balance,
+            'token_version': self.user.token_version,  # Include token_version
+
         })
 
         return data

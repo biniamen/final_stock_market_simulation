@@ -111,7 +111,30 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
-            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+            # **Added Code:** Increment token_version to invalidate previous tokens
+            user = serializer.user
+            user.token_version += 1
+            user.save()
+
+            # Generate new tokens with updated token_version
+            refresh = RefreshToken.for_user(user)
+            refresh['token_version'] = user.token_version  # Include token_version in the refresh token
+            access_token = refresh.access_token
+            access_token['token_version'] = user.token_version  # Include token_version in the access token
+
+            return Response({
+                'refresh': str(refresh),
+                'access_token': str(access_token),
+                'username': user.username,
+                'email': user.email,
+                'role': user.role,
+                'kyc_verified': user.kyc_verified,
+                'id': user.id,
+                'company_id': user.company_id,
+                'account_balance': user.account_balance,
+                'profit_balance': user.profit_balance,
+                'token_version': user.token_version,
+            }, status=status.HTTP_200_OK)
 
         except ValidationError as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)

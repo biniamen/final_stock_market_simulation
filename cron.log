@@ -46,3 +46,19 @@ Traceback (most recent call last):
     raise UndefinedValueError('{} not found. Declare it as envvar or define a default value.'.format(option))
 decouple.UndefinedValueError: SENDGRID_API_KEY not found. Declare it as envvar or define a default value.
 [Mon 01/13/2025 23:36:46.73] Finished cancel_pending_orders 
+[Fri 01/17/2025 15:39:02.31] Starting cancel_pending_orders 
+System check identified some issues:
+
+WARNINGS:
+?: (debug_toolbar.W001) debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE.
+	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE.
+It is not the end of the trading day yet.
+[Fri 01/17/2025 15:39:05.78] Finished cancel_pending_orders 
+[Fri 01/17/2025 23:35:36.96] Starting cancel_pending_orders 
+System check identified some issues:
+
+WARNINGS:
+?: (debug_toolbar.W001) debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE.
+	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE.
+Successfully cancelled all pending orders.
+[Fri 01/17/2025 23:35:38.82] Finished cancel_pending_orders 

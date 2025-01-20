@@ -6,3 +6,12 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* Add this in your src/styles.css (or src/styles.scss) */
 
+.toast-top-right {
+    top: 12px;
+    right: 12px;
+  }
+  
+  .toast {
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+  }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Angular Material Components
@@ -48,6 +48,9 @@ import { TradesWithOrderInfoComponent } from './components/trades-with-order-inf
 import { TransactionAuditListComponent } from './components/transaction-audit-list/transaction-audit-list.component';
 import { SuspiciousActivitiesComponent } from './components/suspicious-activities/suspicious-activities.component';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { TradesWithOrderInfoUsingStockIDComponent } from './components/trades-with-order-info-using-stock-id/trades-with-order-info-using-stock-id.component';
+import { AddDividendDialogComponent } from './components/add-dividend-dialog/add-dividend-dialog.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +71,9 @@ import { RecaptchaModule } from 'ng-recaptcha';
     UserPortfolioComponent,
     TradesWithOrderInfoComponent,
     TransactionAuditListComponent,
-    SuspiciousActivitiesComponent
+    SuspiciousActivitiesComponent,
+    TradesWithOrderInfoUsingStockIDComponent,
+    AddDividendDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +112,13 @@ import { RecaptchaModule } from 'ng-recaptcha';
 
 
   ],
-  providers: [],
+   providers: [
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthInterceptor, 
+      multi: true 
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

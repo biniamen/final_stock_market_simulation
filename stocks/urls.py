@@ -4,9 +4,14 @@ from .views import (
     CompanyDisclosuresView,
     DirectStockPurchaseView,
     DisclosureViewSet,
+    DistributeDividendView,
+    DividendDistributionViewSet,
+    StockNetHoldingsView,
+    StockTradesWithOrderInfoView,
     SuspiciousActivityViewSet,
     TraderOrdersView,
     TransactionAuditTrailViewSet,
+    UserBalancesView,
     UserOrdersView,
     UserSpecificTradesView,
     UserTradesView,
@@ -32,6 +37,7 @@ router.register(r'disclosures', DisclosureViewSet, basename='disclosure')
 router.register(r'audit-trails', TransactionAuditTrailViewSet, basename='audit-trail')
 # Register Suspicious Activity
 router.register(r'suspicious-activities', SuspiciousActivityViewSet, basename='suspicious-activity')
+router.register(r'distributions', DividendDistributionViewSet, basename='distribution')
 
 
 # Custom URL patterns
@@ -57,6 +63,19 @@ urlpatterns = [
     
     # Company disclosures endpoint
     path('company/<int:company_id>/disclosures/', CompanyDisclosuresView.as_view(), name='company-disclosures'),
+    path('dividends/<int:dividend_id>/distribute/', DistributeDividendView.as_view(), name='distribute-dividend'),
+    path(
+        'stocks/<int:stock_id>/trades_with_order_info/',
+        StockTradesWithOrderInfoView.as_view(),
+        name='stock_trades_with_order_info'
+    ),
+      path(
+        'stocks/<int:stock_id>/fifonet_holdings/',
+        StockNetHoldingsView.as_view(),
+        name='stock_fifonet_holdings'
+    ),
+       # User Balances Endpoint
+    path('user_balances/', UserBalancesView.as_view(), name='user-balances'),
 ]
 
 # Combine router URLs with custom URLs

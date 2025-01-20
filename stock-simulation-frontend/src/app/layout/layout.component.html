@@ -24,6 +24,14 @@
         <mat-icon>cloud_upload</mat-icon>
         <span>Upload Disclosure</span>
       </a>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/tradeInfoforStock" routerLinkActive="active-link">
+        <mat-icon>cloud_upload</mat-icon>
+        <span>Company Stock Traded</span>
+      </a>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/dividend" routerLinkActive="active-link">
+        <mat-icon>cloud_upload</mat-icon>
+        <span>Company Dividend</span>
+      </a>
 
       <!-- TRADER LINKS -->
       <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/portfolio" routerLinkActive="active-link">

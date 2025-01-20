@@ -1,0 +1,57 @@
+.dividends-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+  
+    h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+  
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+  
+      .search-field {
+        flex: 1 1 auto;
+        margin-right: 1rem;
+      }
+    }
+  
+    .table-container {
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 4px;
+      padding: 1rem;
+  
+      table {
+        width: 100%;
+  
+        th.mat-header-cell {
+          font-weight: 600;
+        }
+  
+        .data-row:hover {
+          background-color: #fafafa;
+        }
+      }
+  
+      mat-paginator {
+        margin-top: 1rem;
+      }
+    }
+  }
+  
+  /* Dialog Styles */
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+  
+    .full-width {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+  

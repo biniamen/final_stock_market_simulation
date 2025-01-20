@@ -27,6 +27,9 @@ class CustomUser(AbstractUser):
     otp_sent_at = models.DateTimeField(null=True, blank=True)
     otp_verified = models.BooleanField(default=False)
     otp_attempts = models.IntegerField(default=0)  # Track OTP retry attempts
+    
+    # **Added Field:** Token Version
+    token_version = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         is_new_user = not self.pk  # Check if the user is being created for the first time

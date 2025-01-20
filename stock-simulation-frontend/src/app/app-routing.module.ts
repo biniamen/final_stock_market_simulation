@@ -17,6 +17,8 @@ import { UserPortfolioComponent } from './components/user-portfolio/user-portfol
 import { TradesWithOrderInfoComponent } from './components/trades-with-order-info/trades-with-order-info.component';
 import { TransactionAuditListComponent } from './components/transaction-audit-list/transaction-audit-list.component';
 import { SuspiciousActivitiesComponent } from './components/suspicious-activities/suspicious-activities.component';
+import { CompanyDividendsComponent } from './components/company-dividends/company-dividends.component';
+import { TradesWithOrderInfoUsingStockIDComponent } from './components/trades-with-order-info-using-stock-id/trades-with-order-info-using-stock-id.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -50,6 +52,9 @@ const routes: Routes = [
       { path: 'tradingInfo', component: TradesWithOrderInfoComponent}, // Apply AuthGuard if available
       { path: 'audit-trails', component: TransactionAuditListComponent },
       { path: 'suspicious-activities', component: SuspiciousActivitiesComponent },
+      { path: 'tradeInfoforStock', component: TradesWithOrderInfoUsingStockIDComponent },
+      { path: 'dividend', component: CompanyDividendsComponent },
+
 
       // { path: 'otp-verification', component: OtpVerificationComponent },
      // { path: 'kyc-pending', component: KycPendingComponent }, // Page after success

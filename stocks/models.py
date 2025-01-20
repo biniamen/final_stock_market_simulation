@@ -721,3 +721,25 @@ class Disclosure(models.Model):
 
     def __str__(self):
         return f"{self.get_type_display()} ({self.year}) - {self.company.company_name}"
+
+
+class DividendDistribution(models.Model):
+    """
+    Stores the dividend disbursed to each user for a particular Dividend record.
+    """
+    dividend = models.ForeignKey(
+        'Dividend',
+        on_delete=models.CASCADE,
+        related_name='distributions'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='dividend_distributions'
+    )
+    amount = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return (f"DividendDistribution: Dividend={self.dividend.id}, "
+                f"User={self.user.username}, Amount={self.amount}")

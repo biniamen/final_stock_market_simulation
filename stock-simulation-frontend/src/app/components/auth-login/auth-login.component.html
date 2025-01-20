@@ -1,3 +1,5 @@
+<!-- auth-login.component.html -->
+
 <mat-toolbar color="primary" class="header-toolbar">
   <span class="header-title">Ethiopian Stock Market Simulation Platform</span>
 </mat-toolbar>
@@ -7,18 +9,69 @@
     <mat-card-title class="card-title">Welcome Back</mat-card-title>
     <mat-card-subtitle class="card-subtitle">Login to continue</mat-card-subtitle>
     <mat-card-content>
-      <form (submit)="onLogin()">
+      <!-- Add #loginForm="ngForm" to reference the form -->
+      <form #loginForm="ngForm" (ngSubmit)="onLogin()" novalidate>
+        
+        <!-- Username Field -->
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input matInput [(ngModel)]="loginUser.username" name="username" required />
+          <input
+            matInput
+            [(ngModel)]="loginUser.username"
+            name="username"
+            required
+            #username="ngModel"
+          />
+          <mat-error *ngIf="username.invalid && (username.dirty || username.touched || formSubmitted)">
+            Username is required.
+          </mat-error>
         </mat-form-field>
 
+        <!-- Password Field -->
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput [(ngModel)]="loginUser.password" name="password" type="password" required />
+          <input
+            matInput
+            [(ngModel)]="loginUser.password"
+            name="password"
+            type="password"
+            required
+            #password="ngModel"
+          />
+          <mat-error *ngIf="password.invalid && (password.dirty || password.touched || formSubmitted)">
+            Password is required.
+          </mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="accent" type="submit">Login</button>
+        <!-- reCAPTCHA Widget -->
+        <!-- <div class="form-group">
+          <label>reCAPTCHA Validation:</label>
+          <re-captcha
+            siteKey="6LfCzLkqAAAAAE4DTrjJN30qgHxOrF1NjIFXpsqQ"
+            (resolved)="onCaptchaResolved($event)"
+          ></re-captcha>
+          <div *ngIf="!captchaToken && formSubmitted" class="error">
+            Please complete the reCAPTCHA.
+          </div>
+        </div> -->
+
+        <!-- Login Button -->
+        <!-- <button
+          mat-raised-button
+          color="accent"
+          type="submit"
+          [disabled]="!loginForm.valid || !captchaToken"
+        >
+          Login
+        </button> -->
+        <button
+          mat-raised-button
+          color="accent"
+          type="submit"
+          
+        >
+          Login
+        </button>
       </form>
     </mat-card-content>
     <mat-card-actions>
