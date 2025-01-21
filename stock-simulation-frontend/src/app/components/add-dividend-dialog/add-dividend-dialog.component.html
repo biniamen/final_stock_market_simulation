@@ -1,8 +1,6 @@
-<!-- add-dividend-dialog.component.html -->
-
 <h1 mat-dialog-title>Add Dividend</h1>
+
 <div mat-dialog-content>
-  <!-- FORM for creating a new Dividend -->
   <form [formGroup]="dividendForm">
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Total Dividend Value</mat-label>
@@ -21,8 +19,12 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Dividend Ratio</mat-label>
-      <input matInput formControlName="dividendRatio" readonly />
+      <mat-label>Dividend Ratio (Preview)</mat-label>
+      <input
+        matInput
+        formControlName="dividendRatio"
+        readonly
+      />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
@@ -30,118 +32,8 @@
       <input matInput formControlName="budgetYear" readonly />
     </mat-form-field>
   </form>
-
-  <!-- CURRENT YEAR DIVIDEND TABLE (Show ONLY if there's at least one Dividend in dataSource) -->
-  <div *ngIf="dataSource.data.length > 0" style="margin-top: 20px;">
-    <h2>Current Year Dividend Info</h2>
-
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="mat-elevation-z8 full-width-table"
-    >
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-      </ng-container>
-
-      <!-- Company Column -->
-      <ng-container matColumnDef="company">
-        <th mat-header-cell *matHeaderCellDef>Company ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.company }}</td>
-      </ng-container>
-
-      <!-- Budget Year Column -->
-      <ng-container matColumnDef="budget_year">
-        <th mat-header-cell *matHeaderCellDef>Budget Year</th>
-        <td mat-cell *matCellDef="let element">{{ element.budget_year }}</td>
-      </ng-container>
-
-      <!-- Dividend Ratio Column -->
-      <ng-container matColumnDef="dividend_ratio">
-        <th mat-header-cell *matHeaderCellDef>Dividend Ratio</th>
-        <td mat-cell *matCellDef="let element">{{ element.dividend_ratio }}</td>
-      </ng-container>
-
-      <!-- Total Dividend Amount Column -->
-      <ng-container matColumnDef="total_dividend_amount">
-        <th mat-header-cell *matHeaderCellDef>Total Dividend Amount</th>
-        <td mat-cell *matCellDef="let element">{{ element.total_dividend_amount }}</td>
-      </ng-container>
-
-      <!-- Status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-      </ng-container>
-
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">
-          <button
-            mat-button
-            color="primary"
-            (click)="onDisburse(element.id)"
-            [disabled]="element.status === 'Disbursed' || isDisburseLoading"
-          >
-            Disburse
-          </button>
-        </td>
-      </ng-container>
-
-      <!-- Row Definitions -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <!-- DISTRIBUTIONS TABLE (Only if distributions exist) -->
-    <div *ngIf="distributionsDataSource.data.length > 0" style="margin-top: 20px;">
-      <h3>Dividend Distributions</h3>
-      <table
-        mat-table
-        [dataSource]="distributionsDataSource"
-        class="mat-elevation-z8 full-width-table"
-      >
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>ID</th>
-          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-        </ng-container>
-
-        <!-- User Column -->
-        <ng-container matColumnDef="user">
-          <th mat-header-cell *matHeaderCellDef>User</th>
-          <td mat-cell *matCellDef="let element">{{ element.user }}</td>
-        </ng-container>
-
-        <!-- Amount Column -->
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>Amount</th>
-          <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
-        </ng-container>
-
-        <!-- Created At Column -->
-        <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef>Created At</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.created_at | date:'short' }}
-          </td>
-        </ng-container>
-
-        <!-- Row Definitions for distributions -->
-        <tr mat-header-row *matHeaderRowDef="displayedDistributionsColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedDistributionsColumns"
-        ></tr>
-      </table>
-    </div>
-  </div>
 </div>
 
-<!-- DIALOG ACTIONS -->
 <div mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
   <button

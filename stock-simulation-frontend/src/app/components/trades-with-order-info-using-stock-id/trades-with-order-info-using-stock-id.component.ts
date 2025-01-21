@@ -45,10 +45,6 @@ export class TradesWithOrderInfoUsingStockIDComponent implements OnInit {
     this.fetchNetHoldings();
   }
 
-  /**
-   * Fetch net BUY holdings for the current stock
-   * using the StockNetHoldingsView API (FIFO logic).
-   */
   fetchNetHoldings(): void {
     const stockId = localStorage.getItem('stock_id');
     if (!stockId) {
@@ -57,7 +53,6 @@ export class TradesWithOrderInfoUsingStockIDComponent implements OnInit {
       return;
     }
 
-    // Set up the request headers
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
       this.toastr.error('No access token found. Please log in.', 'Error');
@@ -69,15 +64,15 @@ export class TradesWithOrderInfoUsingStockIDComponent implements OnInit {
       'Authorization': `Bearer ${accessToken}`
     });
 
-    // API endpoint for FIFO net holdings
+    // Example endpoint: /api/stocks/<stock_id>/fifonet_holdings/
     const endpoint = `http://127.0.0.1:8000/api/stocks/stocks/${stockId}/fifonet_holdings/`;
 
     this.http.get<any[]>(endpoint, { headers }).subscribe({
       next: (data) => {
-        // data is an array of final "Buy" trades with leftover quantities
+        // data is an array of leftover "Buy" trades (with quantity, weighted_value, etc.)
         this.dataSource.data = data.map(row => ({
           ...row,
-          // Ensure numeric fields are parsed to floats
+          // ensure numeric conversions
           total_buying_price: parseFloat(row.total_buying_price),
           weighted_value: parseFloat(row.weighted_value)
         }));
@@ -99,51 +94,35 @@ export class TradesWithOrderInfoUsingStockIDComponent implements OnInit {
     });
   }
 
-  exportToCSV(): void {
-    // ...same as your existing code...
-  }
-
-  printTable(): void {
-    // ...same as your existing code...
-  }
-
-  /**
-   * Opens the "Add Dividend" modal dialog.
-   * Passes:
-   *  1) totalWeightedValue (sum of weighted_value for all traders),
-   *  2) the entire table data (so we can create distributions in the dialog).
-   *  3) companyId (placeholder logic).
-   */
   openAddDividendModal(): void {
-    const totalWeightedValue = this.dataSource.data.reduce((acc: number, curr: any) => acc + curr.weighted_value, 0);
-    const companyId = this.getCompanyIdFromStockId();
+    // compute sum of weighted_value
+    const totalWeightedValue = this.dataSource.data.reduce(
+      (acc: number, curr: any) => acc + curr.weighted_value,
+      0
+    );
+    // You can figure out the real companyId from the stock or from localStorage
+    const companyId = 1; // Hard-coded for demonstration
 
-    // We also pass the entire data array for distribution creation
-    const dialogRef = this.dialog.open(AddDividendDialogComponent, {
+    this.dialog.open(AddDividendDialogComponent, {
       width: '800px',
       data: {
         totalWeightedValue,
         companyId,
-        holdingsData: this.dataSource.data // pass the array of holdings
+        holdingsData: this.dataSource.data // pass the array to the dialog
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
+    }).afterClosed().subscribe(result => {
       if (result) {
-        this.toastr.success('Dividend added and auto-disbursed.', 'Success');
-        // Optionally refetch net holdings or do other UI updates
+        // If we returned something truthy from the dialog, maybe reload
         this.fetchNetHoldings();
       }
     });
   }
 
-  getCompanyIdFromStockId(): number {
-    // Same placeholder logic as before
-    const stockId = localStorage.getItem('stock_id');
-    if (!stockId) {
-      this.toastr.error('No stock_id found in localStorage.', 'Error');
-      return 0;
-    }
-    return 1; // Replace with real logic
+  exportToCSV(): void {
+    // your CSV logic...
+  }
+
+  printTable(): void {
+    // your Print logic...
   }
 }

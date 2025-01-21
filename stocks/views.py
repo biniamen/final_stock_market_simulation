@@ -136,103 +136,23 @@ class UserTradesView(APIView):
 #     queryset = Dividend.objects.all()
 #     serializer_class = DividendSerializer
 #     #permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]  # Adjust permissions as needed
+
+
 class DividendViewSet(viewsets.ModelViewSet):
     queryset = Dividend.objects.all()
     serializer_class = DividendSerializer
-    # permission_classes = [IsAuthenticated, IsAdminUser]  # Adjust as needed
 
-    # ... existing create and perform_create methods ...
-
-    @action(detail=True, methods=['post'], url_path='disburse')
-    def disburse(self, request, pk=None):
-        """
-        POST /api/stocks/dividends/<dividend_id>/disburse/
-        Disburse dividends to users, update each user's profit_balance,
-        and create DividendDistribution records.
-        """
-        # 1) Check permission
-        if not request.user.is_staff:
-            return Response(
-                {"detail": "Only staff or company admins can distribute dividends."},
-                status=status.HTTP_403_FORBIDDEN
-            )
-
-        try:
-            dividend = self.get_object()
-
-            # 2) Prevent multiple disbursements
-            if DividendDistribution.objects.filter(dividend=dividend).exists():
-                return Response(
-                    {"detail": "Dividends have already been disbursed for this record."},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            # 3) Fetch user portfolios or any logic to determine weighted_value
-            user_portfolios = UsersPortfolio.objects.values('user').annotate(
-                total_weighted_value=Sum('weighted_value')
-            ).filter(total_weighted_value__gt=0)
-
-            distributions = []
-            with transaction.atomic():
-                for portfolio in user_portfolios:
-                    user_id = portfolio['user']
-                    wv = portfolio['total_weighted_value']
-
-                    # Calculate the actual amount each user receives
-                    amount = Decimal(wv) * dividend.dividend_ratio
-                    amount = amount.quantize(Decimal('0.01'))  # Round to 2 decimal places
-
-                    # Update user's profit_balance
-                    user = User.objects.get(id=user_id)
-                    user.profit_balance += amount
-                    user.save()
-
-                    # Create DividendDistribution record
-                    distributions.append(DividendDistribution(
-                        dividend=dividend,
-                        user=user,
-                        amount=amount
-                    ))
-
-                # Bulk create all distributions
-                DividendDistribution.objects.bulk_create(distributions)
-
-                # Update Dividend status
-                dividend.status = 'Disbursed'
-                dividend.save()
-
-            # 4) Return created distributions
-            serializer = DividendDistributionSerializer(distributions, many=True)
-            return Response(
-                {
-                    "detail": "Dividends disbursed successfully.",
-                    "distributions": serializer.data
-                },
-                status=status.HTTP_200_OK
-            )
-        except Dividend.DoesNotExist:
-            return Response({"detail": "Dividend not found."}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            logger.error(f"Error distributing dividend {pk}: {e}")
-            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
-    @action(detail=False, methods=['get'], url_path='current-year')
-    def current_year_dividend(self, request):
-        """
-        GET /api/stocks/dividends/current-year/
-        Retrieves the Dividend record for the current year, if it exists.
-        """
-        current_year = timezone.now().year
-        try:
-            # Attempt to find a Dividend record for the current year
-            dividend = Dividend.objects.get(budget_year=current_year)
-            serializer = self.get_serializer(dividend)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Dividend.DoesNotExist:
-            # If no Dividend is found for the current year, return 404
-            return Response({"detail": "No Dividend for current year."}, status=status.HTTP_404_NOT_FOUND)
-        
-# views.py snippet:
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(
+            data=request.data,
+            context={'request': request}
+        )
+        serializer.is_valid(raise_exception=True)
+        dividend = serializer.save()
+        # serializer.save() will do all the ratio logic & set status to Disbursed
+        return Response(self.get_serializer(dividend).data, status=status.HTTP_201_CREATED)
+    
+    
 class DirectStockPurchaseView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -651,7 +571,7 @@ class StockNetHoldingsView(APIView):
                     number_of_days_stayed = self.calculate_days_stayed(trade_date)
 
                     weighted_value = (number_of_days_stayed / 365) * buy_tr["remaining_quantity"] * current_price
-                    dividend_eligible = "Yes" if number_of_days_stayed >= 180 else "No"
+                    dividend_eligible = "Yes" if number_of_days_stayed >= 10 else "No"
 
                     total_buying_price = buy_tr["price"] * buy_tr["remaining_quantity"]
 

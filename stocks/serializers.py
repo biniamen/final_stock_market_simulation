@@ -3,13 +3,13 @@
 from decimal import Decimal
 from rest_framework import serializers
 from django.utils import timezone
-
+from django.db import transaction
 from stocks.models_audit import TransactionAuditTrail
 from django.contrib.auth import get_user_model
 
 # Import everything ACTUALLY in `models.py`
 from .models import (
-    Disclosure, DividendDistribution, UsersPortfolio, ListedCompany,
+    Disclosure, DividendDetailedHolding, DividendDistribution, UsersPortfolio, ListedCompany,
     Stocks, Orders, Trade, Dividend
 )
 
@@ -242,41 +242,108 @@ class UserBalanceSerializer(serializers.Serializer):
     net_balance = serializers.DecimalField(max_digits=20, decimal_places=2)
     holdings = HoldingSerializer(many=True)
     
+
 class DividendSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dividend
-        fields = ['id', 'company', 'budget_year', 'dividend_ratio', 'total_dividend_amount', 'status']
+        fields = [
+            'id', 'company', 'budget_year',
+            'dividend_ratio', 'total_dividend_amount',
+            'status'
+        ]
         read_only_fields = ['id', 'dividend_ratio', 'status']
 
     def validate(self, attrs):
         """
         Ensure that no Dividend exists for the same company and budget_year.
+        This is also enforced at the model level, but let's give a nice error message.
         """
         company = attrs.get('company')
         budget_year = attrs.get('budget_year')
 
+        # If not set, default to current year
+        if not budget_year:
+            budget_year = str(timezone.now().year)
+            attrs['budget_year'] = budget_year
+
+        # Check existence
         if Dividend.objects.filter(company=company, budget_year=budget_year).exists():
             raise serializers.ValidationError(
-                f"A dividend for company '{company}' in the year {budget_year} already exists."
+                "A Dividend for this company and budget year already exists."
             )
 
         return attrs
 
     def create(self, validated_data):
-        # Automatically set 'budget_year' to the current year if not provided
-        if 'budget_year' not in validated_data:
-            validated_data['budget_year'] = timezone.now().year
+        """
+        Steps:
+          1) get sum_weighted_value & holdingsData from request.data
+          2) compute ratio
+          3) create Dividend (status stays 'Pending' until we finalize)
+          4) create DividendDetailedHolding rows
+          5) for each 'Yes' => add to user profit_balance
+          6) set Dividend status='Disbursed'
+        """
+        request_data = self.context['request'].data
+        sum_weighted_value = request_data.get('sum_weighted_value', 0)
+        holdings_data = request_data.get('holdingsData', [])
 
-        # Calculate 'dividend_ratio'
-        total_dividend_amount = validated_data.get('total_dividend_amount')
-        company = validated_data.get('company')
+        if not sum_weighted_value or float(sum_weighted_value) == 0:
+            raise serializers.ValidationError("sum_weighted_value must be > 0.")
 
-        # TODO: Replace with actual logic to fetch 'total_weighted_value'
-        total_weighted_value = Decimal('1000.00')  # Example value; replace with real calculation
+        sum_weighted_value = Decimal(str(sum_weighted_value))
+        total_div_amt = validated_data['total_dividend_amount']
 
-        if total_weighted_value == 0:
-            raise serializers.ValidationError("Total weighted value cannot be zero.")
+        # 1) Compute ratio
+        ratio = (Decimal(str(total_div_amt)) / sum_weighted_value).quantize(Decimal('0.000001'))
 
-        validated_data['dividend_ratio'] = (total_dividend_amount / total_weighted_value).quantize(Decimal('0.0001'))
+        with transaction.atomic():
+            # 2) Create the Dividend (will still be 'Pending' at this instant)
+            validated_data['dividend_ratio'] = ratio
+            dividend = super().create(validated_data)  # calls ModelSerializer.create()
 
-        return super().create(validated_data)
+            # 3) Build DividendDetailedHolding rows
+            holding_rows = []
+            for row in holdings_data:
+                wv = Decimal(str(row.get('weighted_value', '0')))
+                paid_dividend = (ratio * wv).quantize(Decimal('0.01'))
+
+                # Build the record
+                holding_rows.append(DividendDetailedHolding(
+                    dividend=dividend,
+                    user_id=row.get('user_id'),
+                    username=row.get('username', ''),
+                    stock_symbol=row.get('stock_symbol', ''),
+                    order_type=row.get('order_type', ''),
+                    price=Decimal(str(row.get('price', '0'))),
+                    quantity=row.get('quantity', 0),
+                    transaction_fee=Decimal(str(row.get('transaction_fee', '0'))),
+                    total_buying_price=Decimal(str(row.get('total_buying_price', '0'))),
+                    weighted_value=wv,
+                    dividend_eligible=row.get('dividend_eligible', 'No'),
+                    trade_time=row.get('trade_time'),
+                    ratio_at_creation=ratio,
+                    paid_dividend=paid_dividend  # <--- newly added field
+                ))
+
+            # 3a) Bulk create them
+            DividendDetailedHolding.objects.bulk_create(holding_rows)
+
+            # 4) If dividend_eligible == "Yes", add to user.profit_balance
+            for row in holdings_data:
+                if row.get('dividend_eligible') == 'Yes':
+                    user_id = row.get('user_id')
+                    wv = Decimal(str(row.get('weighted_value', '0')))
+                    paid_div = (ratio * wv).quantize(Decimal('0.01'))
+                    if paid_div > 0:
+                        user = User.objects.get(id=user_id)
+                        # user.profit_balance could be zero if not set; set default to 0
+                        current_balance = getattr(user, 'profit_balance', Decimal('0.00'))
+                        user.profit_balance = current_balance + paid_div
+                        user.save()
+
+            # 5) Set the Dividend's status = 'Disbursed'
+            dividend.status = 'Disbursed'
+            dividend.save()
+
+        return dividend

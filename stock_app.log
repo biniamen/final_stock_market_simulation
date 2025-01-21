@@ -12275,3 +12275,644 @@ Forbidden: /api/stocks/dividends/1/disburse/
 "POST /api/stocks/dividends/1/disburse/ HTTP/1.1" 403 67
 D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\dividend_calculation.py changed, reloading.
 Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 42
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 42
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 42
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 42
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 42
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"POST /api/users/register/ HTTP/1.1" 201 118
+"OPTIONS /api/users/verify-otp/ HTTP/1.1" 200 0
+"POST /api/users/verify-otp/ HTTP/1.1" 200 55
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 715
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+"OPTIONS /api/stocks/dividends/current-year/ HTTP/1.1" 200 0
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 23
+"OPTIONS /api/stocks/dividends/ HTTP/1.1" 200 0
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.NotNullViolation: null value in column "dividend_ratio" of relation "stocks_dividend" violates not-null constraint
+DETAIL:  Failing row contains (2, 2025, null, 2100.00, Pending, 1).
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 149, in create
+    dividend = serializer.save(status='Pending')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 259, in create
+    return super().create(validated_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: null value in column "dividend_ratio" of relation "stocks_dividend" violates not-null constraint
+DETAIL:  Failing row contains (2, 2025, null, 2100.00, Pending, 1).
+
+"POST /api/stocks/dividends/ HTTP/1.1" 500 211964
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 23
+Bad Request: /api/stocks/dividends/
+"POST /api/stocks/dividends/ HTTP/1.1" 400 51
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Bad Request: /api/stocks/dividends/
+"POST /api/stocks/dividends/ HTTP/1.1" 400 75
+"POST /api/stocks/dividends/ HTTP/1.1" 201 174
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 715
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+"OPTIONS /api/stocks/dividends/current-year/ HTTP/1.1" 200 0
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 23
+"OPTIONS /api/stocks/dividends/ HTTP/1.1" 200 0
+Bad Request: /api/stocks/dividends/
+"POST /api/stocks/dividends/ HTTP/1.1" 400 39
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Not Found: /api/stocks/dividends/current-year/
+"GET /api/stocks/dividends/current-year/ HTTP/1.1" 404 23
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "stocks_dividenddetailedholding" does not exist
+LINE 1: INSERT INTO "stocks_dividenddetailedholding" ("dividend_id",...
+                    ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 152, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 324, in create
+    DividendDetailedHolding.objects.bulk_create(bulk_holdings)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 835, in bulk_create
+    returned_columns = self._batched_insert(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 1875, in _batched_insert
+    self._insert(
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "stocks_dividenddetailedholding" does not exist
+LINE 1: INSERT INTO "stocks_dividenddetailedholding" ("dividend_id",...
+                    ^
+
+"POST /api/stocks/dividends/ HTTP/1.1" 500 203927
+Watching for file changes with StatReloader
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "stocks_dividenddetailedholding" does not exist
+LINE 1: INSERT INTO "stocks_dividenddetailedholding" ("dividend_id",...
+                    ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 152, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 324, in create
+    DividendDetailedHolding.objects.bulk_create(bulk_holdings)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 835, in bulk_create
+    returned_columns = self._batched_insert(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 1875, in _batched_insert
+    self._insert(
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "stocks_dividenddetailedholding" does not exist
+LINE 1: INSERT INTO "stocks_dividenddetailedholding" ("dividend_id",...
+                    ^
+
+"POST /api/stocks/dividends/ HTTP/1.1" 500 203906
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+"POST /api/stocks/dividends/ HTTP/1.1" 201 118
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 819
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 715
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+"OPTIONS /api/stocks/dividends/ HTTP/1.1" 200 0
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 151, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 300, in create
+    with transaction.atomic():
+         ^^^^^^^^^^^
+NameError: name 'transaction' is not defined
+"POST /api/stocks/dividends/ HTTP/1.1" 500 124098
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 151, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 300, in create
+    with transaction.atomic():
+         ^^^^^^^^^^^
+NameError: name 'transaction' is not defined
+"POST /api/stocks/dividends/ HTTP/1.1" 500 124098
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 151, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 300, in create
+    with transaction.atomic():
+         ^^^^^^^^^^^
+NameError: name 'transaction' is not defined
+"POST /api/stocks/dividends/ HTTP/1.1" 500 124098
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 151, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 300, in create
+    with transaction.atomic():
+         ^^^^^^^^^^^
+NameError: name 'transaction' is not defined
+"POST /api/stocks/dividends/ HTTP/1.1" 500 124098
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 151, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 300, in create
+    with transaction.atomic():
+         ^^^^^^^^^^^
+NameError: name 'transaction' is not defined
+"POST /api/stocks/dividends/ HTTP/1.1" 500 124098
+Internal Server Error: /api/stocks/dividends/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\views.py", line 151, in create
+    dividend = serializer.save()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py", line 300, in create
+    with transaction.atomic():
+         ^^^^^^^^^^^
+NameError: name 'transaction' is not defined
+"POST /api/stocks/dividends/ HTTP/1.1" 500 124098
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\stocks\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 715
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+"POST /api/stocks/dividends/ HTTP/1.1" 201 120
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822

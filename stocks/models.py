@@ -668,12 +668,22 @@ def notify_user_real_time(user, message):
     )
 
 
+# models.py
+
 class Dividend(models.Model):
     company = models.ForeignKey(ListedCompany, on_delete=models.CASCADE, related_name='dividends')
     budget_year = models.CharField(max_length=4)
     dividend_ratio = models.DecimalField(max_digits=5, decimal_places=2)
     total_dividend_amount = models.DecimalField(max_digits=15, decimal_places=2)
-    status = models.CharField(max_length=15, choices=[('Paid', 'Paid'), ('Pending', 'Pending')], default='Pending')
+    status = models.CharField(
+        max_length=15,
+        choices=[('Paid', 'Paid'), ('Pending', 'Pending'), ('Disbursed', 'Disbursed')],
+        default='Pending'
+    )
+
+    class Meta:
+        # Add unique constraint so you can’t create a second Dividend for the same year & company
+        unique_together = ('company', 'budget_year')
 
     def __str__(self):
         return f"Dividend for {self.company.company_name} ({self.budget_year})"
@@ -743,3 +753,38 @@ class DividendDistribution(models.Model):
     def __str__(self):
         return (f"DividendDistribution: Dividend={self.dividend.id}, "
                 f"User={self.user.username}, Amount={self.amount}")
+        
+    
+# models.py
+
+class DividendDetailedHolding(models.Model):
+    dividend = models.ForeignKey(
+        'Dividend',
+        on_delete=models.CASCADE,
+        related_name='detailed_holdings'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='dividend_holdings'
+    )
+    username = models.CharField(max_length=50)
+    stock_symbol = models.CharField(max_length=10)
+    order_type = models.CharField(max_length=20, blank=True)
+    price = models.DecimalField(max_digits=15, decimal_places=2)
+    quantity = models.IntegerField()
+    transaction_fee = models.DecimalField(max_digits=15, decimal_places=2)
+    total_buying_price = models.DecimalField(max_digits=15, decimal_places=2)
+    weighted_value = models.DecimalField(max_digits=15, decimal_places=2)
+    dividend_eligible = models.CharField(max_length=5)
+    trade_time = models.DateTimeField()
+
+    ratio_at_creation = models.DecimalField(max_digits=15, decimal_places=8, default=Decimal('0.00000000'))
+
+    # NEW field
+    paid_dividend = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('0.00'))
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"[Div={self.dividend_id}] {self.user.username} - {self.stock_symbol} - ratio={self.ratio_at_creation}"
