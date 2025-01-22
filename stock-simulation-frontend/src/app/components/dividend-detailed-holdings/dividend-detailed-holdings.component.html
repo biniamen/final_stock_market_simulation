@@ -1,0 +1,101 @@
+<div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Dividend Detailed Holdings</h1>
+    </div>
+  
+    <mat-card>
+      <mat-card-content>
+        <div class="search-container">
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Search</mat-label>
+            <input
+              matInput
+              [(ngModel)]="searchKey"
+              (keyup)="applyFilter()"
+              placeholder="Search records..."
+            />
+            <button
+              *ngIf="searchKey"
+              mat-icon-button
+              matSuffix
+              aria-label="Clear search"
+              (click)="clearSearch()"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+  
+        <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  
+        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 full-width-table">
+  
+          <!-- username -->
+          <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.username }}</mat-cell>
+          </ng-container>
+  
+          <!-- stock_symbol -->
+          <ng-container matColumnDef="stock_symbol">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Stock Symbol</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.stock_symbol }}</mat-cell>
+          </ng-container>
+  
+          <!-- quantity -->
+          <ng-container matColumnDef="quantity">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+          </ng-container>
+  
+          <!-- total_buying_price -->
+          <ng-container matColumnDef="total_buying_price">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Buying Price</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.total_buying_price }}</mat-cell>
+          </ng-container>
+  
+          <!-- weighted_value -->
+          <ng-container matColumnDef="weighted_value">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Weighted Value</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.weighted_value }}</mat-cell>
+          </ng-container>
+  
+          <!-- paid_dividend -->
+          <ng-container matColumnDef="paid_dividend">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Paid Dividend</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.paid_dividend }}</mat-cell>
+          </ng-container>
+  
+          <!-- budget_year -->
+          <ng-container matColumnDef="budget_year">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Budget Year</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.budget_year }}</mat-cell>
+          </ng-container>
+  
+          <!-- ratio_at_creation -->
+          <ng-container matColumnDef="ratio_at_creation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Ratio at Creation</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.ratio_at_creation }}</mat-cell>
+          </ng-container>
+  
+          <!-- trade_time -->
+          <ng-container matColumnDef="trade_time">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Trade Time</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.trade_time | date:'short' }}
+            </mat-cell>
+          </ng-container>
+  
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+  
+        <mat-paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

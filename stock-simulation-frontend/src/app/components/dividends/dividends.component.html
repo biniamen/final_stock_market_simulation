@@ -1,0 +1,133 @@
+<!-- src/app/components/dividends/dividends.component.html -->
+
+<div class="dividends-container">
+    <mat-card>
+      <mat-card-title>Dividends</mat-card-title>
+      <mat-card-content>
+        <!-- Filter Section -->
+        <div class="filter-container">
+          <mat-form-field appearance="standard" class="filter-field">
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Filter dividends">
+          </mat-form-field>
+  
+          <mat-form-field appearance="standard" class="filter-field">
+            <mat-label>Budget Year</mat-label>
+            <input matInput [(ngModel)]="budgetYear" (change)="onBudgetYearChange()" placeholder="e.g., 2024">
+          </mat-form-field>
+        </div>
+  
+        <!-- Loading Spinner -->
+        <div *ngIf="isLoading" class="loading-spinner">
+          <mat-spinner></mat-spinner>
+        </div>
+  
+        <!-- Error Message -->
+        <div *ngIf="error" class="error-message">
+          <p>{{ error }}</p>
+        </div>
+  
+        <!-- Dividends Table -->
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  
+          <!-- Dividend ID Column -->
+          <ng-container matColumnDef="dividend_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Dividend ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.dividend_id }} </td>
+          </ng-container>
+  
+          <!-- User ID Column (Visible only to Regulators) -->
+          <ng-container matColumnDef="user_id" *ngIf="userRole === 'regulator'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> User ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.user_id }} </td>
+          </ng-container>
+  
+          <!-- Username Column (Visible only to Regulators) -->
+          <ng-container matColumnDef="username" *ngIf="userRole === 'regulator'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+            <td mat-cell *matCellDef="let element"> {{ element.username }} </td>
+          </ng-container>
+  
+          <!-- Stock Symbol Column -->
+          <ng-container matColumnDef="stock_symbol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Symbol </th>
+            <td mat-cell *matCellDef="let element"> {{ element.stock_symbol }} </td>
+          </ng-container>
+  
+          <!-- Order Type Column -->
+          <ng-container matColumnDef="order_type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Type </th>
+            <td mat-cell *matCellDef="let element"> {{ element.order_type }} </td>
+          </ng-container>
+  
+          <!-- Price Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+            <td mat-cell *matCellDef="let element"> {{ element.price | currency }} </td>
+          </ng-container>
+  
+          <!-- Quantity Column -->
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{ element.quantity }} </td>
+          </ng-container>
+  
+          <!-- Transaction Fee Column -->
+          <ng-container matColumnDef="transaction_fee">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Fee </th>
+            <td mat-cell *matCellDef="let element"> {{ element.transaction_fee | currency }} </td>
+          </ng-container>
+  
+          <!-- Total Buying Price Column -->
+          <ng-container matColumnDef="total_buying_price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Buying Price </th>
+            <td mat-cell *matCellDef="let element"> {{ element.total_buying_price | currency }} </td>
+          </ng-container>
+  
+          <!-- Weighted Value Column -->
+          <ng-container matColumnDef="weighted_value">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Weighted Value </th>
+            <td mat-cell *matCellDef="let element"> {{ element.weighted_value | currency }} </td>
+          </ng-container>
+  
+          <!-- Dividend Eligible Column -->
+          <ng-container matColumnDef="dividend_eligible">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Eligible </th>
+            <td mat-cell *matCellDef="let element"> {{ element.dividend_eligible }} </td>
+          </ng-container>
+  
+          <!-- Trade Time Column -->
+          <ng-container matColumnDef="trade_time">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Trade Time </th>
+            <td mat-cell *matCellDef="let element"> {{ element.trade_time | date:'short' }} </td>
+          </ng-container>
+  
+          <!-- Ratio at Creation Column -->
+          <ng-container matColumnDef="ratio_at_creation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ratio </th>
+            <td mat-cell *matCellDef="let element"> {{ element.ratio_at_creation }} </td>
+          </ng-container>
+  
+          <!-- Paid Dividend Column -->
+          <ng-container matColumnDef="paid_dividend">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Paid Dividend </th>
+            <td mat-cell *matCellDef="let element"> {{ element.paid_dividend | currency }} </td>
+          </ng-container>
+  
+          <!-- Created At Column -->
+          <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>
+            <td mat-cell *matCellDef="let element"> {{ element.created_at | date:'short' }} </td>
+          </ng-container>
+  
+          <!-- Header and Row Declarations -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  
+        <!-- Pagination Controls -->
+        <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+      </mat-card>
+  </div>
+  

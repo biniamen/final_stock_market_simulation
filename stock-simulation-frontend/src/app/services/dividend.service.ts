@@ -14,7 +14,27 @@ export interface Dividend {
   status: string;
   created_at: string;
 }
-
+// Interface for DividendDetailedHolding
+export interface DividendDetailedHolding {
+  id: number;
+  dividend_id: number;
+  user_id: number;
+  username: string;
+  stock_symbol: string;
+  order_type: string;
+  price: string;
+  quantity: number;
+  transaction_fee: string;
+  total_buying_price: string;
+  weighted_value: string;
+  dividend_eligible: string;
+  trade_time: string;
+  ratio_at_creation: string;
+  paid_dividend: string;
+  company_id: number;
+  budget_year: string;
+  created_at: string;
+}
 export interface DividendDistribution {
   id: number;
   dividend: string; // Read-only string representation
@@ -61,5 +81,29 @@ export class DividendService {
       params = params.set('user_id', userId.toString());
     }
     return this.http.get<DividendDistribution[]>(`${this.apiUrl}distributions/`, { params });
+  }
+  getDetailedHoldings(companyId: number, budgetYear: string): Observable<DividendDetailedHolding[]> {
+    let params = new HttpParams()
+      .set('company_id', companyId.toString())
+      .set('budget_year', budgetYear);
+    return this.http.get<DividendDetailedHolding[]>(`${this.apiUrl}detailed-holdings/`, { params });
+  }
+
+  // get trader dividend
+  getTraderDividends(budgetYear?: string): Observable<any> {
+    let params = new HttpParams();
+    if (budgetYear) {
+      params = params.set('budget_year', budgetYear);
+    }
+    return this.http.get(`${this.apiUrl}dividends/trader/`, { params });
+  }
+  // get regulators dividend
+
+  getRegulatorDividends(budgetYear?: string): Observable<any> {
+    let params = new HttpParams();
+    if (budgetYear) {
+      params = params.set('budget_year', budgetYear);
+    }
+    return this.http.get(`${this.apiUrl}dividends/regulator/`, { params });
   }
 }

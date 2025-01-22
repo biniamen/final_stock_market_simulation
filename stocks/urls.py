@@ -2,13 +2,17 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from .views import (
     CompanyDisclosuresView,
+    DashboardView,
     DirectStockPurchaseView,
     DisclosureViewSet,
     DistributeDividendView,
+    DividendDetailedHoldingViewSet,
     DividendDistributionViewSet,
+    RegulatorDividendListView,
     StockNetHoldingsView,
     StockTradesWithOrderInfoView,
     SuspiciousActivityViewSet,
+    TraderDividendListView,
     TraderOrdersView,
     TransactionAuditTrailViewSet,
     UserBalancesView,
@@ -38,6 +42,7 @@ router.register(r'audit-trails', TransactionAuditTrailViewSet, basename='audit-t
 # Register Suspicious Activity
 router.register(r'suspicious-activities', SuspiciousActivityViewSet, basename='suspicious-activity')
 router.register(r'distributions', DividendDistributionViewSet, basename='distribution')
+router.register(r'detailed-holdings', DividendDetailedHoldingViewSet, basename='dividend-detailed-holding')
 
 
 # Custom URL patterns
@@ -76,6 +81,11 @@ urlpatterns = [
     ),
        # User Balances Endpoint
     path('user_balances/', UserBalancesView.as_view(), name='user-balances'),
+     path('dividends/trader/', TraderDividendListView.as_view(), name='trader-dividends'),
+    path('dividends/regulator/', RegulatorDividendListView.as_view(), name='regulator-dividends'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
+
+    
 ]
 
 # Combine router URLs with custom URLs

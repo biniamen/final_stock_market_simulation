@@ -279,9 +279,9 @@ class DividendSerializer(serializers.ModelSerializer):
         Steps:
           1) get sum_weighted_value & holdingsData from request.data
           2) compute ratio
-          3) create Dividend (status stays 'Pending' until we finalize)
+          3) create Dividend (status is 'Pending' initially)
           4) create DividendDetailedHolding rows
-          5) for each 'Yes' => add to user profit_balance
+          5) if row is 'Yes' => add to user’s profit_balance
           6) set Dividend status='Disbursed'
         """
         request_data = self.context['request'].data
@@ -298,9 +298,10 @@ class DividendSerializer(serializers.ModelSerializer):
         ratio = (Decimal(str(total_div_amt)) / sum_weighted_value).quantize(Decimal('0.000001'))
 
         with transaction.atomic():
-            # 2) Create the Dividend (will still be 'Pending' at this instant)
+            # 2) Create the Dividend
             validated_data['dividend_ratio'] = ratio
-            dividend = super().create(validated_data)  # calls ModelSerializer.create()
+            dividend = super().create(validated_data)  
+            # e.g. => Dividend.objects.create(...)
 
             # 3) Build DividendDetailedHolding rows
             holding_rows = []
@@ -308,7 +309,6 @@ class DividendSerializer(serializers.ModelSerializer):
                 wv = Decimal(str(row.get('weighted_value', '0')))
                 paid_dividend = (ratio * wv).quantize(Decimal('0.01'))
 
-                # Build the record
                 holding_rows.append(DividendDetailedHolding(
                     dividend=dividend,
                     user_id=row.get('user_id'),
@@ -323,13 +323,19 @@ class DividendSerializer(serializers.ModelSerializer):
                     dividend_eligible=row.get('dividend_eligible', 'No'),
                     trade_time=row.get('trade_time'),
                     ratio_at_creation=ratio,
-                    paid_dividend=paid_dividend  # <--- newly added field
+                    paid_dividend=paid_dividend,
+                    # Populate NEW fields from the Dividend instance
+                    company_id=dividend.company.id,
+                    budget_year=dividend.budget_year
                 ))
 
             # 3a) Bulk create them
             DividendDetailedHolding.objects.bulk_create(holding_rows)
 
-            # 4) If dividend_eligible == "Yes", add to user.profit_balance
+            # 4) If user’s holding is "Yes", add to user’s profit_balance
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+
             for row in holdings_data:
                 if row.get('dividend_eligible') == 'Yes':
                     user_id = row.get('user_id')
@@ -337,13 +343,84 @@ class DividendSerializer(serializers.ModelSerializer):
                     paid_div = (ratio * wv).quantize(Decimal('0.01'))
                     if paid_div > 0:
                         user = User.objects.get(id=user_id)
-                        # user.profit_balance could be zero if not set; set default to 0
                         current_balance = getattr(user, 'profit_balance', Decimal('0.00'))
                         user.profit_balance = current_balance + paid_div
                         user.save()
 
-            # 5) Set the Dividend's status = 'Disbursed'
+            # 5) Set Dividend's status to 'Disbursed'
             dividend.status = 'Disbursed'
             dividend.save()
 
         return dividend
+
+class DividendDetailedHoldingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DividendDetailedHolding
+        fields = [
+            'id',
+            'dividend_id',         # from the ForeignKey
+            'user_id',
+            'username',
+            'stock_symbol',
+            'order_type',
+            'price',
+            'quantity',
+            'transaction_fee',
+            'total_buying_price',
+            'weighted_value',
+            'dividend_eligible',
+            'trade_time',
+            'ratio_at_creation',
+            'paid_dividend',
+            'company_id',          # new
+            'budget_year',         # new
+            'created_at'
+        ]
+# for traders to see their dividend    
+class TraderDividendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DividendDetailedHolding
+        fields = [
+            'id',
+            'dividend_id',
+            'stock_symbol',
+            'order_type',
+            'price',
+            'quantity',
+            'transaction_fee',
+            'total_buying_price',
+            'weighted_value',
+            'dividend_eligible',
+            'trade_time',
+            'ratio_at_creation',
+            'paid_dividend',
+            'created_at',
+        ]
+        
+# for regulators to see their dividend    
+class RegulatorDividendSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    company = serializers.CharField(source='dividend.company.company_name', read_only=True)
+    dividend = serializers.StringRelatedField()
+
+    class Meta:
+        model = DividendDetailedHolding
+        fields = [
+            'id',
+            'dividend_id',
+            'dividend',       # <-- Add it here
+            'user',
+            'company',
+            'stock_symbol',
+            'order_type',
+            'price',
+            'quantity',
+            'transaction_fee',
+            'total_buying_price',
+            'weighted_value',
+            'dividend_eligible',
+            'trade_time',
+            'ratio_at_creation',
+            'paid_dividend',
+            'created_at',
+        ]

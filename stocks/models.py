@@ -755,8 +755,6 @@ class DividendDistribution(models.Model):
                 f"User={self.user.username}, Amount={self.amount}")
         
     
-# models.py
-
 class DividendDetailedHolding(models.Model):
     dividend = models.ForeignKey(
         'Dividend',
@@ -780,9 +778,11 @@ class DividendDetailedHolding(models.Model):
     trade_time = models.DateTimeField()
 
     ratio_at_creation = models.DecimalField(max_digits=15, decimal_places=8, default=Decimal('0.00000000'))
-
-    # NEW field
     paid_dividend = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('0.00'))
+
+    # NEW FIELDS
+    company_id = models.IntegerField(null=True, blank=True)    # just store the Company’s primary key
+    budget_year = models.CharField(max_length=4, blank=True)   # the same Budget year as in Dividend
 
     created_at = models.DateTimeField(auto_now_add=True)
 

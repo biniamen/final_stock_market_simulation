@@ -32,6 +32,10 @@
         <mat-icon>cloud_upload</mat-icon>
         <span>Company Dividend</span>
       </a>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/dividend-detailed-holdings" routerLinkActive="active-link">
+        <mat-icon>cloud_upload</mat-icon>
+        <span>Company Disbursed Dividend</span>
+      </a>
 
       <!-- TRADER LINKS -->
       <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/portfolio" routerLinkActive="active-link">
@@ -68,7 +72,14 @@
         <mat-icon>history</mat-icon>
         <span>Suspicious Trading</span>
       </a>
-
+      <!-- Dividends Link (Available to Traders and Regulators) -->
+      <a *ngIf="userRole === 'trader' || userRole === 'regulator'" 
+        mat-list-item 
+        routerLink="/dividends" 
+        routerLinkActive="active-link">
+        <mat-icon>trending_up</mat-icon>
+        <span>Dividends</span>
+      </a>
       <!-- LOGOUT -->
       <a mat-list-item href="#" class="menu-item logout" (click)="onLogout()">
         <mat-icon>logout</mat-icon>

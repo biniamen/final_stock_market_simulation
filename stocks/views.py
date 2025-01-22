@@ -11,20 +11,25 @@ from rest_framework.decorators import action
 import datetime
 from django.utils import timezone
 from django.db.models import Sum, F, Q, DecimalField, ExpressionWrapper
+from django.utils.timezone import make_aware,now
 
 from stocks import permissions
+from rest_framework import generics
 from stocks.dividend_calculation import distribute_dividend
 from stocks.models_audit import TransactionAuditTrail
-from stocks.permissions import IsRegulatorUser
-from .models import Disclosure, DividendDistribution, UsersPortfolio, ListedCompany, Stocks, Orders, Trade, Dividend
+from stocks.permissions import IsRegulator, IsRegulatorUser, IsTrader
+from .models import Disclosure, DividendDetailedHolding, DividendDistribution, UsersPortfolio, ListedCompany, Stocks, Orders, Trade, Dividend
 from .serializers import (
     DirectStockPurchaseSerializer,
     DisclosureSerializer,
+    DividendDetailedHoldingSerializer,
     DividendDistributionSerializer,
+    RegulatorDividendSerializer,
     SuspiciousActivityDetailSerializer,
     TradeWithOrderInfoOutputSerializer,
     TradeWithOrderInfoSerializer,
     TradeWithOrderSerializer,
+    TraderDividendSerializer,
     TransactionAuditTrailSerializer,
     UserBalanceSerializer,
     UsersPortfolioSerializer,
@@ -493,87 +498,98 @@ class StockNetHoldingsView(APIView):
     subtraction of SELL trades. Returns only the leftover 'Buy' trades with
     correct quantities, plus weighted_value and dividend_eligible calculations.
     """
-    #permission_classes = [permissions.IsAuthenticated]  # Adjust as needed
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access
 
     def get(self, request, stock_id):
-        # 1) Validate the Stock
+        # 1. Validate the Stock
         try:
             stock = Stocks.objects.get(id=stock_id)
         except Stocks.DoesNotExist:
             return Response({"error": "Stock not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        # 2) Query all trades for this stock, sorted by trade_time ascending
+        # 2. Query all trades for this stock, sorted by trade_time ascending
         trades = Trade.objects.filter(stock=stock).select_related('user', 'stock', 'order').order_by('trade_time')
 
-        # 3) Determine current_price (from query param or database)
+        # 3. Determine current_price (from query param or database)
         current_price_param = request.query_params.get('current_price', None)
         if current_price_param:
             try:
-                current_price = float(current_price_param)
-            except ValueError:
-                return Response({"error": "Invalid current_price parameter."}, status=status.HTTP_400_BAD_REQUEST)
+                current_price = Decimal(current_price_param)
+                if current_price <= 0:
+                    raise ValueError
+            except (ValueError, TypeError):
+                return Response({"error": "Invalid 'current_price' parameter. It must be a positive number."},
+                                status=status.HTTP_400_BAD_REQUEST)
         else:
-            current_price = float(stock.current_price)  # from DB
+            current_price = stock.current_price  # from DB
 
-        # 4) FIFO processing: Track each user's "Buy" trades and subtract "Sells"
-        user_buy_trades_map = defaultdict(list)
+        # 4. FIFO processing: Track each user's "Buy" trades and subtract "Sells"
+        user_buy_trades_map = defaultdict(list)  # Maps user_id to list of buy trades
 
         for tr in trades:
             user_id = tr.user.id
-            if tr.order.action.lower() == 'buy':
-                # Append a buy trade with a 'remaining_quantity'
+            action = tr.order.action.lower()
+
+            if action == 'buy':
+                # Append a buy trade with 'remaining_quantity' initialized
                 user_buy_trades_map[user_id].append({
                     "id": tr.id,
                     "user_id": user_id,
                     "username": tr.user.username,
                     "stock_symbol": tr.stock.ticker_symbol,
                     "order_type": tr.order.order_type,
-                    "price": float(tr.price),
+                    "price": tr.price,
                     "quantity": tr.quantity,
-                    "transaction_fee": float(tr.transaction_fee),
+                    "transaction_fee": tr.transaction_fee,
                     "trade_time": tr.trade_time,
                     "remaining_quantity": tr.quantity,  # Initialize remaining_quantity
                 })
-            elif tr.order.action.lower() == 'sell':
+            elif action == 'sell':
                 # Process sell trades by reducing from earliest buy trades (FIFO)
                 sell_qty = tr.quantity
-                if user_buy_trades_map[user_id]:
-                    buy_trades = user_buy_trades_map[user_id]
-                    for buy_tr in buy_trades:
-                        if buy_tr["remaining_quantity"] > 0:
-                            if buy_tr["remaining_quantity"] >= sell_qty:
-                                buy_tr["remaining_quantity"] -= sell_qty
-                                sell_qty = 0
-                                break  # All sell quantity accounted for
-                            else:
-                                sell_qty -= buy_tr["remaining_quantity"]
-                                buy_tr["remaining_quantity"] = 0
-                    if sell_qty > 0:
-                        # User sold more shares than bought
-                        return Response(
-                            {"error": f"User {user_id} sold more shares than bought. Data inconsistency."},
-                            status=status.HTTP_400_BAD_REQUEST
-                        )
-                else:
+
+                if not user_buy_trades_map[user_id]:
                     # User has no buy trades but is trying to sell
                     return Response(
-                        {"error": f"User {user_id} has sells but no buys. Data inconsistency."},
+                        {"error": f"User {user_id} has sell trades but no corresponding buy trades."},
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
-        # 5) Build final list of "Buy" trades with remaining_quantity > 0
+                buy_trades = user_buy_trades_map[user_id]
+                for buy_tr in buy_trades:
+                    if buy_tr["remaining_quantity"] <= 0:
+                        continue  # Skip fully sold buy trades
+
+                    if buy_tr["remaining_quantity"] >= sell_qty:
+                        buy_tr["remaining_quantity"] -= sell_qty
+                        sell_qty = 0
+                        break  # All sell quantity accounted for
+                    else:
+                        sell_qty -= buy_tr["remaining_quantity"]
+                        buy_tr["remaining_quantity"] = 0
+
+                if sell_qty > 0:
+                    # User sold more shares than bought
+                    return Response(
+                        {"error": f"User {user_id} sold more shares than bought. Data inconsistency."},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+        # 5. Build final list of "Buy" trades with remaining_quantity > 0
         results = []
         for user_id, buy_trades in user_buy_trades_map.items():
             for buy_tr in buy_trades:
-                if buy_tr["remaining_quantity"] > 0:
-                    # Calculate Weighted Value and Dividend Eligibility
+                remaining_qty = buy_tr["remaining_quantity"]
+                if remaining_qty > 0:
                     trade_date = buy_tr["trade_time"]
-                    number_of_days_stayed = self.calculate_days_stayed(trade_date)
+                    days_stayed = self.calculate_days_stayed(trade_date)
 
-                    weighted_value = (number_of_days_stayed / 365) * buy_tr["remaining_quantity"] * current_price
-                    dividend_eligible = "Yes" if number_of_days_stayed >= 10 else "No"
+                    weighted_value = (Decimal(days_stayed) / Decimal(365)) * Decimal(remaining_qty) * current_price
+                    weighted_value = weighted_value.quantize(Decimal('0.01'))  # Round to 2 decimal places
 
-                    total_buying_price = buy_tr["price"] * buy_tr["remaining_quantity"]
+                    dividend_eligible = "Yes" if days_stayed >= 10 else "No"
+
+                    total_buying_price = buy_tr["price"] * Decimal(remaining_qty)
 
                     results.append({
                         "id": buy_tr["id"],
@@ -582,7 +598,7 @@ class StockNetHoldingsView(APIView):
                         "stock_symbol": buy_tr["stock_symbol"],
                         "order_type": buy_tr["order_type"],
                         "price": f"{buy_tr['price']:.2f}",
-                        "quantity": buy_tr["remaining_quantity"],
+                        "quantity": remaining_qty,
                         "transaction_fee": f"{buy_tr['transaction_fee']:.2f}",
                         "trade_time": buy_tr["trade_time"],
                         "total_buying_price": f"{total_buying_price:.2f}",
@@ -590,34 +606,40 @@ class StockNetHoldingsView(APIView):
                         "dividend_eligible": dividend_eligible,
                     })
 
-        # 6) Serialize and return
+        # 6. Serialize and return
         serializer = TradeWithOrderInfoOutputSerializer(results, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def calculate_days_stayed(self, trade_date):
         """
-        Calculate how many days from trade_date to the end of the financial year.
-        Financial year = July 1 to June 30. If trade_date >= July, end = June 30 of next year.
-        Otherwise June 30 of the same year.
+        Calculate the number of days from trade_date to June 30 of the current financial year,
+        including both the start date and the end date. Logs the result for debugging.
         """
-        # Convert trade_date to UTC
-        trade_date_utc = trade_date.astimezone(datetime.timezone.utc)
+        # Ensure trade_date is timezone-aware
+        if timezone.is_naive(trade_date):
+            trade_date = make_aware(trade_date, timezone.get_current_timezone())
 
-        year = trade_date_utc.year
-        month = trade_date_utc.month
+        # Define end of financial year based on trade_date
+        year = trade_date.year
+        month = trade_date.month
 
         if month >= 7:
-            fy_end_naive = datetime.datetime(year + 1, 6, 30)
+            fy_end = datetime.datetime(year + 1, 6, 30, tzinfo=datetime.timezone.utc)
         else:
-            fy_end_naive = datetime.datetime(year, 6, 30)
+            fy_end = datetime.datetime(year, 6, 30, tzinfo=datetime.timezone.utc)
 
-        # Make fy_end aware in UTC
-        fy_end_utc = fy_end_naive.replace(tzinfo=datetime.timezone.utc)
+        # Calculate difference in days and include both start and end dates
+        delta = fy_end - trade_date.astimezone(datetime.timezone.utc)
+        days_stayed = delta.days + 1  # Add 1 to include both dates
 
-        # Now both are aware in UTC, subtraction is valid
-        diff_in_days = (fy_end_utc - trade_date_utc).days
-        diff_in_days = max(0, min(diff_in_days, 365))
-        return diff_in_days
+        # Clamp the value between 0 and 365 (financial year limit)
+        days_stayed = max(0, min(days_stayed, 365))
+
+        # Log the result
+        print(f"Trade Date: {trade_date}, FY End Date: {fy_end}, Days Stayed: {days_stayed}")
+
+        return days_stayed
+
     
 class UserBalancesView(APIView):
     """
@@ -700,3 +722,177 @@ class UserBalancesView(APIView):
             response_data.append(serialized_user.data)
 
         return Response(response_data, status=200)
+    
+class DividendDetailedHoldingViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet to retrieve the dividend details that were disbursed to each user,
+    optionally filtering by company_id and budget_year.
+    """
+    queryset = DividendDetailedHolding.objects.all().order_by('-created_at')
+    serializer_class = DividendDetailedHoldingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        company_id = self.request.query_params.get('company_id')
+        budget_year = self.request.query_params.get('budget_year')
+        if company_id:
+            qs = qs.filter(company_id=company_id)
+        if budget_year:
+            qs = qs.filter(budget_year=budget_year)
+        return qs
+ 
+# trader's view   
+class TraderDividendListView(generics.ListAPIView):
+    """
+    API endpoint for traders to view their own dividends filtered by budget year.
+    """
+    serializer_class = TraderDividendSerializer
+    permission_classes = [IsAuthenticated, IsTrader]
+
+    def get_queryset(self):
+        user = self.request.user
+        budget_year = self.request.query_params.get('budget_year')
+        queryset = DividendDetailedHolding.objects.filter(user=user)
+        if budget_year:
+            queryset = queryset.filter(budget_year=budget_year)
+        return queryset.order_by('-created_at')
+
+# regulators view
+class RegulatorDividendListView(generics.ListAPIView):
+    """
+    API endpoint for regulators to view all dividends.
+    """
+    serializer_class = RegulatorDividendSerializer
+    permission_classes = [IsAuthenticated, IsRegulator]
+
+    def get_queryset(self):
+        budget_year = self.request.query_params.get('budget_year')
+        queryset = DividendDetailedHolding.objects.all()
+        if budget_year:
+            queryset = queryset.filter(budget_year=budget_year)
+        return queryset.order_by('-created_at')
+    
+    
+
+class DashboardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        """
+        Returns a comprehensive dashboard dataset depending on the user's role.
+        """
+        user = request.user
+        role = user.role
+
+        dashboard_data = {
+            "user_info": {
+                "username": user.username,
+                "role": role,
+                "account_balance": str(user.account_balance),
+                "profit_balance": str(getattr(user, 'profit_balance', 0.00)),
+                "date_registered": user.date_registered,
+                "last_login": user.last_login,
+            },
+            "timestamp": now().isoformat()
+        }
+
+        # ---- 1. Common data for all roles (e.g., a list of top Stocks, etc.) ----
+        # Example: Get top 5 stocks by current_price
+        top_stocks = Stocks.objects.order_by('-current_price')[:5]
+        top_stocks_data = []
+        for stk in top_stocks:
+            top_stocks_data.append({
+                "ticker_symbol": stk.ticker_symbol,
+                "company_name": stk.company.company_name,
+                "current_price": str(stk.current_price),
+                "available_shares": stk.available_shares,
+            })
+
+        dashboard_data["top_stocks"] = top_stocks_data
+
+        # ---- 2. Trader-Specific Data ----
+        if role == 'trader':
+            # e.g. portfolio summary (already in user.account_balance, but let's do more)
+            # Summaries from the user's orders or trades
+            total_orders = Orders.objects.filter(user=user).count()
+            total_trades = Trade.objects.filter(user=user).count()
+            # Could also get the user's portfolio from UsersPortfolio
+            try:
+                portfolio = UsersPortfolio.objects.get(user=user)
+                trader_portfolio = {
+                    "quantity": portfolio.quantity,
+                    "average_purchase_price": str(portfolio.average_purchase_price),
+                    "total_investment": str(portfolio.total_investment),
+                }
+            except UsersPortfolio.DoesNotExist:
+                trader_portfolio = {
+                    "quantity": 0,
+                    "average_purchase_price": "0.00",
+                    "total_investment": "0.00",
+                }
+            
+            # Example aggregator for trader
+            dashboard_data["trader_data"] = {
+                "total_orders": total_orders,
+                "total_trades": total_trades,
+                "portfolio": trader_portfolio,
+            }
+
+        # ---- 3. Regulator-Specific Data ----
+        elif role == 'regulator':
+            # e.g. system-wide stats, total number of trades, suspicious activities, etc.
+            total_users = User.objects.all().count()
+            total_orders = Orders.objects.all().count()
+            total_trades = Trade.objects.all().count()
+            suspicious_count = SuspiciousActivity.objects.filter(reviewed=False).count()
+
+            # Example aggregator for regulator
+            dashboard_data["regulator_data"] = {
+                "total_users": total_users,
+                "total_orders": total_orders,
+                "total_trades": total_trades,
+                "pending_suspicious_activities": suspicious_count,
+            }
+
+        # ---- 4. Company Admin-Specific Data ----
+        elif role == 'company_admin':
+            # e.g. fetch the company linked, plus the disclosures or dividends for that company
+            if user.company_id:
+                # If your approach to linking a company is user.company_id
+                user_company_id = user.company_id
+                try:
+                    company = ListedCompany.objects.get(id=user_company_id)
+                    total_stocks = Stocks.objects.filter(company=company).count()
+                    # example aggregator
+                    admin_info = {
+                        "company_name": company.company_name,
+                        "company_sector": company.sector,
+                        "total_stocks_published": total_stocks,
+                    }
+
+                    # maybe list of disclosures
+                    disclosures = Disclosure.objects.filter(company=company)
+                    admin_info["disclosures_count"] = disclosures.count()
+
+                    # maybe list of dividends for that company
+                    dividends = Dividend.objects.filter(company=company)
+                    admin_info["dividends_count"] = dividends.count()
+
+                    dashboard_data["company_admin_data"] = admin_info
+
+                except ListedCompany.DoesNotExist:
+                    dashboard_data["company_admin_data"] = {
+                        "error": "No linked company found for this admin user."
+                    }
+            else:
+                dashboard_data["company_admin_data"] = {
+                    "error": "Company admin has no company_id linked."
+                }
+
+        else:
+            # If role is something else
+            dashboard_data["message"] = "No additional dashboard data for this role."
+
+        # Return final aggregated data
+        return Response(dashboard_data, status=200)

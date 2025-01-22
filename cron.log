@@ -62,3 +62,9 @@ WARNINGS:
 	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE.
 Successfully cancelled all pending orders.
 [Fri 01/17/2025 23:35:38.82] Finished cancel_pending_orders 
+[Wed 01/22/2025 23:35:38.18] Starting cancel_pending_orders 
+System check identified some issues:
+
+WARNINGS:
+?: (debug_toolbar.W001) debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE.
+	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE.

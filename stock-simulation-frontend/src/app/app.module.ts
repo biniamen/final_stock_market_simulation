@@ -51,6 +51,9 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { TradesWithOrderInfoUsingStockIDComponent } from './components/trades-with-order-info-using-stock-id/trades-with-order-info-using-stock-id.component';
 import { AddDividendDialogComponent } from './components/add-dividend-dialog/add-dividend-dialog.component';
+import { DividendDetailedHoldingsComponent } from './components/dividend-detailed-holdings/dividend-detailed-holdings.component';
+import { DividendsComponent } from './components/dividends/dividends.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,9 @@ import { AddDividendDialogComponent } from './components/add-dividend-dialog/add
     TransactionAuditListComponent,
     SuspiciousActivitiesComponent,
     TradesWithOrderInfoUsingStockIDComponent,
-    AddDividendDialogComponent
+    AddDividendDialogComponent,
+    DividendDetailedHoldingsComponent,
+    DividendsComponent
   ],
   imports: [
     BrowserModule,
@@ -110,6 +115,7 @@ import { AddDividendDialogComponent } from './components/add-dividend-dialog/add
     MatGridListModule,
     MatSnackBarModule, // Add MatSnackBarModule here
 
+    NgChartsModule,
 
   ],
    providers: [

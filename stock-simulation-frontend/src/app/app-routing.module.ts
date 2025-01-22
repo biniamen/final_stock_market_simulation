@@ -19,6 +19,8 @@ import { TransactionAuditListComponent } from './components/transaction-audit-li
 import { SuspiciousActivitiesComponent } from './components/suspicious-activities/suspicious-activities.component';
 import { CompanyDividendsComponent } from './components/company-dividends/company-dividends.component';
 import { TradesWithOrderInfoUsingStockIDComponent } from './components/trades-with-order-info-using-stock-id/trades-with-order-info-using-stock-id.component';
+import { DividendDetailedHoldingsComponent } from './components/dividend-detailed-holdings/dividend-detailed-holdings.component';
+import { DividendsComponent } from './components/dividends/dividends.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -53,7 +55,8 @@ const routes: Routes = [
       { path: 'audit-trails', component: TransactionAuditListComponent },
       { path: 'suspicious-activities', component: SuspiciousActivitiesComponent },
       { path: 'tradeInfoforStock', component: TradesWithOrderInfoUsingStockIDComponent },
-      { path: 'dividend', component: CompanyDividendsComponent },
+      { path: 'dividends', component: DividendsComponent },
+      { path: 'dividend-detailed-holdings', component: DividendDetailedHoldingsComponent },
 
 
       // { path: 'otp-verification', component: OtpVerificationComponent },

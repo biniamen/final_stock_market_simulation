@@ -1,8 +1,81 @@
-<div class="home-container">
-  <div class="content-wrapper">
-    <h1>Welcome to the Ethiopian Stock Market Simulation Platform</h1>
-    <p class="description">
-      Explore market trends, manage your portfolio, and trade stocks in a simulated environment.
-    </p>
+<!-- src/app/components/dashboard/dashboard.component.html -->
+
+<div class="dashboard-container">
+  <h2>Dashboard</h2>
+
+  <div *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="error">
+    <p class="error">{{ error }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && !error">
+    <h3>User Info</h3>
+    <ul>
+      <li>Username: {{ dashboardData.user_info?.username }}</li>
+      <li>Role: {{ dashboardData.user_info?.role }}</li>
+      <li>Account Balance: {{ dashboardData.user_info?.account_balance }}</li>
+      <li>Profit Balance: {{ dashboardData.user_info?.profit_balance }}</li>
+    </ul>
+
+    <h3>Top Stocks</h3>
+    <div *ngIf="dashboardData.top_stocks">
+      <table mat-table [dataSource]="dashboardData.top_stocks">
+        <ng-container matColumnDef="ticker_symbol">
+          <th mat-header-cell *matHeaderCellDef>Ticker</th>
+          <td mat-cell *matCellDef="let stock">{{ stock.ticker_symbol }}</td>
+        </ng-container>
+        <ng-container matColumnDef="company_name">
+          <th mat-header-cell *matHeaderCellDef>Company</th>
+          <td mat-cell *matCellDef="let stock">{{ stock.company_name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="current_price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let stock">{{ stock.current_price }}</td>
+        </ng-container>
+        <ng-container matColumnDef="available_shares">
+          <th mat-header-cell *matHeaderCellDef>Shares</th>
+          <td mat-cell *matCellDef="let stock">{{ stock.available_shares }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['ticker_symbol','company_name','current_price','available_shares']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['ticker_symbol','company_name','current_price','available_shares'];"></tr>
+      </table>
+    </div>
+
+    <!-- Trader-specific data -->
+    <div *ngIf="dashboardData.trader_data">
+      <h3>Trader Data</h3>
+      <p>Total Orders: {{ dashboardData.trader_data.total_orders }}</p>
+      <p>Total Trades: {{ dashboardData.trader_data.total_trades }}</p>
+      <p>Portfolio Quantity: {{ dashboardData.trader_data.portfolio?.quantity }}</p>
+      <p>Portfolio Investment: {{ dashboardData.trader_data.portfolio?.total_investment }}</p>
+    </div>
+
+    <!-- Regulator-specific data -->
+    <div *ngIf="dashboardData.regulator_data">
+      <h3>Regulator Data</h3>
+      <p>Total Users: {{ dashboardData.regulator_data.total_users }}</p>
+      <p>Total Orders: {{ dashboardData.regulator_data.total_orders }}</p>
+      <p>Total Trades: {{ dashboardData.regulator_data.total_trades }}</p>
+      <p>Pending Suspicious Activities: {{ dashboardData.regulator_data.pending_suspicious_activities }}</p>
+    </div>
+
+    <!-- Company Admin data -->
+    <div *ngIf="dashboardData.company_admin_data">
+      <h3>Company Admin Data</h3>
+      <p *ngIf="dashboardData.company_admin_data.error">{{ dashboardData.company_admin_data.error }}</p>
+      <div *ngIf="!dashboardData.company_admin_data.error">
+        <p>Company: {{ dashboardData.company_admin_data.company_name }}</p>
+        <p>Sector: {{ dashboardData.company_admin_data.company_sector }}</p>
+        <p>Total Stocks Published: {{ dashboardData.company_admin_data.total_stocks_published }}</p>
+        <p>Disclosures Count: {{ dashboardData.company_admin_data.disclosures_count }}</p>
+        <p>Dividends Count: {{ dashboardData.company_admin_data.dividends_count }}</p>
+      </div>
+    </div>
+
+    <p>Data fetched at: {{ dashboardData.timestamp }}</p>
   </div>
 </div>
