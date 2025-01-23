@@ -2,84 +2,148 @@
 <mat-sidenav-container *ngIf="isLoggedIn" class="example-container">
   <!-- Sidebar -->
   <mat-sidenav mode="side" opened class="sidenav">
-    <!-- <mat-toolbar color="primary" class="sidenav-toolbar">
-      <h3>Menu</h3>
-    </mat-toolbar> -->
     <mat-toolbar color="primary" class="sidenav-toolbar">
-      <img src="../../assets/esx.jpg" alt="ESX Simulation Logo" class="sidebar-logo" />
-      <h3>Menu</h3>
+      <div class="sidebar-header">
+        <!-- Larger/clearer logo -->
+        <img src="../../assets/esx.jpg" alt="ESX Simulation Logo" class="sidebar-logo" />
+        <h3 class="sidebar-title">ESX Simulation</h3>
+      </div>
     </mat-toolbar>
 
     <mat-nav-list>
       <!-- COMPANY ADMIN LINKS -->
-      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/publish-stock" routerLinkActive="active-link">
-        <mat-icon>business</mat-icon>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+         routerLink="/publish-stock" 
+         routerLinkActive="active-link">
+        <mat-icon>work</mat-icon>
         <span>Company Stock</span>
       </a>
-      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/add-stock" routerLinkActive="active-link">
-        <mat-icon>add</mat-icon>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+         routerLink="/add-stock" 
+         routerLinkActive="active-link">
+        <mat-icon>add_business</mat-icon>
         <span>Add Stock</span>
       </a>
-      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/upload-disclosure" routerLinkActive="active-link">
+      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+         routerLink="/upload-disclosure" 
+         routerLinkActive="active-link">
         <mat-icon>cloud_upload</mat-icon>
         <span>Upload Disclosure</span>
       </a>
-      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/tradeInfoforStock" routerLinkActive="active-link">
-        <mat-icon>cloud_upload</mat-icon>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+         routerLink="/tradeInfoforStock" 
+         routerLinkActive="active-link">
+        <mat-icon>bar_chart</mat-icon>
         <span>Company Stock Traded</span>
       </a>
-      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/dividend" routerLinkActive="active-link">
-        <mat-icon>cloud_upload</mat-icon>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+         routerLink="/dividend" 
+         routerLinkActive="active-link">
+        <mat-icon>paid</mat-icon>
         <span>Company Dividend</span>
       </a>
-      <a *ngIf="userRole === 'company_admin'" mat-list-item routerLink="/dividend-detailed-holdings" routerLinkActive="active-link">
-        <mat-icon>cloud_upload</mat-icon>
-        <span>Company Disbursed Dividend</span>
+      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+         routerLink="/dividend-detailed-holdings" 
+         routerLinkActive="active-link">
+        <mat-icon>receipt_long</mat-icon>
+        <span>Disbursed Dividend</span>
       </a>
 
       <!-- TRADER LINKS -->
-      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/portfolio" routerLinkActive="active-link">
+      <a *ngIf="userRole === 'trader'" mat-list-item 
+         routerLink="/portfolio" 
+         routerLinkActive="active-link">
         <mat-icon>account_balance_wallet</mat-icon>
         <span>Portfolio</span>
       </a>
-      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/tradingInfo" routerLinkActive="active-link">
-        <mat-icon>list</mat-icon>
-        <span>Trader Trading Info</span>
+      <a *ngIf="userRole === 'trader'" mat-list-item 
+         routerLink="/tradingInfo" 
+         routerLinkActive="active-link">
+        <mat-icon>insert_chart_outlined</mat-icon>
+        <span>Trading Info</span>
       </a>
-      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/orders" routerLinkActive="active-link">
-        <mat-icon>list_alt</mat-icon>
+      <a *ngIf="userRole === 'trader'" mat-list-item 
+         routerLink="/orders" 
+         routerLinkActive="active-link">
+        <mat-icon>shopping_cart</mat-icon>
         <span>Trader Orders</span>
       </a>
-      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/stocks" routerLinkActive="active-link">
+      <a *ngIf="userRole === 'trader'" mat-list-item 
+         routerLink="/stocks" 
+         routerLinkActive="active-link">
         <mat-icon>storefront</mat-icon>
         <span>Listed Stocks</span>
       </a>
-      <a *ngIf="userRole === 'trader'" mat-list-item routerLink="/bid-order" routerLinkActive="active-link">
+      <a *ngIf="userRole === 'trader'" mat-list-item 
+         routerLink="/bid-order" 
+         routerLinkActive="active-link">
         <mat-icon>gavel</mat-icon>
         <span>Bid Order</span>
       </a>
 
       <!-- REGULATOR LINKS -->
-      <a *ngIf="userRole === 'regulator'" mat-list-item routerLink="/users-list" routerLinkActive="active-link">
-        <mat-icon>people</mat-icon>
+      <a *ngIf="userRole === 'regulator'" mat-list-item 
+         routerLink="/users-list" 
+         routerLinkActive="active-link">
+        <mat-icon>group</mat-icon>
         <span>User List</span>
       </a>
-      <a *ngIf="userRole === 'regulator'" mat-list-item routerLink="/audit-trails" routerLinkActive="active-link">
+      <a *ngIf="userRole === 'regulator'" mat-list-item 
+         routerLink="/audit-trails" 
+         routerLinkActive="active-link">
+        <!-- Renamed "Audit Trial" to "Audit Trail" -->
         <mat-icon>history</mat-icon>
-        <span>Audit Trial</span>
+        <span>Audit Trail</span>
       </a>
-      <a *ngIf="userRole === 'regulator'" mat-list-item routerLink="/suspicious-activities" routerLinkActive="active-link">
-        <mat-icon>history</mat-icon>
-        <span>Suspicious Trading</span>
+      <a *ngIf="userRole === 'regulator'" mat-list-item 
+         routerLink="/suspicious-activities" 
+         routerLinkActive="active-link">
+        <!-- or "flag" icon for suspicious -->
+        <mat-icon>report</mat-icon>
+        <span>Suspicious Activities</span>
       </a>
+
+      <!-- NESTED REGULATIONS MENU -->
+      <mat-expansion-panel *ngIf="userRole === 'regulator'" class="nested-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>policy</mat-icon>
+            <span>Regulations</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <!-- Child items -->
+        <mat-action-list>
+          <a mat-list-item 
+             routerLink="/regulations" 
+             routerLinkActive="active-link">
+            <mat-icon>gavel</mat-icon>
+            <span>Compliance</span>
+          </a>
+          <a mat-list-item 
+             routerLink="/workingHour" 
+             routerLinkActive="active-link">
+            <mat-icon>schedule</mat-icon>
+            <span>System Working Hour</span>
+          </a>
+          <a mat-list-item 
+             routerLink="/suspension" 
+             routerLinkActive="active-link">
+            <mat-icon>block</mat-icon>
+            <span>Suspend Trader</span>
+          </a>
+        </mat-action-list>
+      </mat-expansion-panel>
+
       <!-- Dividends Link (Available to Traders and Regulators) -->
-      <a *ngIf="userRole === 'trader' || userRole === 'regulator'" 
-        mat-list-item 
-        routerLink="/dividends" 
-        routerLinkActive="active-link">
+      <a *ngIf="userRole === 'trader' || userRole === 'regulator'"
+         mat-list-item
+         routerLink="/dividends"
+         routerLinkActive="active-link">
         <mat-icon>trending_up</mat-icon>
         <span>Dividends</span>
       </a>
+
       <!-- LOGOUT -->
       <a mat-list-item href="#" class="menu-item logout" (click)="onLogout()">
         <mat-icon>logout</mat-icon>
@@ -92,7 +156,7 @@
   <mat-sidenav-content>
     <!-- Top Toolbar -->
     <mat-toolbar color="primary" class="main-toolbar">
-      <!-- Logo/Brand Section -->
+      <!-- Brand Section -->
       <div class="brand-section">
         <mat-icon class="brand-icon">analytics</mat-icon>
         <span class="brand-name">ESX Simulation</span>
@@ -117,7 +181,7 @@
         </div>
       </div>
 
-      <!-- Optionally, a notifications icon (remove if you don't need it) -->
+      <!-- Notifications Icon (optional) -->
       <button mat-icon-button class="notif-btn">
         <mat-icon>notifications</mat-icon>
       </button>
@@ -126,6 +190,7 @@
       <button mat-raised-button color="warn" (click)="onLogout()">Logout</button>
     </mat-toolbar>
 
+    <!-- Router Outlet for Dynamic Pages -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

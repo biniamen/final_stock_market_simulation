@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="page-header">
+      <h1 class="page-title">System Working Hours</h1>
+    </div>
+  
+    <mat-card-title>
+      
+      <div style="float: right;">
+        <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
+        <button mat-raised-button color="primary" (click)="printTable()">Print</button>
+        <button mat-raised-button color="warn" (click)="openAddWorkingHourModal()">
+          Add Working Hour
+        </button>
+      </div>
+    </mat-card-title>
+  
+    <mat-card>
+      <mat-card-content>
+        <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  
+        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 full-width-table">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+          </ng-container>
+  
+          <!-- Day of Week Column -->
+          <ng-container matColumnDef="day_of_week">
+            <mat-header-cell *matHeaderCellDef>Day of Week</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.day_of_week }}</mat-cell>
+          </ng-container>
+  
+          <!-- Start Time Column -->
+          <ng-container matColumnDef="start_time">
+            <mat-header-cell *matHeaderCellDef>Start Time</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.start_time }}</mat-cell>
+          </ng-container>
+  
+          <!-- End Time Column -->
+          <ng-container matColumnDef="end_time">
+            <mat-header-cell *matHeaderCellDef>End Time</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.end_time }}</mat-cell>
+          </ng-container>
+  
+          <!-- Header and Row Declarations -->
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            (click)="openEditWorkingHourModal(row)"
+            style="cursor: pointer;"
+          ></mat-row>
+        </mat-table>
+  
+        <mat-paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <!-- Add/Edit Working Hour Modal -->
+  <ng-template #workingHourDialog>
+    <h1 mat-dialog-title>{{ isEditMode ? 'Edit Working Hour' : 'Add Working Hour' }}</h1>
+    <div mat-dialog-content>
+      <form [formGroup]="workingHourForm">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Day of Week</mat-label>
+          <mat-select formControlName="day_of_week">
+            <mat-option *ngFor="let day of daysOfWeek" [value]="day">
+              {{ day }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="workingHourForm.get('day_of_week')?.hasError('required')">
+            Day of week is required
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Start Time</mat-label>
+          <input matInput formControlName="start_time" placeholder="HH:mm">
+          <mat-error *ngIf="workingHourForm.get('start_time')?.hasError('required')">
+            Start time is required
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>End Time</mat-label>
+          <input matInput formControlName="end_time" placeholder="HH:mm">
+          <mat-error *ngIf="workingHourForm.get('end_time')?.hasError('required')">
+            End time is required
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="submitWorkingHour()"
+        [disabled]="workingHourForm.invalid"
+      >
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </ng-template>
+  

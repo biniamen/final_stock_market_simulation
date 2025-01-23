@@ -98,6 +98,7 @@ REST_FRAMEWORK = {
         'anon': '5/minute',   # Global rate limit for anonymous users
         'login': '3/minute',  # Rate limit for the login endpoint
     },
+    
 }
 
 from datetime import timedelta

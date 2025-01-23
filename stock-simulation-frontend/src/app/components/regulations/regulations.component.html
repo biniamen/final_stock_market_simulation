@@ -1,0 +1,125 @@
+<div class="container">
+    <div class="page-header">
+      <h1 class="page-title">System Compliance</h1>
+    </div>
+  
+    <mat-card-title>
+      Actions
+      <div style="float: right;">
+        <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
+        <button mat-raised-button color="primary" (click)="printTable()">Print</button>
+        <button mat-raised-button color="warn" (click)="openAddRegulationModal()">
+          Add Regulation
+        </button>
+      </div>
+    </mat-card-title>
+  
+    <mat-card>
+      <mat-card-content>
+        <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  
+        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 full-width-table">
+  
+          <!-- ID -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+          </ng-container>
+  
+          <!-- Name -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+          </ng-container>
+  
+          <!-- Value -->
+          <ng-container matColumnDef="value">
+            <mat-header-cell *matHeaderCellDef>Value</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.value }}</mat-cell>
+          </ng-container>
+  
+          <!-- Description -->
+          <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.description }}
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Created At -->
+          <ng-container matColumnDef="created_at">
+            <mat-header-cell *matHeaderCellDef>Created At</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.created_at | date:'short' }}
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Last Updated -->
+          <ng-container matColumnDef="last_updated">
+            <mat-header-cell *matHeaderCellDef>Last Updated</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.last_updated | date:'short' }}
+            </mat-cell>
+          </ng-container>
+  
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            (click)="openEditRegulationModal(row)"  
+            style="cursor: pointer;"
+          ></mat-row>
+        </mat-table>
+  
+        <mat-paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <!-- The Add/Edit Modal in the SAME component -->
+  <ng-template #regulationDialog>
+    <h1 mat-dialog-title>
+      {{ isEditMode ? 'Edit Regulation' : 'Add Regulation' }}
+    </h1>
+  
+    <div mat-dialog-content>
+      <form [formGroup]="regulationForm">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name">
+          <mat-error *ngIf="regulationForm.get('name')?.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Value</mat-label>
+          <input matInput formControlName="value">
+          <mat-error *ngIf="regulationForm.get('value')?.hasError('required')">
+            Value is required
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </form>
+    </div>
+  
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="submitRegulation()"
+        [disabled]="regulationForm.invalid"
+      >
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </ng-template>
+  

@@ -12,21 +12,37 @@
  * Sidebar (Sidenav)
  **************************************/
 .sidenav {
-  width: 280px;
+  width: 300px; /* slightly wider for a more spacious feel */
   background-color: #ffffff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Sidebar Header */
 .sidenav-toolbar {
   background-color: #673ab7; /* Primary color for your sidebar header */
   color: white;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 8px 16px;
 }
 
-/* Sidebar Links */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.sidebar-logo {
+  height: 48px;
+  margin-right: 12px;
+}
+
+.sidebar-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/**************************************
+ * Sidebar Links
+ **************************************/
 .mat-nav-list a {
   display: flex;
   align-items: center;
@@ -49,9 +65,23 @@
   border-left: 4px solid #673ab7;
 }
 
-/* Icons in the sidebar */
 .mat-nav-list mat-icon {
   margin-right: 12px;
+  color: #673ab7;
+}
+
+/**************************************
+ * Nested Expansion Panel
+ **************************************/
+.nested-panel {
+  margin-top: 8px;
+  border-top: 1px solid #ccc;
+}
+
+/* Style the expansion panel header */
+.nested-panel .mat-expansion-panel-header {
+  padding: 0 16px;
+  font-weight: 500;
   color: #673ab7;
 }
 
@@ -62,9 +92,9 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 16px;
   background-color: #673ab7; /* Primary color */
   color: white;
+  padding: 0 16px;
 }
 
 /**************************************
@@ -77,7 +107,7 @@
 
 .brand-icon {
   margin-right: 8px;
-  font-size: 28px; /* Slightly larger icon for brand */
+  font-size: 28px;
 }
 
 .brand-name {
@@ -86,7 +116,7 @@
 }
 
 /**************************************
- * User Info in Toolbar
+ * User Info
  **************************************/
 .user-info {
   display: flex;
@@ -126,12 +156,12 @@
 }
 
 .kyc-status .verified {
-  color: #4caf50; /* Green icon for verified */
+  color: #4caf50;
   margin-right: 4px;
 }
 
 .kyc-status .not-verified {
-  color: #ffc107; /* Amber icon for not verified */
+  color: #ffc107;
   margin-right: 4px;
 }
 
@@ -176,21 +206,4 @@ button {
   .user-info {
     margin-top: 0.5rem;
   }
-}
-
-/**************************************
- * Sidebar Header Logo
- **************************************/
- .sidebar-logo {
-  height: 40px; /* Adjust the height to fit your design */
-  margin-right: 8px; /* Add spacing between logo and text */
-}
-
-/**************************************
- * Top Toolbar Brand Logo
- **************************************/
-.brand-logo {
-  height: 40px; /* Adjust the height to fit your design */
-  margin-right: 8px; /* Add spacing between logo and other elements */
-  border-radius: 50%; /* Optional: Makes the logo circular if needed */
 }

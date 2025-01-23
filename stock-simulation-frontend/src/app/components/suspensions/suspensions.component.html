@@ -1,0 +1,197 @@
+<div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Suspensions</h1>
+    </div>
+  
+    <!-- Action Buttons -->
+    <mat-card-title>
+      Actions
+      <div style="float: right;">
+        <button mat-raised-button color="accent" (click)="exportToCSV()">Export</button>
+        <button mat-raised-button color="primary" (click)="printTable()">Print</button>
+        <button mat-raised-button color="warn" (click)="openAddSuspensionModal()">
+          Add Suspension
+        </button>
+      </div>
+    </mat-card-title>
+  
+    <mat-card>
+      <mat-card-content>
+        <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  
+        <!-- Material Table -->
+        <mat-table
+          [dataSource]="dataSource"
+          matSort
+          class="mat-elevation-z8 full-width-table"
+          style="width: 100%; table-layout: auto;"
+        >
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+          </ng-container>
+  
+          <!-- Trader Column -->
+          <ng-container matColumnDef="trader">
+            <mat-header-cell *matHeaderCellDef> Trader ID </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.trader }}</mat-cell>
+          </ng-container>
+  
+          <!-- Stock Column -->
+          <ng-container matColumnDef="stock">
+            <mat-header-cell *matHeaderCellDef> Stock ID </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.stock || 'All Stocks' }}
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Suspension Type Column -->
+          <ng-container matColumnDef="suspension_type">
+            <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.suspension_type }}</mat-cell>
+          </ng-container>
+  
+          <!-- Initiator Column -->
+          <ng-container matColumnDef="initiator">
+            <mat-header-cell *matHeaderCellDef> Initiator </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.initiator }}</mat-cell>
+          </ng-container>
+  
+          <!-- Reason Column -->
+          <ng-container matColumnDef="reason">
+            <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.reason }}</mat-cell>
+          </ng-container>
+  
+          <!-- is_active Column -->
+          <ng-container matColumnDef="is_active">
+            <mat-header-cell *matHeaderCellDef> Active </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.is_active ? 'Yes' : 'No' }}
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Created At Column -->
+          <ng-container matColumnDef="created_at">
+            <mat-header-cell *matHeaderCellDef> Created At </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.created_at | date:'short' }}
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Released At Column -->
+          <ng-container matColumnDef="released_at">
+            <mat-header-cell *matHeaderCellDef> Released At </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.released_at ? (element.released_at | date:'short') : 'N/A' }}
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Header and Row Declarations -->
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            (click)="openEditSuspensionModal(row)"
+            style="cursor: pointer;"
+          ></mat-row>
+        </mat-table>
+  
+        <mat-paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <!-- Add/Edit Suspension Modal -->
+  <ng-template #suspensionDialog>
+    <h1 mat-dialog-title>{{ isEditMode ? 'Edit Suspension' : 'Add Suspension' }}</h1>
+    <div mat-dialog-content>
+      <form [formGroup]="suspensionForm">
+        <!-- Trader Dropdown -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Trader</mat-label>
+          <mat-select formControlName="trader">
+            <mat-option *ngFor="let t of traders" [value]="t.id">
+              {{ t.username }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="suspensionForm.get('trader')?.hasError('required')">
+            Trader is required
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Suspension Type -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Suspension Type</mat-label>
+          <mat-select formControlName="suspension_type">
+            <mat-option *ngFor="let type of suspensionTypes" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="suspensionForm.get('suspension_type')?.hasError('required')">
+            Suspension type is required
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Stock Dropdown (only if "Specific Stock") -->
+        <mat-form-field
+          appearance="fill"
+          class="full-width"
+          *ngIf="suspensionForm.get('suspension_type')?.value === 'Specific Stock'"
+        >
+          <mat-label>Stock</mat-label>
+          <mat-select formControlName="stock">
+            <mat-option *ngFor="let s of stocks" [value]="s.id">
+              {{ s.ticker_symbol }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="suspensionForm.get('stock')?.hasError('required')">
+            Stock is required
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Initiator -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Initiator</mat-label>
+          <mat-select formControlName="initiator">
+            <mat-option *ngFor="let initiator of initiators" [value]="initiator">
+              {{ initiator }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="suspensionForm.get('initiator')?.hasError('required')">
+            Initiator is required
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Reason -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Reason</mat-label>
+          <textarea matInput formControlName="reason" placeholder="Enter Reason"></textarea>
+          <mat-error *ngIf="suspensionForm.get('reason')?.hasError('required')">
+            Reason is required
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Suspended Checkbox -->
+        <mat-checkbox formControlName="is_active">
+          Suspended
+        </mat-checkbox>
+      </form>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="submitSuspension()"
+        [disabled]="suspensionForm.invalid"
+      >
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </ng-template>
+  

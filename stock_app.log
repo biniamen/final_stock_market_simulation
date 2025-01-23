@@ -13471,3 +13471,179 @@ Watching for file changes with StatReloader
 "GET /api/stocks/companies/1/ HTTP/1.1" 200 110
 "GET /api/stocks/stocks/ HTTP/1.1" 200 5266
 Watching for file changes with StatReloader
+"OPTIONS /api/stocks/api/dashboard/ HTTP/1.1" 200 0
+Not Found: /api/stocks/api/dashboard/
+"GET /api/stocks/api/dashboard/ HTTP/1.1" 404 22755
+"OPTIONS /api/stocks/dashboard/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"POST /api/users/login/ HTTP/1.1" 200 726
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 726
+"OPTIONS /api/stocks/dashboard/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+Bad Request: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 400 63
+Watching for file changes with StatReloader
+Bad Request: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 400 63
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/regulations/ HTTP/1.1" 200 0
+Not Found: /api/regulations/
+"GET /api/regulations/ HTTP/1.1" 404 8955
+Not Found: /api/regulations/
+"GET /api/regulations/ HTTP/1.1" 404 8955
+"OPTIONS /api/stocks/regulations/ HTTP/1.1" 200 0
+Not Found: /api/stocks/regulations/
+"GET /api/stocks/regulations/ HTTP/1.1" 404 22749
+Not Found: /api/regulations/
+"GET /api/regulations/ HTTP/1.1" 404 8955
+Not Found: /api/regulations/
+"GET /api/regulations/ HTTP/1.1" 404 8955
+Not Found: /api/regulations/regulations/
+"GET /api/regulations/regulations/ HTTP/1.1" 404 8991
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Not Found: /api/regulations/regulations/
+"GET /api/regulations/regulations/ HTTP/1.1" 404 10791
+Not Found: /api/regulations/
+"GET /api/regulations/ HTTP/1.1" 404 10755
+Not Found: /api/regulations/
+"GET /api/regulations/ HTTP/1.1" 404 10755
+"GET /api/stocks/ HTTP/1.1" 200 6959
+"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+Not Found: /api/
+"GET /api/ HTTP/1.1" 404 2837
+"GET /api/regulations HTTP/1.1" 200 5880
+"GET /api/regulationsregulations/ HTTP/1.1" 200 10358
+"GET /api/regulationsregulations/ HTTP/1.1" 200 2
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/regulationsregulations/ HTTP/1.1" 200 0
+"GET /api/regulationsregulations/ HTTP/1.1" 200 2
+Not Found: /api/regulations/
+"POST /api/regulations/ HTTP/1.1" 404 10756
+Not Found: /api/regulations/
+"POST /api/regulations/ HTTP/1.1" 404 10756
+"GET /api/regulationsregulations/ HTTP/1.1" 200 2
+Not Found: /api/regulations/
+"POST /api/regulations/ HTTP/1.1" 404 10756
+Not Found: /api/regulations/
+"POST /api/regulations/ HTTP/1.1" 404 10756
+"GET /api/regulationsregulations/ HTTP/1.1" 200 2
+"POST /api/regulationsregulations/ HTTP/1.1" 201 180
+"GET /api/regulationsregulations/ HTTP/1.1" 200 182
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationsregulations/ HTTP/1.1" 200 182
+"POST /api/regulationsregulations/ HTTP/1.1" 201 197
+"GET /api/regulationsregulations/ HTTP/1.1" 200 380
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/working-hours/ HTTP/1.1" 200 0
+Not Found: /api/working-hours/
+"GET /api/working-hours/ HTTP/1.1" 404 2879
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 11137
+"OPTIONS /api/regulationsworking-hours/ HTTP/1.1" 200 0
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 727
+"OPTIONS /api/stocks/dashboard/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/regulationssuspensions/ HTTP/1.1" 200 0
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 2
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 2
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\regulations\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 612
+"GET /api/regulationsregulations/ HTTP/1.1" 200 430
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader

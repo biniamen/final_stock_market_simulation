@@ -6,15 +6,15 @@ from decimal import Decimal
 User = get_user_model()
 
 class Regulation(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    value = models.CharField(max_length=255)  # For storing dynamic regulation values
+    name = models.CharField(max_length=255, unique=True)  # Enforce unique names
+    value = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='created_regulations')
-    created_at = models.DateTimeField(default=now)
+    created_by = models.ForeignKey(User, related_name='regulations_created', on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} - {self.value}"
+        return self.name
 
 
 class AuditLog(models.Model):
@@ -59,7 +59,7 @@ class StockSuspension(models.Model):
 
 
 class WorkingHours(models.Model):
-    day_of_week = models.CharField(max_length=10, choices=[
+    DAYS_OF_WEEK = [
         ('Monday', 'Monday'),
         ('Tuesday', 'Tuesday'),
         ('Wednesday', 'Wednesday'),
@@ -67,7 +67,9 @@ class WorkingHours(models.Model):
         ('Friday', 'Friday'),
         ('Saturday', 'Saturday'),
         ('Sunday', 'Sunday'),
-    ])
+    ]
+    day_of_week = models.CharField(max_length=10, choices=DAYS_OF_WEEK, unique=True)  # Ensure one entry per day
+
     start_time = models.TimeField()
     end_time = models.TimeField()
 

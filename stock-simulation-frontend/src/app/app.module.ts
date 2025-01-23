@@ -41,6 +41,7 @@ import { BidOrderComponent } from './components/bid-order/bid-order.component';
 import { AddStockComponent } from './components/add-stock/add-stock.component';
 import { DisclosureUploadComponent } from './components/disclosure-upload/disclosure-upload.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserPortfolioComponent } from './components/user-portfolio/user-portfolio.component';
@@ -53,7 +54,10 @@ import { TradesWithOrderInfoUsingStockIDComponent } from './components/trades-wi
 import { AddDividendDialogComponent } from './components/add-dividend-dialog/add-dividend-dialog.component';
 import { DividendDetailedHoldingsComponent } from './components/dividend-detailed-holdings/dividend-detailed-holdings.component';
 import { DividendsComponent } from './components/dividends/dividends.component';
-import { NgChartsModule } from 'ng2-charts';
+import { RegulationsComponent } from './components/regulations/regulations.component';
+import { RegulationFormDialogComponent } from './components/regulations/regulation-form-dialog/regulation-form-dialog.component';
+import { WorkingHoursComponent } from './components/working-hours/working-hours.component';
+import { SuspensionsComponent } from './components/suspensions/suspensions.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +82,11 @@ import { NgChartsModule } from 'ng2-charts';
     TradesWithOrderInfoUsingStockIDComponent,
     AddDividendDialogComponent,
     DividendDetailedHoldingsComponent,
-    DividendsComponent
+    DividendsComponent,
+    RegulationsComponent,
+    RegulationFormDialogComponent,
+    WorkingHoursComponent,
+    SuspensionsComponent
   ],
   imports: [
     BrowserModule,
@@ -114,8 +122,8 @@ import { NgChartsModule } from 'ng2-charts';
     MatButtonModule,
     MatGridListModule,
     MatSnackBarModule, // Add MatSnackBarModule here
+    MatExpansionModule,
 
-    NgChartsModule,
 
   ],
    providers: [

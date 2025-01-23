@@ -21,6 +21,9 @@ import { CompanyDividendsComponent } from './components/company-dividends/compan
 import { TradesWithOrderInfoUsingStockIDComponent } from './components/trades-with-order-info-using-stock-id/trades-with-order-info-using-stock-id.component';
 import { DividendDetailedHoldingsComponent } from './components/dividend-detailed-holdings/dividend-detailed-holdings.component';
 import { DividendsComponent } from './components/dividends/dividends.component';
+import { RegulationsComponent } from './components/regulations/regulations.component';
+import { WorkingHoursComponent } from './components/working-hours/working-hours.component';
+import { SuspensionsComponent } from './components/suspensions/suspensions.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -57,6 +60,9 @@ const routes: Routes = [
       { path: 'tradeInfoforStock', component: TradesWithOrderInfoUsingStockIDComponent },
       { path: 'dividends', component: DividendsComponent },
       { path: 'dividend-detailed-holdings', component: DividendDetailedHoldingsComponent },
+      { path: 'regulations', component: RegulationsComponent },
+      { path: 'workingHour', component: WorkingHoursComponent },
+      { path: 'suspension', component: SuspensionsComponent },
 
 
       // { path: 'otp-verification', component: OtpVerificationComponent },
