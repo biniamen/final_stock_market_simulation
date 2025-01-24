@@ -13647,3 +13647,681 @@ D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\eth
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
 Watching for file changes with StatReloader
+"GET /api/regulationsregulations/ HTTP/1.1" 200 380
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+Method Not Allowed: /api/regulationsworking-hours/
+"PUT /api/regulationsworking-hours/ HTTP/1.1" 405 40
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsregulations/ HTTP/1.1" 200 380
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/regulationsregulations/ HTTP/1.1" 200 0
+"GET /api/regulationsregulations/ HTTP/1.1" 200 380
+"POST /api/regulationsregulations/ HTTP/1.1" 201 160
+"GET /api/regulationsregulations/ HTTP/1.1" 200 541
+"OPTIONS /api/regulationsregulations/3/ HTTP/1.1" 200 0
+"PUT /api/regulationsregulations/3/ HTTP/1.1" 200 166
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+Method Not Allowed: /api/regulationsworking-hours/
+"PUT /api/regulationsworking-hours/ HTTP/1.1" 405 40
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"OPTIONS /api/regulationsworking-hours/11/ HTTP/1.1" 200 0
+"PUT /api/regulationsworking-hours/11/ HTTP/1.1" 200 79
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"PUT /api/regulationsworking-hours/11/ HTTP/1.1" 200 79
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 2
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+Unauthorized: /api/stocks/dashboard/
+"GET /api/stocks/dashboard/ HTTP/1.1" 401 58
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/stocks/suspicious-activities/ HTTP/1.1" 200 0
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 667
+"OPTIONS /api/stocks/dividends/regulator/ HTTP/1.1" 200 0
+"GET /api/stocks/dividends/regulator/ HTTP/1.1" 200 1381
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 2
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+Bad Request: /api/regulationsregulations/
+"POST /api/regulationsregulations/ HTTP/1.1" 400 54
+"POST /api/users/login/ HTTP/1.1" 200 726
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"OPTIONS /api/stocks/detailed-holdings/?company_id=1&budget_year=2025 HTTP/1.1" 200 0
+"GET /api/stocks/detailed-holdings/?company_id=1&budget_year=2025 HTTP/1.1" 200 1282
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/users/login/ HTTP/1.1" 200 731
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 939
+Unauthorized: /api/stocks/dashboard/
+"GET /api/stocks/dashboard/ HTTP/1.1" 401 58
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 2
+"OPTIONS /api/users/list/ HTTP/1.1" 200 0
+"GET /api/users/list/ HTTP/1.1" 200 3142
+"OPTIONS /api/stocks/audit-trails/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 2716
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 2
+"POST /api/regulationssuspensions/ HTTP/1.1" 201 190
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"GET /api/users/list HTTP/1.1" 301 0
+Unauthorized: /api/users/list/
+"GET /api/users/list/ HTTP/1.1" 401 5076
+Not Found: /api/users/
+"GET /api/users/ HTTP/1.1" 404 5734
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 727
+"OPTIONS /api/stocks/dashboard/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/users/ HTTP/1.1" 200 0
+"OPTIONS /api/regulationssuspensions/ HTTP/1.1" 200 0
+Not Found: /api/users/
+"GET /api/users/ HTTP/1.1" 404 5734
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/users/users/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"GET /api/users/users/ HTTP/1.1" 200 3142
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/users/users/ HTTP/1.1" 200 3142
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"GET /api/users/users/ HTTP/1.1" 200 3142
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"GET /api/users/users/ HTTP/1.1" 200 3142
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 192
+"GET /api/users/users/ HTTP/1.1" 200 3142
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/regulationssuspensions/ HTTP/1.1" 201 192
+"GET /api/regulationssuspensions/ HTTP/1.1" 200 385
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 728
+"OPTIONS /api/stocks/dashboard/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 937
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/direct_buy/ HTTP/1.1" 200 0
+Unexpected error during direct stock purchase: [ErrorDetail(string='Trading for this user is suspended.', code='invalid')]
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 118
+User 146 purchased 4 shares of GBE for 4800.00, fee 48.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 291
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/users/login/ HTTP/1.1" 200 725
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 938
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+User 147 purchased 5 shares of GBE for 6000.00, fee 60.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/portfolios/user/147/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 146
+Not Found: /api/stocks/portfolios/user/147/
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 404 55
+"OPTIONS /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+User 147 purchased 5 shares of GBE for 6000.00, fee 60.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/users/login/ HTTP/1.1" 200 728
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 931
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+User 146 purchased 6 shares of GBE for 7200.00, fee 72.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/user/orders/ HTTP/1.1" 200 0
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 220
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"OPTIONS /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 200 0
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/stocks/suspicious-activities/ HTTP/1.1" 200 0
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 2
+Unauthorized: /api/stocks/suspicious-activities/
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 401 57
+Forbidden: /api/users/login/
+"POST /api/users/login/ HTTP/1.1" 403 56
+"POST /api/users/login/ HTTP/1.1" 200 723
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 930
+Unauthorized: /api/stocks/dashboard/
+"GET /api/stocks/dashboard/ HTTP/1.1" 401 58
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 936
+"OPTIONS /api/stocks/portfolios/user/146/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 144
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 220
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/user/146/trades/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/user/146/portfolio/96/ HTTP/1.1" 200 0
+Not Found: /api/stocks/user/146/portfolio/96/
+"GET /api/stocks/user/146/portfolio/96/ HTTP/1.1" 404 22779
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 936
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 144
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+Not Found: /api/stocks/user/146/portfolio/96/
+"GET /api/stocks/user/146/portfolio/96/ HTTP/1.1" 404 22779
+"OPTIONS /api/stocks/orders/ HTTP/1.1" 200 0
+"POST /api/stocks/orders/ HTTP/1.1" 201 280
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 429
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 724
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 937
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/user/147/trades/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/user/147/portfolio/96/ HTTP/1.1" 200 0
+Not Found: /api/stocks/user/147/portfolio/96/
+"GET /api/stocks/user/147/portfolio/96/ HTTP/1.1" 404 22779
+"GET /api/stocks/user/147/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 279
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 723
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 930
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"OPTIONS /api/stocks/user/151/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/151/trades_with_order_info/ HTTP/1.1" 200 169
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/user/151/trades_with_order_info/ HTTP/1.1" 200 169
+"OPTIONS /api/stocks/portfolios/user/151/ HTTP/1.1" 200 0
+"GET /api/stocks/portfolios/user/151/ HTTP/1.1" 200 143
+"POST /api/users/login/ HTTP/1.1" 200 724
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 937
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 338
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 726
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"OPTIONS /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 822
+"GET /api/stocks/stocks/96/fifonet_holdings/ HTTP/1.1" 200 2
+"POST /api/users/login/ HTTP/1.1" 200 728
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 931
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+User 146 purchased 7 shares of GBE for 8400.00, fee 84.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 144
+"POST /api/users/login/ HTTP/1.1" 200 725
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 932
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+User 147 purchased 5 shares of GBE for 6000.00, fee 60.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 936
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 144
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 936
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/user/146/trades/ HTTP/1.1" 200 146
+Not Found: /api/stocks/user/146/portfolio/96/
+"GET /api/stocks/user/146/portfolio/96/ HTTP/1.1" 404 22779
+"POST /api/stocks/orders/ HTTP/1.1" 201 279
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 724
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 937
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+Not Found: /api/stocks/user/147/portfolio/96/
+"GET /api/stocks/user/147/portfolio/96/ HTTP/1.1" 404 22779
+"GET /api/stocks/user/147/trades/ HTTP/1.1" 200 146
+"POST /api/stocks/orders/ HTTP/1.1" 201 279
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 428
+"GET /api/stocks/portfolios/user/147/ HTTP/1.1" 200 144
+"POST /api/users/login/ HTTP/1.1" 200 723
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 930
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/stocks/orders/ HTTP/1.1" 201 289
+"GET /api/stocks/user/151/trades_with_order_info/ HTTP/1.1" 200 169
+"GET /api/stocks/portfolios/user/151/ HTTP/1.1" 200 143
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 936
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 338
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/stocks/dividends/regulator/ HTTP/1.1" 200 0
+"GET /api/stocks/dividends/regulator/ HTTP/1.1" 200 2
+"OPTIONS /api/regulationsregulations/ HTTP/1.1" 200 0
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"OPTIONS /api/regulationsregulations/2/ HTTP/1.1" 200 0
+"PUT /api/regulationsregulations/2/ HTTP/1.1" 200 197
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"OPTIONS /api/regulationsworking-hours/ HTTP/1.1" 200 0
+"GET /api/regulationsworking-hours/ HTTP/1.1" 200 562
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"POST /api/users/login/ HTTP/1.1" 200 728
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 931
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+User 146 purchased 2 shares of GBE for 2400.00, fee 24.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 291
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+SuspiciousActivity #5 created for Trade #549 by user 'binitest'. Reasons: ['High trading frequency: 2 trades of GBE in the last 10 minutes.']
+User 146 purchased 3 shares of GBE for 3600.00, fee 36.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 290
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 200 144
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 339
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 437
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+Unexpected error during direct stock purchase: [ErrorDetail(string='Daily trade limit reached.', code='invalid')]
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 109
+"POST /api/users/login/ HTTP/1.1" 200 728
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 937
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+Unexpected error during direct stock purchase: [ErrorDetail(string='Daily trade limit reached.', code='invalid')]
+Internal Server Error: /api/stocks/direct_buy/
+"POST /api/stocks/direct_buy/ HTTP/1.1" 500 109
+User 146 purchased 6 shares of GBE for 7200.00, fee 72.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 936
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/stocks/orders/ HTTP/1.1" 201 278
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 427
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 725
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 932
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+User 147 purchased 4 shares of GBE for 4800.00, fee 48.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 291
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 170
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 219
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/user/147/trades/ HTTP/1.1" 200 146
+Not Found: /api/stocks/user/147/portfolio/96/
+"GET /api/stocks/user/147/portfolio/96/ HTTP/1.1" 404 22779
+SuspiciousActivity #6 created for Trade #552 by user 'binitest'. Reasons: ['High trading frequency: 2 trades of GBE in the last 10 minutes.']
+SuspiciousActivity #7 created for Trade #553 by user 'binitest2'. Reasons: ['High trading frequency: 2 trades of GBE in the last 10 minutes.']
+SuspiciousActivity #8 created for Trade #552 by user 'binitest'. Reasons: ['High trading frequency: 2 trades of GBE in the last 10 minutes.']
+SuspiciousActivity #9 created for Trade #553 by user 'binitest2'. Reasons: ['High trading frequency: 2 trades of GBE in the last 10 minutes.']
+"POST /api/stocks/orders/ HTTP/1.1" 201 292
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 338
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 440
+"GET /api/stocks/user/147/trades_with_order_info/ HTTP/1.1" 200 338
+Unauthorized: /api/stocks/user/123/trades_with_order_info/
+"GET /api/stocks/user/123/trades_with_order_info/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 728
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 931
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 728
+"OPTIONS /api/stocks/dashboard/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 931
+"OPTIONS /api/stocks/user/orders/ HTTP/1.1" 200 0
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"OPTIONS /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 0
+"GET /api/stocks/user/146/trades_with_order_info/ HTTP/1.1" 200 2
+"OPTIONS /api/stocks/portfolios/user/146/ HTTP/1.1" 200 0
+Not Found: /api/stocks/portfolios/user/146/
+"GET /api/stocks/portfolios/user/146/ HTTP/1.1" 404 55
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+Unauthorized: /api/stocks/stocks/
+"GET /api/stocks/stocks/ HTTP/1.1" 401 71
+"POST /api/users/login/ HTTP/1.1" 200 728
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 932
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/company/1/disclosures/ HTTP/1.1" 200 0
+"GET /api/stocks/company/1/disclosures/ HTTP/1.1" 200 643
+"GET /api/stocks/user/orders/ HTTP/1.1" 200 2
+Unauthorized: /api/stocks/user/orders/
+"GET /api/stocks/user/orders/ HTTP/1.1" 401 57
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"OPTIONS /api/stocks/direct_buy/ HTTP/1.1" 200 0
+User 146 purchased 7 shares of GBE for 8400.00, fee 84.00.
+"POST /api/stocks/direct_buy/ HTTP/1.1" 201 292
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/suspicious-activities/ HTTP/1.1" 200 2
+"OPTIONS /api/users/login/ HTTP/1.1" 200 0
+"POST /api/users/login/ HTTP/1.1" 200 727
+"OPTIONS /api/stocks/dashboard/ HTTP/1.1" 200 0
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+Bad Request: /api/regulationsregulations/
+"POST /api/regulationsregulations/ HTTP/1.1" 400 54
+Bad Request: /api/regulationsregulations/
+"POST /api/regulationsregulations/ HTTP/1.1" 400 54
+"GET /api/stocks/ HTTP/1.1" 200 6959
+"GET /api/stocks/companies/ HTTP/1.1" 200 19522
+"POST /api/users/login/ HTTP/1.1" 200 726
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 951
+"OPTIONS /api/stocks/companies/1/ HTTP/1.1" 200 0
+"OPTIONS /api/stocks/stocks/ HTTP/1.1" 200 0
+"GET /api/stocks/companies/1/ HTTP/1.1" 200 110
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+Unauthorized: /api/stocks/dashboard/
+"GET /api/stocks/dashboard/ HTTP/1.1" 401 58
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/stocks/dividends/regulator/ HTTP/1.1" 200 2
+"GET /api/regulationsregulations/ HTTP/1.1" 200 547
+"OPTIONS /api/regulationsregulations/1/ HTTP/1.1" 200 0
+"DELETE /api/regulationsregulations/1/ HTTP/1.1" 204 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 24938
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+"OPTIONS /api/regulationsregulations/3/ HTTP/1.1" 200 0
+Bad Request: /api/regulationsregulations/3/
+"PUT /api/regulationsregulations/3/ HTTP/1.1" 400 54
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+Bad Request: /api/regulationsregulations/3/
+"PUT /api/regulationsregulations/3/ HTTP/1.1" 400 54
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+Bad Request: /api/regulationsregulations/3/
+"PUT /api/regulationsregulations/3/ HTTP/1.1" 400 54
+Bad Request: /api/regulationsregulations/3/
+"PUT /api/regulationsregulations/3/ HTTP/1.1" 400 54
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/stocks/companies/ HTTP/1.1" 200 0
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"OPTIONS /api/stocks/audit-trails/ HTTP/1.1" 200 0
+"GET /api/stocks/audit-trails/ HTTP/1.1" 200 389
+"OPTIONS /api/users/list/ HTTP/1.1" 200 0
+"GET /api/users/list/ HTTP/1.1" 200 3137
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+"OPTIONS /api/regulationsregulations/ HTTP/1.1" 200 0
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"POST /api/users/login/ HTTP/1.1" 200 727
+"GET /api/stocks/dashboard/ HTTP/1.1" 200 894
+"OPTIONS /api/stocks/companies/ HTTP/1.1" 200 0
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"OPTIONS /api/regulationsregulations/ HTTP/1.1" 200 0
+"GET /api/regulationsregulations/ HTTP/1.1" 200 366
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"GET /api/stocks/stocks/ HTTP/1.1" 200 5266
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\urls.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\urls.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\urls.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/stocks/companies/ HTTP/1.1" 200 5079
+"OPTIONS /api/users/forgot-password/ HTTP/1.1" 200 0
+Internal Server Error: /api/users/forgot-password/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py", line 421, in post
+    "exp": datetime.utcnow() + datetime.timedelta(minutes=30),  # Token valid for 30 minutes
+           ^^^^^^^^^^^^^^^
+AttributeError: module 'datetime' has no attribute 'utcnow'
+"POST /api/users/forgot-password/ HTTP/1.1" 500 102931
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/forgot-password/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py", line 421, in post
+    "exp": datetime.utcnow() + datetime.timedelta(minutes=30),  # Token valid for 30 minutes
+           ^^^^^^^^^^^^^^^
+AttributeError: module 'datetime' has no attribute 'utcnow'
+"POST /api/users/forgot-password/ HTTP/1.1" 500 102824
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/forgot-password/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py", line 421, in post
+    "exp": datetime.utcnow() + datetime.timedelta(minutes=30),  # Token valid for 30 minutes
+                               ^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'timedelta'
+"POST /api/users/forgot-password/ HTTP/1.1" 500 103079
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/forgot-password/
+Traceback (most recent call last):
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py", line 421, in post
+    "exp": datetime.utcnow() + datetime.timedelta(minutes=30),  # Token valid for 30 minutes
+                               ^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'timedelta'
+"POST /api/users/forgot-password/ HTTP/1.1" 500 102972
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/forgot-password/
+"POST /api/users/forgot-password/ HTTP/1.1" 500 63
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/forgot-password/
+"POST /api/users/forgot-password/ HTTP/1.1" 500 63
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\ethio_stock_simulation\settings.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/forgot-password/
+"POST /api/users/forgot-password/ HTTP/1.1" 500 63
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Final Project Related Document\Project Source Code\ethiopian_stock_market\ethio_stock_simulation\users\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader

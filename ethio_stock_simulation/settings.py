@@ -185,6 +185,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# SendGrid Configuration
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')  # Ensure this is set in your .env file
+SENDGRID_FROM_EMAIL = config('SENDGRID_FROM_EMAIL', default='biniyamkm@gmail.com')  # Verified sender email
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
@@ -203,7 +207,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='apikey')  # For SendGrid, t
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Your SendGrid API key
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Ethiopian Stock Market <no-reply@yourdomain.com>')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Ethiopian Stock Market <biniyamkm@gmail.com>')
 
 # Company Email for Notifications (Optional)
 COMPANY_EMAIL = config('COMPANY_EMAIL', default=None)  # Set to None if not required

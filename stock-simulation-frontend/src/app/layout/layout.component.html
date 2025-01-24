@@ -88,6 +88,13 @@
         <mat-icon>group</mat-icon>
         <span>User List</span>
       </a>
+      <!-- Listed Company and stocks -->
+      <a *ngIf="userRole === 'regulator'" mat-list-item 
+         routerLink="/listCompanyStocks" 
+         routerLinkActive="active-link">
+        <mat-icon>group</mat-icon>
+        <span>Listed Company Stocks</span>
+      </a>
       <a *ngIf="userRole === 'regulator'" mat-list-item 
          routerLink="/audit-trails" 
          routerLinkActive="active-link">

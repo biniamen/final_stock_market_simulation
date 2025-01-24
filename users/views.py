@@ -1,4 +1,7 @@
+from datetime import datetime, timedelta
+import logging
 from django.utils import timezone
+import jwt
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 from rest_framework import generics, status
@@ -8,19 +11,24 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
 
 from ethio_stock_simulation.utils import generate_otp, send_verification_email
 from users.models import CustomUser
 from users.throttles import LoginThrottle
 from users.utils import verify_captcha
 from .serializers import UserSerializer, CustomTokenObtainPairSerializer
-from django.core.mail import EmailMessage
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
+
+
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
+
+
 
 class RegisterUser(generics.CreateAPIView):
     """
@@ -387,3 +395,109 @@ def deactivate_user(request, user_id):
         {"message": f"User {user.username} has been deactivated."},
         status=status.HTTP_200_OK,
     )
+    
+
+class ForgotPasswordView(APIView):
+    """
+    Handles password reset requests by generating a JWT token and sending a reset link via email.
+    """
+    permission_classes = [AllowAny]
+    # Optionally add throttle_classes = [ForgotPasswordThrottle]
+
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({"detail": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            # Security measure: do not reveal if the email exists
+            return Response({"detail": "If that email is registered, a reset link will be sent."},
+                            status=status.HTTP_200_OK)
+
+        # Generate JWT with user ID and expiration
+        payload = {
+            "user_id": user.id,
+            "exp": datetime.utcnow() + timedelta(minutes=30),  # Token valid for 30 minutes
+            "iat": datetime.utcnow()
+        }
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Build the reset URL pointing to Angular frontend
+        reset_url = f"http://localhost:4200/reset-password?token={token}"
+
+        # Send the reset email using the verified sender
+        subject = "Password Reset Request"
+        body = f"""
+Hello {user.username},
+
+Please click the link below to reset your password:
+{reset_url}
+
+If you did not request this, you can ignore this email.
+
+This link will expire in 30 minutes.
+
+Best Regards,
+Ethiopian Stock Market Simulation Team
+"""
+        email_message = EmailMessage(
+            subject=subject,
+            body=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,  # Use the verified sender from settings
+            to=[user.email],
+        )
+        try:
+            email_message.send()
+            logger.info(f"Password reset email sent to {user.email}.")
+        except Exception as e:
+            logger.error(f"Failed to send password reset email to {user.email}: {e}")
+            return Response({"detail": "Failed to send reset link. Please try again later."},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(
+            {"detail": "If that email is registered, a reset link has been sent."},
+            status=status.HTTP_200_OK
+        )
+
+class ResetPasswordView(APIView):
+    """
+    1. User clicks the link and provides new password with the token.
+    2. We validate the token and set the user’s password.
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        token = request.data.get('token')
+        new_password = request.data.get('new_password')
+
+        if not token or not new_password:
+            return Response({"detail": "Token and new_password are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Decode token
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            user_id = payload.get("user_id")
+            # Check expiration by PyJWT automatically => raises an exception if expired
+        except jwt.ExpiredSignatureError:
+            return Response({"detail": "Reset link has expired."}, status=status.HTTP_400_BAD_REQUEST)
+        except jwt.InvalidTokenError:
+            return Response({"detail": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Validate new password
+        try:
+            validate_password(new_password)
+        except ValidationError as e:
+            return Response({"detail": e.messages}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Update user’s password
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        user.password = make_password(new_password)
+        user.save()
+
+        return Response({"detail": "Password has been reset successfully."}, status=status.HTTP_200_OK)

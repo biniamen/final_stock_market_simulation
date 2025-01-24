@@ -58,6 +58,9 @@ import { RegulationsComponent } from './components/regulations/regulations.compo
 import { RegulationFormDialogComponent } from './components/regulations/regulation-form-dialog/regulation-form-dialog.component';
 import { WorkingHoursComponent } from './components/working-hours/working-hours.component';
 import { SuspensionsComponent } from './components/suspensions/suspensions.component';
+import { ListofCompnayStocksComponent } from './components/listof-compnay-stocks/listof-compnay-stocks.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +89,10 @@ import { SuspensionsComponent } from './components/suspensions/suspensions.compo
     RegulationsComponent,
     RegulationFormDialogComponent,
     WorkingHoursComponent,
-    SuspensionsComponent
+    SuspensionsComponent,
+    ListofCompnayStocksComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

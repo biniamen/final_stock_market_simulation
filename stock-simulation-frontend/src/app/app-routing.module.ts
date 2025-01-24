@@ -24,6 +24,9 @@ import { DividendsComponent } from './components/dividends/dividends.component';
 import { RegulationsComponent } from './components/regulations/regulations.component';
 import { WorkingHoursComponent } from './components/working-hours/working-hours.component';
 import { SuspensionsComponent } from './components/suspensions/suspensions.component';
+import { ListofCompnayStocksComponent } from './components/listof-compnay-stocks/listof-compnay-stocks.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -39,6 +42,8 @@ const routes: Routes = [
   { path: 'login', component: AuthLoginComponent }, // Public route
   { path: 'register', component: AuthRegisterComponent }, // Public route
   { path: 'otp-verification', component: OtpVerificationComponent }, // Public route for OTP verification
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent }, // Ensure this line exists
 
   {
     path: '',
@@ -62,8 +67,13 @@ const routes: Routes = [
       { path: 'dividend-detailed-holdings', component: DividendDetailedHoldingsComponent },
       { path: 'regulations', component: RegulationsComponent },
       { path: 'workingHour', component: WorkingHoursComponent },
+      // Adding suspension
       { path: 'suspension', component: SuspensionsComponent },
+      // list of company and stocks
+      { path: 'listCompanyStocks', component: ListofCompnayStocksComponent },
 
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'reset-password', component: ResetPasswordComponent },
 
       // { path: 'otp-verification', component: OtpVerificationComponent },
      // { path: 'kyc-pending', component: KycPendingComponent }, // Page after success

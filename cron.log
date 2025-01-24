@@ -68,3 +68,19 @@ System check identified some issues:
 WARNINGS:
 ?: (debug_toolbar.W001) debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE.
 	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE.
+[Fri 01/24/2025 20:58:56.58] Starting cancel_pending_orders 
+System check identified some issues:
+
+WARNINGS:
+?: (debug_toolbar.W001) debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE.
+	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE.
+Successfully cancelled all pending orders.
+[Fri 01/24/2025 20:58:59.52] Finished cancel_pending_orders 
+[Sat 01/25/2025  0:46:17.45] Starting cancel_pending_orders 
+System check identified some issues:
+
+WARNINGS:
+?: (debug_toolbar.W001) debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE.
+	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE.
+Successfully cancelled all pending orders.
+[Sat 01/25/2025  0:46:20.73] Finished cancel_pending_orders 
