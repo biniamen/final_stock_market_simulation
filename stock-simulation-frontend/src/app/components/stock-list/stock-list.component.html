@@ -74,7 +74,8 @@
       <ng-container matColumnDef="file">
         <th mat-header-cell *matHeaderCellDef> File </th>
         <td mat-cell *matCellDef="let disclosure">
-          <a [href]="disclosure.file" target="_blank">View/Download</a>
+          <a [href]="'http://127.0.0.1:8000' + disclosure.file" target="_blank">View/Download</a>
+
         </td>
       </ng-container>
 

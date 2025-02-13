@@ -20,6 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBarModule
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 // Components
@@ -61,6 +62,10 @@ import { SuspensionsComponent } from './components/suspensions/suspensions.compo
 import { ListofCompnayStocksComponent } from './components/listof-compnay-stocks/listof-compnay-stocks.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ListedCompaniesComponent } from './components/listed-companies/listed-companies.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +97,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     SuspensionsComponent,
     ListofCompnayStocksComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ListedCompaniesComponent
   ],
   imports: [
     BrowserModule,
@@ -129,6 +135,11 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     MatGridListModule,
     MatSnackBarModule, // Add MatSnackBarModule here
     MatExpansionModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    MatTabsModule,
+    MatCheckboxModule // Add this
+
 
 
   ],

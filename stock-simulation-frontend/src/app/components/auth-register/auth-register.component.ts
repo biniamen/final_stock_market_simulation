@@ -1,3 +1,5 @@
+// src/app/auth/auth-register/auth-register.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -89,10 +91,16 @@ export class AuthRegisterComponent implements OnInit {
         this.toastr.success('Registration successful! Waiting For Approval!', 'Success');
         // Redirect to OTP verification page
         this.router.navigate(['/otp-verification'], { queryParams: { email: this.user.email } });
+        this.resetForm(); // Optionally reset the form
       },
       (error) => {
         console.error('Error registering user', error);
-        this.toastr.error('Registration failed. Please try again.', error.detail);
+        
+        // Extract the detail message from the backend response
+        const backendDetail = error.error?.detail || 'Registration failed. Please try again.';
+        
+        // Display the exact backend message
+        this.toastr.error(backendDetail, 'Error');
       }
     );
   }
@@ -107,6 +115,7 @@ export class AuthRegisterComponent implements OnInit {
   resetForm() {
     this.user = { username: '', email: '', password: '', role: 'trader', company_id: null };
     this.selectedFile = null;
+    this.captchaToken = null; // Reset the captcha token
     const fileInput = document.getElementById('kycFile') as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';

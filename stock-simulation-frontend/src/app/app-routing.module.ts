@@ -27,6 +27,7 @@ import { SuspensionsComponent } from './components/suspensions/suspensions.compo
 import { ListofCompnayStocksComponent } from './components/listof-compnay-stocks/listof-compnay-stocks.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ListedCompaniesComponent } from './components/listed-companies/listed-companies.component';
 
 // const routes: Routes = [
 //   { path: 'login', component: AuthLoginComponent },
@@ -71,6 +72,8 @@ const routes: Routes = [
       { path: 'suspension', component: SuspensionsComponent },
       // list of company and stocks
       { path: 'listCompanyStocks', component: ListofCompnayStocksComponent },
+      { path: 'listCompanyAdding', component: ListedCompaniesComponent },
+
 
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },

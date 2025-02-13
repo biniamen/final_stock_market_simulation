@@ -1,81 +1,303 @@
-<!-- src/app/components/dashboard/dashboard.component.html -->
+<div class="container-fluid">
 
-<div class="dashboard-container">
-  <h2>Dashboard</h2>
-
-  <div *ngIf="isLoading">
-    <mat-spinner></mat-spinner>
-  </div>
-
-  <div *ngIf="error">
-    <p class="error">{{ error }}</p>
-  </div>
-
-  <div *ngIf="!isLoading && !error">
-    <h3>User Info</h3>
-    <ul>
-      <li>Username: {{ dashboardData.user_info?.username }}</li>
-      <li>Role: {{ dashboardData.user_info?.role }}</li>
-      <li>Account Balance: {{ dashboardData.user_info?.account_balance }}</li>
-      <li>Profit Balance: {{ dashboardData.user_info?.profit_balance }}</li>
-    </ul>
-
-    <h3>Top Stocks</h3>
-    <div *ngIf="dashboardData.top_stocks">
-      <table mat-table [dataSource]="dashboardData.top_stocks">
-        <ng-container matColumnDef="ticker_symbol">
-          <th mat-header-cell *matHeaderCellDef>Ticker</th>
-          <td mat-cell *matCellDef="let stock">{{ stock.ticker_symbol }}</td>
-        </ng-container>
-        <ng-container matColumnDef="company_name">
-          <th mat-header-cell *matHeaderCellDef>Company</th>
-          <td mat-cell *matCellDef="let stock">{{ stock.company_name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="current_price">
-          <th mat-header-cell *matHeaderCellDef>Price</th>
-          <td mat-cell *matCellDef="let stock">{{ stock.current_price }}</td>
-        </ng-container>
-        <ng-container matColumnDef="available_shares">
-          <th mat-header-cell *matHeaderCellDef>Shares</th>
-          <td mat-cell *matCellDef="let stock">{{ stock.available_shares }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="['ticker_symbol','company_name','current_price','available_shares']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['ticker_symbol','company_name','current_price','available_shares'];"></tr>
-      </table>
-    </div>
-
-    <!-- Trader-specific data -->
-    <div *ngIf="dashboardData.trader_data">
-      <h3>Trader Data</h3>
-      <p>Total Orders: {{ dashboardData.trader_data.total_orders }}</p>
-      <p>Total Trades: {{ dashboardData.trader_data.total_trades }}</p>
-      <p>Portfolio Quantity: {{ dashboardData.trader_data.portfolio?.quantity }}</p>
-      <p>Portfolio Investment: {{ dashboardData.trader_data.portfolio?.total_investment }}</p>
-    </div>
-
-    <!-- Regulator-specific data -->
-    <div *ngIf="dashboardData.regulator_data">
-      <h3>Regulator Data</h3>
-      <p>Total Users: {{ dashboardData.regulator_data.total_users }}</p>
-      <p>Total Orders: {{ dashboardData.regulator_data.total_orders }}</p>
-      <p>Total Trades: {{ dashboardData.regulator_data.total_trades }}</p>
-      <p>Pending Suspicious Activities: {{ dashboardData.regulator_data.pending_suspicious_activities }}</p>
-    </div>
-
-    <!-- Company Admin data -->
-    <div *ngIf="dashboardData.company_admin_data">
-      <h3>Company Admin Data</h3>
-      <p *ngIf="dashboardData.company_admin_data.error">{{ dashboardData.company_admin_data.error }}</p>
-      <div *ngIf="!dashboardData.company_admin_data.error">
-        <p>Company: {{ dashboardData.company_admin_data.company_name }}</p>
-        <p>Sector: {{ dashboardData.company_admin_data.company_sector }}</p>
-        <p>Total Stocks Published: {{ dashboardData.company_admin_data.total_stocks_published }}</p>
-        <p>Disclosures Count: {{ dashboardData.company_admin_data.disclosures_count }}</p>
-        <p>Dividends Count: {{ dashboardData.company_admin_data.dividends_count }}</p>
+  <!-- 1) Top Toolbar (Bootstrap Navbar) -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <span class="navbar-brand"> Dashboard</span>
+      <div class="ms-auto">
+        <button class="btn btn-outline-light" (click)="fetchDashboard()" title="Refresh Dashboard">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
       </div>
     </div>
+  </nav>
 
-    <p>Data fetched at: {{ dashboardData.timestamp }}</p>
+  <!-- 2) Loading / Error states -->
+  <div *ngIf="isLoading" class="d-flex flex-column align-items-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading data...</p>
   </div>
+
+  <div *ngIf="error" class="my-5">
+    <div class="card text-white bg-danger mb-3 w-75 mx-auto">
+      <div class="card-body">
+        <p class="card-text">{{ error }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3) Main Content (Multiple Sections) -->
+  <div class="my-4" *ngIf="!isLoading && !error && dashboardData">
+    <div class="row">
+
+      <!-- Column #1: User Info + Common Data -->
+      <div class="col-md-4 mb-4">
+        <!-- User Info Card -->
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header d-flex align-items-center">
+            <i class="bi bi-person-circle fs-3 me-2"></i>
+            <div>
+              <h5 class="card-title mb-0">{{ dashboardData.user_info?.username }}</h5>
+              <small class="text-muted">{{ dashboardData.user_info?.role | uppercase }}</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <p><strong>Balance (ETB):</strong> {{ dashboardData.user_info?.account_balance_etb }}</p>
+            <p><strong>Profit (ETB):</strong> {{ dashboardData.user_info?.profit_balance_etb }}</p>
+          </div>
+        </div>
+
+        <!-- Common Data Card -->
+        <div class="card shadow-sm" *ngIf="dashboardData.common_data">
+          <div class="card-header bg-secondary text-white">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-bar-chart-line fs-5 me-2"></i>
+              Common Data
+            </h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Total Companies:</strong> {{ dashboardData.common_data?.total_companies }}</p>
+            <p><strong>Total Stocks:</strong> {{ dashboardData.common_data?.total_stocks }}</p>
+
+            <!-- Sum of Transaction Fees (Regulator Only) -->
+            <p *ngIf="shouldDisplayTransactionFees()">
+              <strong>Total Transaction Fees (ETB):</strong> {{ dashboardData.common_data.total_transaction_fees_etb }}
+            </p>
+
+            <!-- Top Selling Stocks -->
+            <ng-container *ngIf="dashboardData.common_data?.top_selling_stocks?.length > 0">
+              <h6 class="mt-3">Top Selling Stocks</h6>
+              <ul class="list-group mb-3">
+                <li class="list-group-item" *ngFor="let stock of dashboardData.common_data.top_selling_stocks">
+                  <strong>{{ stock.ticker_symbol }}</strong>
+                  <br />
+                  {{ stock.company_name }} - Sold Qty: {{ stock.total_sold }}
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #noTopSellers>
+              <p>No top-selling stocks found.</p>
+            </ng-template>
+
+            <!-- Highest Dividend Paid -->
+            <ng-container *ngIf="dashboardData.common_data?.highest_dividend_paid_stocks?.length > 0">
+              <h6 class="mt-3">Highest Dividend Paid</h6>
+              <ul class="list-group mb-3">
+                <li class="list-group-item" *ngFor="let div of dashboardData.common_data.highest_dividend_paid_stocks">
+                  <strong>{{ div.company_name }}</strong> - Year: {{ div.budget_year }},
+                  Dividend(ETB): {{ div.total_dividend_amount_etb }}
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #noDividends>
+              <p>No dividend data found.</p>
+            </ng-template>
+
+            <!-- Highest Dividend Ratio Companies -->
+            <ng-container *ngIf="shouldDisplayHighestDividendRatioCompanies()">
+              <h6 class="mt-3">Top 5 Highest Dividend Ratio Companies</h6>
+              <ul class="list-group mb-3">
+                <li class="list-group-item" *ngFor="let company of dashboardData.common_data.highest_dividend_ratio_companies">
+                  <strong>{{ company.company_name }}</strong>
+                  <br />
+                  Dividend Ratio: {{ company.dividend_ratio }}%
+                  <br />
+                  Total Dividend (ETB): {{ company.total_dividend_amount_etb }}
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #noDividendRatio>
+              <p>No dividend ratio data available.</p>
+            </ng-template>
+
+            <!-- Highest Profit Traders -->
+            <ng-container *ngIf="shouldDisplayHighestProfitTraders()">
+              <h6 class="mt-3">Highest Profit Traders</h6>
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let t of dashboardData.common_data.highest_profit_traders">
+                  <strong>{{ t.username }}</strong> - Profit(ETB): {{ t.profit_balance_etb }}
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #noProfitTraders>
+              <p>No traders with profit yet.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column #2: Trader Data -->
+      <div class="col-md-4 mb-4" *ngIf="dashboardData.trader_data">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-success text-white">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-wallet2 fs-5 me-2"></i>
+              Trader Data
+            </h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Total Orders:</strong> {{ dashboardData.trader_data?.total_orders }}</p>
+            <p><strong>Total Trades:</strong> {{ dashboardData.trader_data?.total_trades }}</p>
+
+            <!-- Portfolio Card -->
+            <div class="card mb-3">
+              <div class="card-header">
+                <h6 class="card-title mb-0">Portfolio</h6>
+              </div>
+              <div class="card-body p-2">
+                <p><strong>Quantity:</strong> {{ dashboardData.trader_data?.portfolio?.quantity }}</p>
+                <p><strong>Avg Price (ETB):</strong> {{ dashboardData.trader_data?.portfolio?.avg_purchase_price_etb }}</p>
+                <p><strong>Total Invest (ETB):</strong> {{ dashboardData.trader_data?.portfolio?.total_investment_etb }}</p>
+              </div>
+            </div>
+
+            <!-- Stock Holdings -->
+            <h6>Stock Holdings</h6>
+            <div *ngIf="dashboardData.trader_data?.stock_holdings?.length > 0; else noHoldings">
+              <div class="row">
+                <div class="col-12 mb-2" *ngFor="let h of dashboardData.trader_data.stock_holdings">
+                  <div class="card">
+                    <div class="card-body p-2">
+                      <strong>{{ h.ticker_symbol }}</strong> - {{ h.company_name }}<br />
+                      Qty: {{ h.quantity }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-template #noHoldings>
+              <p>No stock holdings found.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column #3: Company Admin + Regulator -->
+      <div class="col-md-4 mb-4">
+        
+        <!-- Company Admin Data -->
+        <div class="card shadow-sm mb-4" *ngIf="dashboardData.company_admin_data">
+          <div class="card-header bg-warning">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-building fs-5 me-2"></i>
+              Company Admin
+            </h5>
+          </div>
+          <div class="card-body">
+            <ng-container *ngIf="!dashboardData.company_admin_data.error; else noCompany">
+              <p><strong>Company:</strong> {{ dashboardData.company_admin_data.company_name }}</p>
+              <p><strong>Sector:</strong> {{ dashboardData.company_admin_data.company_sector }}</p>
+              <p><strong>Stocks Published:</strong> {{ dashboardData.company_admin_data.total_stocks_published }}</p>
+              <p><strong>Avg Selling (ETB):</strong> {{ dashboardData.company_admin_data.avg_selling_price_etb }}</p>
+            </ng-container>
+            <ng-template #noCompany>
+              <p>{{ dashboardData.company_admin_data.error }}</p>
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- Regulator Data -->
+        <div class="card shadow-sm" *ngIf="dashboardData.regulator_data">
+          <div class="card-header bg-danger text-white">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-shield-lock fs-5 me-2"></i>
+              Regulator Data
+            </h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Total Users:</strong> {{ dashboardData.regulator_data?.total_users }}</p>
+            <p><strong>Total Orders:</strong> {{ dashboardData.regulator_data?.total_orders }}</p>
+            <p><strong>Total Trades:</strong> {{ dashboardData.regulator_data?.total_trades }}</p>
+            <p><strong>Pending Suspicious Activities:</strong> {{ dashboardData.regulator_data?.pending_suspicious_activities }}</p>
+
+            <!-- Highest Profit Traders (System) -->
+            <ng-container *ngIf="shouldDisplayHighestProfitTraders()">
+              <h6>Highest Profit Traders (System)</h6>
+              <ul class="list-group" *ngIf="dashboardData.regulator_data?.highest_profit_traders?.length > 0">
+                <li class="list-group-item" *ngFor="let t of dashboardData.regulator_data.highest_profit_traders">
+                  <strong>{{ t.username }}</strong> - ETB {{ t.profit_balance_etb }}
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #noProfitTraders>
+              <!-- Optionally, you can include a message or leave it blank -->
+            </ng-template>
+          </div>
+        </div>
+      </div> <!-- end col-md-4 -->
+    </div> <!-- end row -->
+
+    <!-- 4) Audit Trails Section (Visible Only to Regulators) -->
+    <div class="row" *ngIf="dashboardData.user_info?.role === 'regulator'">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-clipboard2-data fs-5 me-2"></i>
+              Transaction Audit Trails
+            </h5>
+            <button class="btn btn-outline-light btn-sm" (click)="fetchAuditTrails()" title="Refresh Audit Trails">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <!-- Loading Spinner -->
+            <div *ngIf="auditIsLoading" class="d-flex justify-content-center my-3">
+              <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="auditError" class="alert alert-danger" role="alert">
+              {{ auditError }}
+            </div>
+
+            <!-- Audit Trails Display -->
+            <div *ngIf="!auditIsLoading && !auditError">
+              <div *ngIf="auditDisplayData.length === 0">
+                <p>No audit trails found.</p>
+              </div>
+
+              <!-- Audit Trail Cards -->
+              <div class="row">
+                <div class="col-md-4 mb-3" *ngFor="let audit of auditDisplayData">
+                  <mat-card class="h-100">
+                    <mat-card-header>
+                      <mat-card-title>{{ audit.event_type }}</mat-card-title>
+                      <mat-card-subtitle>{{ audit.timestamp | date: 'medium' }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <!-- Display details -->
+                      <div *ngIf="!isDetailsObject(audit.details); else objectDetails">
+                        {{ audit.details }}
+                      </div>
+                      <ng-template #objectDetails>
+                        <div *ngFor="let kv of getAuditDetailKeyValuePairs(audit.details)">
+                          <strong>{{ kv.key }}:</strong> {{ kv.value }}
+                        </div>
+                      </ng-template>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+
+              <!-- Paginator -->
+              <mat-paginator
+                [length]="auditTotalRecords"
+                [pageSize]="auditPageSize"
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                (page)="onAuditPageChange($event)"
+                class="mt-3">
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end audit trails row -->
+
+  </div> <!-- end main content -->
 </div>

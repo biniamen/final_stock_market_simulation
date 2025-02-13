@@ -1,129 +1,165 @@
 // src/app/components/home/home.component.ts
 
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { Router } from '@angular/router';
+import { Subscription, interval } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
+import { ITransactionAuditTrail, DetailsObject } from '../../models/transaction-audit.model'; // Adjust the path as necessary
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-  username: string | null = '';
-  kycStatus: string | null = '';
-
+export class HomeComponent implements OnInit, OnDestroy {
+  // Dashboard Variables
   dashboardData: any = {};
-  isLoading: boolean = false;
-  error: string = '';
+  isLoading = false;
+  error = '';
+  private refreshSub?: Subscription;
 
-  // ---- Bar Chart Configuration (Top Stocks by Current Price) ----
-  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'Top Stocks by Current Price'
-      }
-    }
-  };
-
-  public barChartLabels: string[] = []; // Ticker symbols
-  public barChartData: ChartData<'bar'> = {
-    labels: this.barChartLabels,
-    datasets: [
-      {
-        data: [],
-        label: 'Current Price',
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
-      }
-    ]
-  };
-
-  // ---- Pie Chart Configuration (Trader Data: Orders vs Trades) ----
-  public pieChartOptions: ChartConfiguration<'pie'>['options'] = {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top' },
-      title: {
-        display: true,
-        text: 'Your Orders vs Trades'
-      }
-    }
-  };
-
-  public pieChartLabels: string[] = ['Total Orders', 'Total Trades'];
-  public pieChartData: ChartData<'pie'> = {
-    labels: this.pieChartLabels,
-    datasets: [
-      {
-        data: [0, 0],
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)'
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)'
-        ],
-        borderWidth: 1
-      }
-    ]
-  };
-  public pieChartType: ChartType = 'pie'; // Correctly typed
+  // Audit Trails Variables
+  auditDisplayData: ITransactionAuditTrail[] = [];
+  auditRawData: ITransactionAuditTrail[] = [];
+  auditIsLoading = false;
+  auditError = '';
+  auditTotalRecords = 0;
+  auditPageSize = 5;
+  auditCurrentPage = 0;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.loadDashboard();
-    this.username = localStorage.getItem('username');
-    this.kycStatus = localStorage.getItem('kyc_status');
-  }
+    this.fetchDashboard();
+    this.fetchAuditTrails();
 
-  loadDashboard(): void {
-    this.isLoading = true;
-    this.error = '';
-
-    // Replace with your actual API endpoint
-    this.http.get<any>('http://127.0.0.1:8000/api/stocks/dashboard/').subscribe({
-      next: (data) => {
-        this.dashboardData = data;
-        this.isLoading = false;
-        this.generateBarChartData();
-        this.generatePieChartData();
-      },
-      error: (err) => {
-        console.error('Dashboard error:', err);
-        this.error = 'Failed to load dashboard data.';
-        this.isLoading = false;
-      }
+    // Optional auto-refresh every 60s for dashboard and audit trails
+    this.refreshSub = interval(60000).subscribe(() => {
+      this.fetchDashboard();
+      this.fetchAuditTrails();
     });
   }
 
-  private generateBarChartData(): void {
-    this.barChartLabels = [];
-    this.barChartData.datasets[0].data = [];
-
-    if (this.dashboardData.top_stocks && Array.isArray(this.dashboardData.top_stocks)) {
-      this.dashboardData.top_stocks.forEach((stock: any) => {
-        this.barChartLabels.push(stock.ticker_symbol);
-        this.barChartData.datasets[0].data.push(Number(stock.current_price));
-      });
+  ngOnDestroy(): void {
+    if (this.refreshSub) {
+      this.refreshSub.unsubscribe();
     }
-
-    // Refresh the chart
-    this.barChartData = { ...this.barChartData, labels: this.barChartLabels, datasets: this.barChartData.datasets };
   }
 
-  private generatePieChartData(): void {
-    if (this.dashboardData?.user_info?.role === 'trader' && this.dashboardData.trader_data) {
-      const totalOrders = this.dashboardData.trader_data.total_orders || 0;
-      const totalTrades = this.dashboardData.trader_data.total_trades || 0;
-      this.pieChartData.datasets[0].data = [totalOrders, totalTrades];
+  // ------------------ Dashboard Fetch -------------------
+  fetchDashboard(): void {
+    this.isLoading = true;
+    this.error = '';
+
+    // Call the final extended dashboard endpoint
+    this.http.get<any>('http://localhost:8000/api/stocks/extended-dashboard/')
+      .subscribe({
+        next: data => {
+          this.isLoading = false;
+          this.dashboardData = data;
+        },
+        error: err => {
+          this.isLoading = false;
+          this.error = 'Failed to load dashboard.';
+          console.error('Dashboard error:', err);
+        }
+      });
+  }
+
+  // ------------------ Audit Trails Fetch -------------------
+  fetchAuditTrails(): void {
+    this.auditIsLoading = true;
+    this.auditError = '';
+
+    this.http.get<ITransactionAuditTrail[]>('http://localhost:8000/api/stocks/audit-trails/')
+      .subscribe({
+        next: data => {
+          this.auditRawData = data;
+          this.auditTotalRecords = data.length;
+          this.auditCurrentPage = 0; // Reset to first page
+          this.updateAuditDisplayData();
+          this.auditIsLoading = false;
+        },
+        error: err => {
+          console.error('Error fetching audit trails:', err);
+          this.auditError = 'Failed to load audit trails.';
+          this.auditIsLoading = false;
+        }
+      });
+  }
+
+  /**
+   * Updates the subset of audit data based on the current page and page size.
+   */
+  updateAuditDisplayData(): void {
+    const startIndex = this.auditCurrentPage * this.auditPageSize;
+    const endIndex = startIndex + this.auditPageSize;
+    this.auditDisplayData = this.auditRawData.slice(startIndex, endIndex);
+  }
+
+  /**
+   * Handles page changes for audit trails pagination.
+   */
+  onAuditPageChange(event: PageEvent): void {
+    this.auditPageSize = event.pageSize;
+    this.auditCurrentPage = event.pageIndex;
+    this.updateAuditDisplayData();
+  }
+
+  /**
+   * Check if 'details' is an object (so we can list each key-value pair).
+   */
+  isDetailsObject(details: string | DetailsObject | undefined): details is DetailsObject {
+    return details !== null && typeof details === 'object';
+  }
+
+  /**
+   * Convert the details object to a list of key/value pairs for easy display.
+   */
+  getAuditDetailKeyValuePairs(details: string | DetailsObject): { key: string; value: any }[] {
+    if (typeof details === 'string') {
+      return [{ key: 'Details', value: details }];
     }
+    // Convert each field in the object:
+    return Object.entries(details).map(([key, value]) => ({
+      key: this.formatKey(key),
+      value
+    }));
+  }
+
+  private formatKey(key: string): string {
+    // e.g., buyer_id -> Buyer Id
+    return key
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
+  /**
+   * Determines whether to display the "Highest Profit Traders" section.
+   */
+  shouldDisplayHighestProfitTraders(): boolean {
+    if (!this.dashboardData || !this.dashboardData.common_data) return false;
+    const traders = this.dashboardData.common_data.highest_profit_traders;
+    if (!traders || traders.length === 0) return false;
+    // Check if at least one trader has profit_balance_etb > 0
+    return traders.some((trader: any) => parseFloat(trader.profit_balance_etb) > 0);
+  }
+
+  /**
+   * Determines whether to display the sum of transaction fees.
+   */
+  shouldDisplayTransactionFees(): boolean {
+    if (!this.dashboardData || !this.dashboardData.common_data) return false;
+    const role = this.dashboardData.user_info?.role;
+    return role === 'regulator' && this.dashboardData.common_data.total_transaction_fees_etb;
+  }
+
+  /**
+   * Determines whether to display the "Highest Dividend Ratio Companies" section.
+   */
+  shouldDisplayHighestDividendRatioCompanies(): boolean {
+    if (!this.dashboardData || !this.dashboardData.common_data) return false;
+    const companies = this.dashboardData.common_data.highest_dividend_ratio_companies;
+    return companies && companies.length > 0;
   }
 }

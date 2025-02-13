@@ -24,12 +24,14 @@ export class AddStockComponent implements OnInit {
   ) {
     this.companyId = localStorage.getItem('company_id'); // Get the company ID from local storage
 
+    // Remove default '0' values; start with empty strings
     this.stockForm = this.fb.group({
+      // Keep ticker_symbol disabled; will be auto-populated
       ticker_symbol: [{ value: '', disabled: true }, Validators.required],
-      total_shares: [0, [Validators.required, Validators.min(1)]],
-      current_price: [0, [Validators.required, Validators.min(0.01)]],
-      available_shares: [{ value: 0, disabled: true }, Validators.required],
-      max_trader_buy_limit: [0, [Validators.required, Validators.min(1)]],
+      total_shares: ['', [Validators.required, Validators.min(1)]],
+      current_price: ['', [Validators.required, Validators.min(0.01)]],
+      available_shares: [{ value: '', disabled: true }, Validators.required],
+      max_trader_buy_limit: ['', [Validators.required, Validators.min(1)]],
     });
   }
 
@@ -40,7 +42,6 @@ export class AddStockComponent implements OnInit {
     } else {
       this.toastr.error('Company ID not found in local storage.');
     }
-
     this.setupMaxTraderBuyLimitValidation();
   }
 
@@ -48,6 +49,7 @@ export class AddStockComponent implements OnInit {
     this.http.get<any>(`http://127.0.0.1:8000/api/stocks/companies/${this.companyId}/`).subscribe(
       (response) => {
         this.companyName = response.company_name;
+        // Generate a 4-letter ticker from the first letters of the company name
         this.tickerSymbol = this.generateTickerSymbol(response.company_name);
         this.stockForm.get('ticker_symbol')?.setValue(this.tickerSymbol);
         this.companyDetailsLoaded = true;
@@ -62,7 +64,9 @@ export class AddStockComponent implements OnInit {
   checkIfStockExists(): void {
     this.http.get<any[]>(`http://127.0.0.1:8000/api/stocks/stocks/`).subscribe(
       (stocks) => {
-        const stockForCompany = stocks.find(stock => stock.company === parseInt(this.companyId || '', 10));
+        const stockForCompany = stocks.find(
+          (stock) => stock.company === parseInt(this.companyId || '', 10)
+        );
         if (stockForCompany) {
           this.stockExists = true;
           this.toastr.warning('A stock already exists for this company. You cannot add another one.');
@@ -76,19 +80,24 @@ export class AddStockComponent implements OnInit {
   }
 
   generateTickerSymbol(companyName: string): string {
+    // Take up to 4 letters from each word's first letter (if multiple words).
+    // Example: "Blue Nile Insurance" -> baseTicker = "BNI" => slice(0,4) => "BNI"
     const words = companyName.split(/\s+/);
-    let baseTicker = words.map(word => word[0].toUpperCase()).join('').slice(0, 3);
+    let baseTicker = words.map(word => word[0].toUpperCase()).join('').slice(0, 4);
 
+    // Check uniqueness against existing stocks
     this.http.get<any[]>(`http://127.0.0.1:8000/api/stocks/stocks/`).subscribe(
       (stocks) => {
         let ticker = baseTicker;
         let counter = 1;
 
+        // If ticker already exists, append a counter (e.g., ABC1, ABC2, ...)
         while (stocks.some(stock => stock.ticker_symbol === ticker)) {
           ticker = `${baseTicker}${counter}`;
           counter++;
         }
 
+        // Update form and class property
         this.tickerSymbol = ticker;
         this.stockForm.get('ticker_symbol')?.setValue(this.tickerSymbol);
       },
@@ -97,7 +106,6 @@ export class AddStockComponent implements OnInit {
         this.toastr.error('Failed to verify ticker symbol uniqueness.');
       }
     );
-
     return baseTicker;
   }
 
@@ -108,6 +116,7 @@ export class AddStockComponent implements OnInit {
         ticker_symbol: this.tickerSymbol,
         total_shares: this.stockForm.value.total_shares,
         current_price: this.stockForm.value.current_price,
+        // available_shares = total_shares by default
         available_shares: this.stockForm.value.total_shares,
         max_trader_buy_limit: this.stockForm.value.max_trader_buy_limit,
       };
@@ -132,19 +141,22 @@ export class AddStockComponent implements OnInit {
   resetForm(): void {
     this.stockForm.reset();
     this.formErrors = {};
+    // Keep the newly generated ticker symbol
     this.stockForm.get('ticker_symbol')?.setValue(this.tickerSymbol);
-    this.stockForm.get('available_shares')?.setValue(0);
+    this.stockForm.get('available_shares')?.setValue('');
   }
 
   onTotalSharesChange(): void {
-    const totalShares = this.stockForm.get('total_shares')?.value || 0;
+    // If blank or non-numeric, fallback to 0
+    const totalShares = +this.stockForm.get('total_shares')?.value || 0;
+    // Sync available_shares to total_shares
     this.stockForm.get('available_shares')?.setValue(totalShares);
   }
 
   setupMaxTraderBuyLimitValidation(): void {
+    // Dynamically enforce max_trader_buy_limit <= 25% of total_shares
     this.stockForm.get('total_shares')?.valueChanges.subscribe(totalShares => {
       const maxLimitControl = this.stockForm.get('max_trader_buy_limit');
-
       if (maxLimitControl) {
         const maxLimit = Math.floor(totalShares * 0.25);
         maxLimitControl.setValidators([
@@ -152,17 +164,18 @@ export class AddStockComponent implements OnInit {
           Validators.min(1),
           Validators.max(maxLimit),
         ]);
-
         maxLimitControl.updateValueAndValidity();
       }
-
       this.onTotalSharesChange();
     });
   }
 
   getErrorMessage(field: string): string | null {
+    // Show custom error messages
     if (field === 'max_trader_buy_limit') {
-      const maxLimit = Math.floor(this.stockForm.get('total_shares')?.value * 0.25 || 0);
+      const totalShares = +this.stockForm.get('total_shares')?.value || 0;
+      const maxLimit = Math.floor(totalShares * 0.25);
+
       if (this.stockForm.get(field)?.hasError('max')) {
         return `Max Trader Buy Limit cannot exceed 25% of Total Shares (${maxLimit}).`;
       }
@@ -173,6 +186,7 @@ export class AddStockComponent implements OnInit {
         return 'Max Trader Buy Limit must be at least 1.';
       }
     }
+    // Show field-level errors from the backend if any
     if (this.formErrors[field] && this.formErrors[field].length > 0) {
       return this.formErrors[field][0];
     }

@@ -5,7 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr'; // <-- Import Toastr
-
+import { forkJoin } from 'rxjs';
+import { mergeMap, map } from 'rxjs/operators';
 @Component({
   selector: 'app-stock-list',
   templateUrl: './stock-list.component.html',
@@ -34,31 +35,90 @@ export class StockListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.token = localStorage.getItem('access_token');
-    if (!this.token) {
-      alert('You must log in to access this page.');
-      return;
-    }
+    // this.token = localStorage.getItem('access_token');
+    // if (!this.token) {
+    //   alert('You must log in to access this page.');
+    //   return;
+    // }
     this.fetchStocks();
   }
-
+  openFile(url: string) {
+    // For full absolute path:
+    // window.open('http://127.0.0.1:8000' + url, '_blank');
+    window.open(url, '_blank');
+  }
   ngAfterViewInit(): void {
     // Attach paginator & sort after the view is initialized
     this.disclosureDataSource.paginator = this.paginator;
     this.disclosureDataSource.sort = this.sort;
   }
 
+  // fetchStocks(): void {
+  //   const headers = new HttpHeaders({
+  //     Authorization: `Bearer ${this.token}`,
+  //   });
+
+  //   this.http.get<any[]>('http://127.0.0.1:8000/api/stocks/stocks/', { headers })
+  //     .subscribe({
+  //       next: (data) => {
+  //         // Show only stocks that have shares available
+  //         this.stocks = data.filter((stock) => stock.available_shares > 0);
+  //         this.filteredStocks = [...this.stocks];
+  //       },
+  //       error: (err) => {
+  //         console.error('Error fetching stocks:', err);
+  //         if (err.status === 401) {
+  //           alert('Authentication failed. Please log in again.');
+  //         } else if (err.status === 0) {
+  //           alert('Cannot connect to the server. Check if the backend is running & CORS is configured.');
+  //         } else {
+  //           alert(`Unexpected error: ${err.message}`);
+  //         }
+  //       },
+  //     });
+  // }
+
+
   fetchStocks(): void {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
     });
-
+  
+    // 1) First, fetch all stocks:
     this.http.get<any[]>('http://127.0.0.1:8000/api/stocks/stocks/', { headers })
       .subscribe({
-        next: (data) => {
-          // Show only stocks that have shares available
-          this.stocks = data.filter((stock) => stock.available_shares > 0);
-          this.filteredStocks = [...this.stocks];
+        next: (allStocks) => {
+          // If you only want to show stocks with available shares, filter them first:
+          const stocksWithShares = allStocks.filter(s => s.available_shares > 0);
+  
+          // 2) Build an array of "disclosures" requests for each stock
+          const requests = stocksWithShares.map((stock) => {
+            const companyId = stock.company;
+            return this.http.get<any[]>(`http://127.0.0.1:8000/api/stocks/company/${companyId}/disclosures/`, { headers })
+              .pipe(
+                // We map the response to an object that has { stock, disclosures }
+                map(disclosures => ({ stock, disclosures }))
+              );
+          });
+  
+          // 3) Use forkJoin to wait for all requests in parallel
+          forkJoin(requests).subscribe({
+            next: (results) => {
+              // results = array of { stock, disclosures }
+              const stocksWithDisclosures = results
+                .filter(item => item.disclosures && item.disclosures.length > 0)
+                .map(item => item.stock);
+  
+              // Finally, set this.stocks to only the ones that have disclosures
+              this.stocks = stocksWithDisclosures;
+              // Also set filteredStocks for your search functionality
+              this.filteredStocks = [...this.stocks];
+            },
+            error: (err) => {
+              console.error('Error fetching disclosures in parallel:', err);
+              alert('Failed to fetch disclosures for each stock.');
+            }
+          });
         },
         error: (err) => {
           console.error('Error fetching stocks:', err);
@@ -72,7 +132,6 @@ export class StockListComponent implements OnInit {
         },
       });
   }
-
   // ---- Buy Modal Logic ----
   openBuyModal(stock: any): void {
     this.selectedStock = stock;
@@ -81,81 +140,89 @@ export class StockListComponent implements OnInit {
   }
 
   // stock-list.component.ts
-
-placeOrder(): void {
-  // Validate quantity
-  const quantityValue = parseInt(this.quantity, 10);
-  if (isNaN(quantityValue) || quantityValue <= 0) {
-    this.toastr.error('Please enter a valid quantity.', 'Validation Error');
-    return;
-  }
-
-  if (!this.selectedStock) {
-    this.toastr.error('No stock selected.', 'Validation Error');
-    return;
-  }
-
-  // Check user login
-  const userId = localStorage.getItem('user_id');
-  if (!userId) {
-    this.toastr.error('User not logged in. Please log in first.', 'Authentication Error');
-    return;
-  }
-
-  const payload = {
-    stock_id: this.selectedStock.id,
-    quantity: quantityValue,
-  };
-
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${this.token}`,
-    'Content-Type': 'application/json',
-  });
-
-  // Call the direct_buy endpoint
-  this.http.post('http://127.0.0.1:8000/api/stocks/direct_buy/', payload, { headers })
-    .subscribe({
-      next: (response: any) => {
-        const successMessage = response.message
-          ? response.message
-          : 'Order placed successfully!';
-
-        this.toastr.success(`${successMessage} Total deducted: ${response.total_deducted}`, 'Buy Order');
-
-        if (response.updated_balance !== undefined) {
-          localStorage.setItem('account_balance', response.updated_balance.toString());
-        }
-
-        if (response.profit_balance !== undefined) {
-          localStorage.setItem('profit_balance', response.profit_balance.toString());
-        }
-
-        this.dialog.closeAll();
-        this.fetchStocks();
-      },
-      error: (err: HttpErrorResponse) => {
-        console.error('Error placing order:', err);
-
-        let errorMessage = 'Failed to place the order.';
-
-        if (err.error && err.error.detail) {
-          errorMessage = err.error.detail;
-        } 
-        // Optionally, handle more specific error structures
-        else if (err.error && typeof err.error === 'object') {
-          const fieldErrors = [];
-          for (const key of Object.keys(err.error)) {
-            fieldErrors.push(`${key}: ${err.error[key]}`);
-          }
-          if (fieldErrors.length > 0) {
-            errorMessage = fieldErrors.join('\n');
-          }
-        }
-
-        this.toastr.error(errorMessage, 'Buy Order Error');
-      }
+  placeOrder(): void {
+    // Validate quantity
+    const quantityValue = parseInt(this.quantity, 10);
+    if (isNaN(quantityValue) || quantityValue <= 0) {
+      this.toastr.error('Please enter a valid quantity.', 'Validation Error');
+      return;
+    }
+  
+    if (!this.selectedStock) {
+      this.toastr.error('No stock selected.', 'Validation Error');
+      return;
+    }
+  
+    // Check user login
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      this.toastr.error('User not logged in. Please log in first.', 'Authentication Error');
+      return;
+    }
+  
+    const payload = {
+      stock_id: this.selectedStock.id,
+      quantity: quantityValue,
+    };
+  
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+      'Content-Type': 'application/json',
     });
-}
+  
+    // Call the direct_buy endpoint
+    this.http.post('http://127.0.0.1:8000/api/stocks/direct_buy/', payload, { headers })
+      .subscribe({
+        next: (response: any) => {
+          const successMessage = response.message
+            ? response.message
+            : 'Order placed successfully!';
+  
+          this.toastr.success(`${successMessage} Total deducted: ${response.total_deducted}`, 'Buy Order');
+  
+          if (response.updated_balance !== undefined) {
+            localStorage.setItem('account_balance', response.updated_balance.toString());
+          }
+  
+          if (response.profit_balance !== undefined) {
+            localStorage.setItem('profit_balance', response.profit_balance.toString());
+          }
+  
+          this.dialog.closeAll();
+          this.fetchStocks();
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error placing order:', err);
+  
+          let errorMessage = 'Failed to place the order.';
+  
+          if (err.error && err.error.detail) {
+            // Use a regular expression to extract the message within the single quotes after 'string='
+            const regex = /string='(.+?)'/;
+            const match = regex.exec(err.error.detail);
+            if (match && match[1]) {
+              errorMessage = match[1];
+            } else {
+              // Fallback to the full detail message if regex doesn't match
+              errorMessage = err.error.detail;
+            }
+          } 
+          // Optionally, handle more specific error structures
+          else if (err.error && typeof err.error === 'object') {
+            const fieldErrors = [];
+            for (const key of Object.keys(err.error)) {
+              fieldErrors.push(`${key}: ${err.error[key]}`);
+            }
+            if (fieldErrors.length > 0) {
+              errorMessage = fieldErrors.join('\n');
+            }
+          }
+  
+          this.toastr.error(errorMessage, 'Buy Order Error');
+        }
+      });
+  }
+
 
   // ---- Disclosures Modal Logic ----
   openDisclosureModal(companyId: number): void {

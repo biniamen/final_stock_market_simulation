@@ -32,12 +32,12 @@ export class AuthService {
     }
 
      // **Ensure this listener is present to handle 'lastLogin' changes**
-   window.addEventListener('storage', (event) => {
-    if (event.key === 'lastLogin') {
-      // A new login occurred elsewhere, so log out this tab/browser
-      this.logout(false); // Pass 'false' to avoid notifying the backend again
-    }
-  });
+  //  window.addEventListener('storage', (event) => {
+  //   if (event.key === 'lastLogin') {
+  //     // A new login occurred elsewhere, so log out this tab/browser
+  //     this.logout(false); // Pass 'false' to avoid notifying the backend again
+  //   }
+  // });
   }
 
   /**
@@ -157,7 +157,7 @@ export class AuthService {
     this.router.navigate(['/login']);
     
     // Show toastr notification
-    this.toastr.warning('You have been logged out from another device/browser.', 'Logged Out');
+    //this.toastr.warning('You have been logged out from another device/browser.', 'Logged Out');
   }
 
   /**

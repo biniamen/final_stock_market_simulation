@@ -5,6 +5,7 @@ from django.utils.timezone import localtime, localdate
 from django.contrib.auth import get_user_model
 from rest_framework.exceptions import ValidationError
 import logging
+from django.db.models import Sum, F
 
 # Adjust these imports based on your project structure
 from ethio_stock_simulation.utils import send_order_notification
@@ -246,7 +247,7 @@ class Orders(models.Model):
     def _perform_basic_checks(self, direct_purchase=False):
         """
         Basic validations: suspensions, working hours, daily trade limit,
-        portfolio existence, buy/sell constraints.
+        portfolio existence, buy/sell constraints, daily trade amount limit, etc.
         """
         # 1. Check suspensions
         if StockSuspension.objects.filter(
@@ -262,7 +263,7 @@ class Orders(models.Model):
             if not is_within_working_hours(current_time):
                 raise ValidationError("Orders can only be created during working hours.")
 
-        # 3. Daily trade limit
+        # 3. Daily trade (count) limit
         daily_trade_limit = get_regulation_value("Daily Trade Limit")
         if daily_trade_limit:
             user_trades_today = Orders.objects.filter(
@@ -270,6 +271,64 @@ class Orders(models.Model):
             ).count()
             if user_trades_today >= int(daily_trade_limit):
                 raise ValidationError("Daily trade limit reached.")
+
+        # -----------------------------
+        # 3.1. Daily trade AMOUNT limit
+        # -----------------------------
+        # Suppose you store the numeric limit in the regulation as a string or decimal.
+        daily_trade_amount_limit = get_regulation_value("Daily Trade Amount Limit")
+        if daily_trade_amount_limit:
+            # Convert string to Decimal if needed
+            daily_trade_amount_limit = Decimal(daily_trade_amount_limit)
+
+            # Sum up the user's total traded amount for the current day.
+            # Here, we consider *all* trades or just *buy* trades, depending on your rule.
+            # Example 1: Summing *all* trades (buy + sell).
+            user_trades_today_amount = Trade.objects.filter(
+                user=self.user,
+                trade_time__date=localdate()  # trades made today
+            ).aggregate(
+                total_amount=Sum(F('quantity') * F('price'))
+            )['total_amount'] or Decimal('0.00')
+
+            # OR Example 2: Summing *only buy* trades
+            # user_trades_today_amount = Trade.objects.filter(
+            #     user=self.user,
+            #     order__action='Buy',  # only Buy side
+            #     trade_time__date=localdate()
+            # ).aggregate(
+            #     total_amount=Sum(F('quantity') * F('price'))
+            # )['total_amount'] or Decimal('0.00')
+
+            # We'll calculate the cost of this new order:
+            # For a Buy order:
+            if self.action == 'Buy':
+                # For a Market Buy, use stock.current_price if self.price is None
+                if self.price is None:
+                    stock_price = self.stock.current_price or Decimal('0.00')
+                else:
+                    stock_price = self.price
+                new_order_cost = stock_price * self.quantity
+
+                # Check if adding this cost to what the user has already traded exceeds the limit.
+                if (user_trades_today_amount + new_order_cost) > daily_trade_amount_limit:
+                    raise ValidationError("Daily trade amount limit reached.")
+
+            # If you also want to restrict sells by the *proceeds* of the sell, or treat them
+            # as part of a total volume, do something similar for `self.action == 'Sell'`.
+            # For a Sell order, "amount" might be (sell_price * quantity). 
+            # Adjust to your business logic:
+            if self.action == 'Sell':
+                # Suppose you also want to count sells toward the daily volume:
+                if self.order_type == 'Limit' and self.price is not None:
+                    potential_sell_amount = self.price * self.quantity
+                else:
+                    # For a Market Sell, might use stock.current_price
+                    potential_sell_amount = self.stock.current_price * self.quantity
+
+                if (user_trades_today_amount + potential_sell_amount) > daily_trade_amount_limit:
+                    raise ValidationError("Daily trade amount limit reached.")
+        # -----------------------------
 
         # 4. Ensure portfolio exists
         portfolio, created = UsersPortfolio.objects.get_or_create(
@@ -318,44 +377,55 @@ class Orders(models.Model):
 
     @classmethod
     def _handle_buy_order(cls, buy_order):
-        """Process Market/Limit Buy: partial fill from pending Sell orders, then match remaining with company if applicable."""
+        """Process Market/Limit Buy: partial fill from pending/partially completed Sell orders, then match remaining with company."""
         stock = buy_order.stock
 
-        # 1. Match with existing Sell Orders first (Priority over buying from the company)
+        # 1. Match with existing Sell Orders
+        # -- STATUS CORRECTION: we look for sell orders with status in ['Pending', 'Partially Completed'].
         if buy_order.order_type == 'Market':
-            # No price limit from buyer side
+            # No price limit from buyer side; lowest price first
             sell_orders = cls.objects.filter(
                 stock=stock,
                 action='Sell',
-                status='Pending'
+                status__in=['Pending', 'Partially Completed']
             ).order_by('price', 'created_at')  # Lowest price first
         else:
             # Limit Buy: price__lte=buy_order.price
             sell_orders = cls.objects.filter(
                 stock=stock,
                 action='Sell',
-                status='Pending',
+                status__in=['Pending', 'Partially Completed'],
                 price__lte=buy_order.price
             ).order_by('price', 'created_at')  # Lowest price first
 
         for pending_sell in sell_orders:
             if buy_order.quantity == 0:
                 break
+
+            # The trade price is the seller's price (in a simple matching engine)
+            trade_price = pending_sell.price
             trade_quantity = min(buy_order.quantity, pending_sell.quantity)
-            trade_price = pending_sell.price  # Seller's asking price
 
             trade_buyer, trade_seller = Trade.execute_trade(buy_order, pending_sell, trade_quantity, trade_price)
 
+            # Update quantities
             buy_order.quantity -= trade_quantity
             pending_sell.quantity -= trade_quantity
 
-            buy_order.status = 'Fully Completed' if buy_order.quantity == 0 else 'Partially Completed'
-            pending_sell.status = 'Fully Completed' if pending_sell.quantity == 0 else 'Partially Completed'
-
-            buy_order.save()
+            # Update statuses
+            if pending_sell.quantity == 0:
+                pending_sell.status = 'Fully Completed'
+            else:
+                pending_sell.status = 'Partially Completed'
             pending_sell.save()
 
-        # 2. If there's remaining quantity, buy from the company (for Market and Limit Orders)
+            if buy_order.quantity == 0:
+                buy_order.status = 'Fully Completed'
+            else:
+                buy_order.status = 'Partially Completed'
+            buy_order.save()
+
+        # 2. If there's remaining quantity, buy from the company (only if Market or if stock.current_price <= limit)
         if buy_order.quantity > 0:
             if buy_order.order_type == 'Market':
                 available_shares = stock.available_shares
@@ -368,7 +438,10 @@ class Orders(models.Model):
                     stock.save()
 
                     buy_order.quantity -= trade_quantity
-                    buy_order.status = 'Fully Completed' if buy_order.quantity == 0 else 'Partially Completed'
+                    if buy_order.quantity == 0:
+                        buy_order.status = 'Fully Completed'
+                    else:
+                        buy_order.status = 'Partially Completed'
                     buy_order.save()
 
             elif buy_order.order_type == 'Limit':
@@ -384,70 +457,60 @@ class Orders(models.Model):
                         stock.save()
 
                         buy_order.quantity -= trade_quantity
-                        buy_order.status = 'Fully Completed' if buy_order.quantity == 0 else 'Partially Completed'
+                        if buy_order.quantity == 0:
+                            buy_order.status = 'Fully Completed'
+                        else:
+                            buy_order.status = 'Partially Completed'
                         buy_order.save()
-
 
     @classmethod
     def _handle_sell_order(cls, sell_order):
-        """Process Market/Limit Sell: match with highest-price Buy orders, partial fill, leftover remains pending."""
+        """Process Market/Limit Sell: match with highest-price Buy orders; partial fill leftover remains pending."""
         stock = sell_order.stock
 
+        # -- STATUS CORRECTION: we look for buy orders with status in ['Pending', 'Partially Completed'].
         if sell_order.order_type == 'Market':
             # Match with Buy orders at highest price first
             buy_orders = cls.objects.filter(
                 stock=stock,
                 action='Buy',
-                status='Pending'
+                status__in=['Pending', 'Partially Completed']
             ).order_by('-price', 'created_at')  # Highest price first
-
-            for pending_buy in buy_orders:
-                if sell_order.quantity == 0:
-                    break
-
-                # Determine trade price
-                if pending_buy.order_type == 'Limit':
-                    trade_price = pending_buy.price
-                else:
-                    trade_price = stock.current_price
-
-                trade_quantity = min(sell_order.quantity, pending_buy.quantity)
-                trade_buyer, trade_seller = Trade.execute_trade(pending_buy, sell_order, trade_quantity, trade_price)
-
-                sell_order.quantity -= trade_quantity
-                pending_buy.quantity -= trade_quantity
-
-                sell_order.status = 'Fully Completed' if sell_order.quantity == 0 else 'Partially Completed'
-                pending_buy.status = 'Fully Completed' if pending_buy.quantity == 0 else 'Partially Completed'
-
-                sell_order.save()
-                pending_buy.save()
-
-        elif sell_order.order_type == 'Limit':
-            # Match with Buy orders priced >= sell_order.price
+        else:  # Limit
+            # Limit Sell: price__gte=sell_order.price
             buy_orders = cls.objects.filter(
                 stock=stock,
                 action='Buy',
-                status='Pending',
+                status__in=['Pending', 'Partially Completed'],
                 price__gte=sell_order.price
             ).order_by('-price', 'created_at')  # Highest price first
 
-            for pending_buy in buy_orders:
-                if sell_order.quantity == 0:
-                    break
+        for pending_buy in buy_orders:
+            if sell_order.quantity == 0:
+                break
 
-                trade_quantity = min(sell_order.quantity, pending_buy.quantity)
-                trade_price = pending_buy.price  # Buyer's price
-                trade_buyer, trade_seller = Trade.execute_trade(pending_buy, sell_order, trade_quantity, trade_price)
+            # The trade price can be the buyer's price (common approach).
+            trade_price = pending_buy.price if pending_buy.order_type == 'Limit' else stock.current_price
+            trade_quantity = min(sell_order.quantity, pending_buy.quantity)
 
-                sell_order.quantity -= trade_quantity
-                pending_buy.quantity -= trade_quantity
+            trade_buyer, trade_seller = Trade.execute_trade(pending_buy, sell_order, trade_quantity, trade_price)
 
-                sell_order.status = 'Fully Completed' if sell_order.quantity == 0 else 'Partially Completed'
-                pending_buy.status = 'Fully Completed' if pending_buy.quantity == 0 else 'Partially Completed'
+            # Update quantities
+            sell_order.quantity -= trade_quantity
+            pending_buy.quantity -= trade_quantity
 
-                sell_order.save()
-                pending_buy.save()
+            # Update statuses
+            if pending_buy.quantity == 0:
+                pending_buy.status = 'Fully Completed'
+            else:
+                pending_buy.status = 'Partially Completed'
+            pending_buy.save()
+
+            if sell_order.quantity == 0:
+                sell_order.status = 'Fully Completed'
+            else:
+                sell_order.status = 'Partially Completed'
+            sell_order.save()
 
 
 class Trade(models.Model):
@@ -645,7 +708,8 @@ class Trade(models.Model):
                     portfolio.average_purchase_price = (portfolio.total_investment / portfolio.quantity).quantize(Decimal('0.01'))
             else:
                 portfolio.quantity -= quantity
-                #portfolio.total_investment -= quantity * price
+                # We subtract from total_investment based on the average purchase price,
+                # not the current trade price, to keep consistent cost basis.
                 portfolio.total_investment -= quantity * portfolio.average_purchase_price
                 if portfolio.quantity > 0:
                     portfolio.average_purchase_price = (portfolio.total_investment / portfolio.quantity).quantize(Decimal('0.01'))
@@ -668,7 +732,7 @@ def notify_user_real_time(user, message):
     )
 
 
-# models.py
+# Additional models for Dividend, DailyClosingPrice, Disclosure, etc.
 
 class Dividend(models.Model):
     company = models.ForeignKey(ListedCompany, on_delete=models.CASCADE, related_name='dividends')
@@ -682,7 +746,6 @@ class Dividend(models.Model):
     )
 
     class Meta:
-        # Add unique constraint so you can’t create a second Dividend for the same year & company
         unique_together = ('company', 'budget_year')
 
     def __str__(self):
@@ -695,7 +758,7 @@ class DailyClosingPrice(models.Model):
     closing_price = models.DecimalField(max_digits=15, decimal_places=2)
 
     def __str__(self):
-        return f"{self.stock.ticker_symbol} closing price on {self.date}: {self.closing_price}"  
+        return f"{self.stock.ticker_symbol} closing price on {self.date}: {self.closing_price}"
 
 
 class Disclosure(models.Model):
@@ -753,8 +816,8 @@ class DividendDistribution(models.Model):
     def __str__(self):
         return (f"DividendDistribution: Dividend={self.dividend.id}, "
                 f"User={self.user.username}, Amount={self.amount}")
-        
-    
+
+
 class DividendDetailedHolding(models.Model):
     dividend = models.ForeignKey(
         'Dividend',
@@ -781,8 +844,8 @@ class DividendDetailedHolding(models.Model):
     paid_dividend = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('0.00'))
 
     # NEW FIELDS
-    company_id = models.IntegerField(null=True, blank=True)    # just store the Company’s primary key
-    budget_year = models.CharField(max_length=4, blank=True)   # the same Budget year as in Dividend
+    company_id = models.IntegerField(null=True, blank=True)
+    budget_year = models.CharField(max_length=4, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,10 +1,13 @@
+// src/app/components/suspensions/suspensions.component.ts
+
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { ApiService, Suspension } from '../../services/api.service';
 
 @Component({
@@ -15,14 +18,15 @@ import { ApiService, Suspension } from '../../services/api.service';
 export class SuspensionsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
-    'trader',
-    'stock',
+    'trader_username',            // Updated column
+    'stock_ticker_symbol',        // Updated column
     'suspension_type',
     'initiator',
     'reason',
     'is_active',
     'created_at',
-    'released_at'
+    'released_at',
+    'actions'                      // Added actions column for edit/delete
   ];
   dataSource = new MatTableDataSource<Suspension>([]);
   isLoading = true;
@@ -33,13 +37,9 @@ export class SuspensionsComponent implements OnInit {
   editItemId: number | null = null;
 
   // For dropdowns
-  traders: any[] = [];  // array of all traders (id, name, etc.)
-  stocks: any[] = [];   // array of all stocks (id, name, etc.)
-
-  // Example: “Specific Stock” or “All Stocks”
+  traders: any[] = [];  // array of all traders (id, username, etc.)
+  stocks: any[] = [];   // array of all stocks (id, ticker_symbol, etc.)
   suspensionTypes = ['Specific Stock', 'All Stocks'];
-
-  // Example: “Listing Company” or “Regulatory Body”
   initiators = ['Listing Company', 'Regulatory Body'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -59,7 +59,7 @@ export class SuspensionsComponent implements OnInit {
       stock: [''],
       initiator: ['', Validators.required],
       reason: ['', Validators.required],
-      // Check = Suspended, Uncheck = Released
+      // true => Suspended, false => Released
       is_active: [true]
     });
   }
@@ -71,7 +71,9 @@ export class SuspensionsComponent implements OnInit {
     this.handleSuspensionTypeChange();
   }
 
-  // Fetch all suspensions
+  // ---------------------------
+  //        API FETCHES
+  // ---------------------------
   fetchSuspensions(): void {
     this.isLoading = true;
     this.apiService.getSuspensions().subscribe({
@@ -89,11 +91,10 @@ export class SuspensionsComponent implements OnInit {
     });
   }
 
-  // Fetch all traders for the dropdown
   fetchTraders(): void {
     this.apiService.getTraders().subscribe({
       next: (data) => {
-        this.traders = data; // assume data is an array of {id, name} or similar
+        this.traders = data;
       },
       error: (err) => {
         console.error('Error fetching traders:', err);
@@ -102,11 +103,10 @@ export class SuspensionsComponent implements OnInit {
     });
   }
 
-  // Fetch all stocks for the dropdown
   fetchStocks(): void {
     this.apiService.getStocks().subscribe({
       next: (data) => {
-        this.stocks = data; // assume data is an array of {id, name} or similar
+        this.stocks = data;
       },
       error: (err) => {
         console.error('Error fetching stocks:', err);
@@ -115,12 +115,13 @@ export class SuspensionsComponent implements OnInit {
     });
   }
 
-  // Open dialog for creating a new suspension
+  // ---------------------------
+  //       DIALOG OPEN
+  // ---------------------------
   openAddSuspensionModal(): void {
     this.isEditMode = false;
     this.editItemId = null;
-
-    // Reset form to defaults
+    // Reset form
     this.suspensionForm.reset({
       trader: '',
       suspension_type: '',
@@ -129,29 +130,27 @@ export class SuspensionsComponent implements OnInit {
       reason: '',
       is_active: true
     });
-
-    // Enable the trader selection in add mode
+    // Enable trader selection
     this.suspensionForm.get('trader')?.enable();
 
     this.dialog.open(this.suspensionDialog, { width: '800px' });
   }
 
-  // Open dialog for editing an existing suspension
   openEditSuspensionModal(item: Suspension): void {
     this.isEditMode = true;
     this.editItemId = item.id || null;
 
-    // Patch form with existing data
+    // Patch form
     this.suspensionForm.patchValue({
       trader: item.trader,
       suspension_type: item.suspension_type,
       stock: item.stock || '',
       initiator: item.initiator,
       reason: item.reason,
-      is_active: item.is_active // true => suspended, false => released
+      is_active: item.is_active
     });
 
-    // Make trader read-only (disabled) in edit mode
+    // Make trader read-only
     this.suspensionForm.get('trader')?.disable();
 
     this.dialog.open(this.suspensionDialog, { width: '800px' });
@@ -165,30 +164,24 @@ export class SuspensionsComponent implements OnInit {
         stockControl?.setValidators([Validators.required]);
       } else {
         stockControl?.clearValidators();
-        stockControl?.setValue(''); // reset the stock field
+        stockControl?.setValue('');
       }
       stockControl?.updateValueAndValidity();
     });
   }
 
-  // Create or update a suspension
+  // ---------------------------
+  //      CREATE/UPDATE
+  // ---------------------------
   submitSuspension(): void {
-    // If form invalid, do nothing
     if (this.suspensionForm.invalid) return;
 
-    // Collect payload
-    // Note: If trader field is disabled (edit mode), .value will be empty;
-    //       use getRawValue() to retrieve disabled control values.
+    // If trader is disabled in edit mode, we must use getRawValue
     const formValue = this.suspensionForm.getRawValue();
-    const payload: Suspension = {
-      ...formValue
-      // If you need to map fields, do it here
-    };
 
-    // Distinguish between create vs. update
     if (this.isEditMode && this.editItemId) {
-      // Update existing suspension
-      this.apiService.updateSuspension(this.editItemId, payload).subscribe({
+      // Update
+      this.apiService.updateSuspension(this.editItemId, formValue).subscribe({
         next: () => {
           this.toastr.success('Suspension updated successfully.', 'Success');
           this.dialog.closeAll();
@@ -200,8 +193,8 @@ export class SuspensionsComponent implements OnInit {
         }
       });
     } else {
-      // Create new suspension
-      this.apiService.createSuspension(payload).subscribe({
+      // Create
+      this.apiService.createSuspension(formValue).subscribe({
         next: () => {
           this.toastr.success('Suspension created successfully.', 'Success');
           this.dialog.closeAll();
@@ -215,7 +208,32 @@ export class SuspensionsComponent implements OnInit {
     }
   }
 
-  // Delete a suspension
+  // ---------------------------
+  //      RELEASE SUSPENSION
+  // ---------------------------
+  releaseCurrentSuspension(): void {
+    if (!this.editItemId) return;
+
+    if (!confirm('Are you sure you want to release this trader from suspension?')) {
+      return;
+    }
+
+    this.apiService.releaseSuspension(this.editItemId).subscribe({
+      next: () => {
+        this.toastr.success('Suspension released successfully.', 'Success');
+        this.dialog.closeAll();
+        this.fetchSuspensions();
+      },
+      error: (err) => {
+        console.error('Error releasing suspension:', err);
+        this.toastr.error('Failed to release suspension.', 'Error');
+      }
+    });
+  }
+
+  // ---------------------------
+  //        DELETE
+  // ---------------------------
   deleteSuspension(id: number): void {
     if (confirm('Are you sure you want to delete this suspension?')) {
       this.apiService.deleteSuspension(id).subscribe({
@@ -231,28 +249,14 @@ export class SuspensionsComponent implements OnInit {
     }
   }
 
-  // Release a suspension (shortcut method, if needed)
-  releaseSuspension(id: number): void {
-    if (confirm('Are you sure you want to release this suspension?')) {
-      this.apiService.releaseSuspension(id).subscribe({
-        next: () => {
-          this.toastr.success('Suspension released successfully.', 'Success');
-          this.fetchSuspensions();
-        },
-        error: (err) => {
-          console.error('Error releasing suspension:', err);
-          this.toastr.error('Failed to release suspension.', 'Error');
-        }
-      });
-    }
-  }
-
-  // Export table to CSV
+  // ---------------------------
+  //     UTILITY ACTIONS
+  // ---------------------------
   exportToCSV(): void {
-    // Implement your CSV export logic here
+    // Implement CSV export logic
+    // You can use libraries like ngx-csv or manually create a CSV string and trigger download
   }
 
-  // Print the table
   printTable(): void {
     window.print();
   }

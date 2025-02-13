@@ -1,0 +1,133 @@
+<!-- src/app/components/listed-companies/listed-companies.component.html -->
+
+<div class="container-fluid mt-4">
+    <!-- Header Section -->
+    <div class="row mb-3 align-items-center">
+      <div class="col">
+        <h2 class="text-primary">Listed Companies Management</h2>
+      </div>
+      <div class="col text-end">
+        <!-- Action Buttons -->
+        <button mat-raised-button color="accent" class="me-2" (click)="exportToCSV()">Export</button>
+        <button mat-raised-button color="primary" class="me-2" (click)="printTable()">Print</button>
+        <button mat-raised-button color="warn" (click)="openAddCompanyModal()">
+          Add Listed Company
+        </button>
+      </div>
+    </div>
+  
+    <!-- Listed Companies Table Card -->
+    <div class="card">
+      <div class="card-body">
+        <!-- Loading Spinner -->
+        <div class="d-flex justify-content-center" *ngIf="isLoading">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+  
+        <!-- Listed Companies Table -->
+        <div *ngIf="!isLoading" class="table-responsive">
+          <table mat-table [dataSource]="dataSource" matSort class="table table-hover">
+  
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+              <td mat-cell *matCellDef="let company">{{ company.id }}</td>
+            </ng-container>
+  
+            <!-- Company Name Column -->
+            <ng-container matColumnDef="company_name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</th>
+              <td mat-cell *matCellDef="let company">{{ company.company_name }}</td>
+            </ng-container>
+  
+            <!-- Sector Column -->
+            <ng-container matColumnDef="sector">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Sector</th>
+              <td mat-cell *matCellDef="let company">{{ company.sector }}</td>
+            </ng-container>
+  
+            <!-- Last Updated Column -->
+            <ng-container matColumnDef="last_updated">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Updated</th>
+              <td mat-cell *matCellDef="let company">{{ company.last_updated | date:'short' }}</td>
+            </ng-container>
+  
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let company">
+                <button mat-icon-button color="primary" (click)="openEditCompanyModal(company)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteCompany(company.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+  
+            <!-- Header and Row Declarations -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns;"
+              style="cursor: pointer;"
+            ></tr>
+          </table>
+        </div>
+  
+        <!-- Paginator -->
+        <mat-paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add/Edit Company Modal -->
+  <ng-template #companyDialog>
+    <h2 mat-dialog-title class="text-center">
+      {{ isEditMode ? 'Edit Listed Company' : 'Add Listed Company' }}
+    </h2>
+    <div mat-dialog-content>
+      <form [formGroup]="companyForm" class="row g-3">
+        <!-- Company Name -->
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="company_name" required>
+            <mat-error *ngIf="companyForm.get('company_name')?.hasError('required')">
+              Company Name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+        <!-- Sector -->
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Sector</mat-label>
+            <input matInput formControlName="sector" required>
+            <mat-error *ngIf="companyForm.get('sector')?.hasError('required')">
+              Sector is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  
+    <div mat-dialog-actions class="d-flex justify-content-between mt-3">
+      <div>
+        <button mat-button mat-dialog-close class="me-2">Cancel</button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="submitCompany()"
+          [disabled]="companyForm.invalid"
+        >
+          {{ isEditMode ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  

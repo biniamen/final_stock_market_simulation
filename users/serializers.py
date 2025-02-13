@@ -25,12 +25,10 @@ class UserSerializer(serializers.ModelSerializer):
             'company_id',
             'date_registered',
             'last_login',
-            'otp_verified',  
+            'otp_verified',
             'otp_attempts',
             'is_approved',
             'token_version',  # Include token_version
-
-
         )
         extra_kwargs = {
             'password': {'write_only': True},
@@ -39,6 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
             'account_balance': {'read_only': True},
             'profit_balance': {'read_only': True},
         }
+
     def validate(self, attrs):
         role = attrs.get('role')
         company_id = attrs.get('company_id')
@@ -78,25 +77,17 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             email=validated_data['email'],
             role=validated_data['role'],
-            company_id=validated_data.get('company_id', None),  # Save company ID
+            company_id=validated_data.get('company_id', None),
             kyc_document=validated_data.get('kyc_document', None),
         )
         return user
 
-    # def to_representation(self, instance):
-    #     """
-    #     Customize the serialized output.
-    #     """
-    #     representation = super().to_representation(instance)
-    #     if instance.role != 'trader':
-    #         representation.pop('account_balance', None)
-    #         representation.pop('profit_balance', None)
-    #     if instance.role != 'company_admin':
-    #         representation.pop('company_id', None)
-    #     return representation
     def to_representation(self, instance):
+        """
+        Add absolute URL for kyc_document if present.
+        """
         representation = super().to_representation(instance)
-        request = self.context.get('request')  # Correctly get the request
+        request = self.context.get('request')
 
         if instance.kyc_document:
             if request:
@@ -123,7 +114,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     Includes additional user data in the response.
     """
 
-    # Include additional fields
+    # Additional fields
     account_balance = serializers.DecimalField(max_digits=15, decimal_places=2, read_only=True)
     profit_balance = serializers.DecimalField(max_digits=15, decimal_places=2, read_only=True)
     role = serializers.CharField(read_only=True)
@@ -132,22 +123,17 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     email = serializers.EmailField(read_only=True)
     username = serializers.CharField(read_only=True)
     id = serializers.IntegerField(read_only=True)
-    token_version = serializers.IntegerField(read_only=True)  # Include token_version
+    token_version = serializers.IntegerField(read_only=True)
 
     def validate(self, attrs):
-        # Extract reCAPTCHA token
-        captcha_token = self.initial_data.get('g-recaptcha-response')
-
-        # if not captcha_token:
-        #     raise serializers.ValidationError({"detail": "reCAPTCHA token is missing."})
-
-        # # Verify reCAPTCHA
-        # if not verify_captcha(captcha_token):
+        # If using reCAPTCHA:
+        # captcha_token = self.initial_data.get('g-recaptcha-response')
+        # if not captcha_token or not verify_captcha(captcha_token):
         #     raise serializers.ValidationError({"detail": "Invalid reCAPTCHA. Please try again."})
 
         data = super().validate(attrs)
 
-        # Add additional responses here
+        # Add additional responses
         data.update({
             'username': self.user.username,
             'email': self.user.email,
@@ -157,11 +143,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             'company_id': self.user.company_id,
             'account_balance': self.user.account_balance,
             'profit_balance': self.user.profit_balance,
-            'token_version': self.user.token_version,  # Include token_version
-
+            'token_version': self.user.token_version,
         })
 
         return data
+
+
 class VerifyOTPSerializer(serializers.Serializer):
     email = serializers.EmailField()
     otp_code = serializers.CharField(max_length=6)

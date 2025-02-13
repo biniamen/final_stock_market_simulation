@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
@@ -15,6 +16,7 @@ export class ForgotPasswordComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
+    private router: Router,
     private toastr: ToastrService
   ) {
     this.forgotPasswordForm = this.fb.group({
@@ -31,6 +33,7 @@ export class ForgotPasswordComponent {
     this.http.post<any>('http://localhost:8000/api/users/forgot-password/', { email }).subscribe({
       next: (res) => {
         this.toastr.success(res.detail || 'If email is registered, a reset link was sent.', 'Success');
+        this.router.navigate(['/login']); // or wherever you want
         this.isLoading = false;
       },
       error: (err) => {

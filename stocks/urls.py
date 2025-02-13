@@ -1,13 +1,15 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from .views import (
+    CapitalizeProfitView,
     CompanyDisclosuresView,
-    DashboardView,
     DirectStockPurchaseView,
     DisclosureViewSet,
     DistributeDividendView,
     DividendDetailedHoldingViewSet,
     DividendDistributionViewSet,
+    FinalExtendedDashboardView,
+    ImportantReportView,
     RegulatorDividendListView,
     StockNetHoldingsView,
     StockTradesWithOrderInfoView,
@@ -26,6 +28,7 @@ from .views import (
     OrdersViewSet,
     TradeViewSet,
     DividendViewSet,
+    WithdrawProfitView,
     suspicious_activities,
 )
 
@@ -83,8 +86,11 @@ urlpatterns = [
     path('user_balances/', UserBalancesView.as_view(), name='user-balances'),
      path('dividends/trader/', TraderDividendListView.as_view(), name='trader-dividends'),
     path('dividends/regulator/', RegulatorDividendListView.as_view(), name='regulator-dividends'),
-    path('dashboard/', DashboardView.as_view(), name='dashboard'),
-
+    path('extended-dashboard/', FinalExtendedDashboardView.as_view(), name='extended-dashboard'),
+    path('important_report/', ImportantReportView.as_view(), name='important-report'),
+    path('capitalize_profit/', CapitalizeProfitView.as_view(), name='capitalize-profit'),
+    path('withdraw_profit/', WithdrawProfitView.as_view(), name='withdraw-profit'),
+    
     
 ]
 

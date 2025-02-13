@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
+# We'll do an inline import inside the method to avoid circular imports
+# from stocks.models import ListedCompany
+
 from ethio_stock_simulation.utils import generate_otp, send_verification_email
 
 
@@ -16,7 +19,7 @@ class CustomUser(AbstractUser):
     is_approved = models.BooleanField(default=False)
     kyc_document = models.FileField(upload_to='kyc_documents/', blank=True, null=True)
     kyc_verified = models.BooleanField(default=False)
-    company_id = models.IntegerField(null=True, blank=True)
+    company_id = models.IntegerField(null=True, blank=True)  # Will be used to reference ListedCompany’s primary key
     account_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0.00, null=True, blank=True)
     profit_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0.00, null=True, blank=True)
     date_registered = models.DateTimeField(default=timezone.now)
@@ -28,30 +31,57 @@ class CustomUser(AbstractUser):
     otp_verified = models.BooleanField(default=False)
     otp_attempts = models.IntegerField(default=0)  # Track OTP retry attempts
     
-    # **Added Field:** Token Version
+    # Token Version
     token_version = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
-        is_new_user = not self.pk  # Check if the user is being created for the first time
+        """
+        Custom save to handle:
+        - Setting default balance for traders
+        - Sending OTP email for new traders or company admins
+        """
+        is_new_user = not self.pk  # Check if the user is being created (no primary key yet)
 
         if is_new_user:
             # Set account_balance to 10000 if the role is 'trader'
             if self.role == 'trader':
-                self.account_balance = 10000.00
+                self.account_balance = 20000.00
 
-            super().save(*args, **kwargs)  # Save the user to generate a primary key
+            super().save(*args, **kwargs)  # Save once to generate a primary key (self.pk)
 
+            # For 'trader' or 'company_admin', send OTP
             if self.role in ['trader', 'company_admin']:
                 otp = generate_otp()
                 self.otp_code = otp
                 self.otp_sent_at = timezone.now()
-                email_sent = send_verification_email(self.email, self.username, otp)
+
+                # Try to get the company name if role == 'company_admin'
+                company_name = None
+                if self.role == 'company_admin' and self.company_id:
+                    try:
+                        from stocks.models import ListedCompany  # Inline import to avoid circular dependency
+                        company = ListedCompany.objects.get(id=self.company_id)
+                        company_name = company.company_name
+                    except ListedCompany.DoesNotExist:
+                        company_name = None
+
+                # Send verification email with role, and if 'company_admin' also pass company_name
+                email_sent = send_verification_email(
+                    to_email=self.email,
+                    username=self.username,
+                    otp=otp,
+                    role=self.role,
+                    company_name=company_name
+                )
+
                 if email_sent:
                     print(f"OTP sent to {self.email}")
                 else:
                     print("Failed to send OTP.")
-                super().save(update_fields=['otp_code', 'otp_sent_at'])  # Save OTP-related fields
+
+                super().save(update_fields=['otp_code', 'otp_sent_at'])
         else:
+            # Existing user updates
             super().save(*args, **kwargs)
 
     def verify_otp(self, input_otp):
@@ -61,6 +91,7 @@ class CustomUser(AbstractUser):
         if self.otp_verified:
             return False, "OTP already verified."
 
+        # Check OTP correctness and expiration
         if self.otp_code == input_otp and self.otp_sent_at + timedelta(minutes=10) > timezone.now():
             self.otp_verified = True
             self.otp_code = None  # Clear the OTP after successful verification
@@ -90,7 +121,6 @@ class CustomUser(AbstractUser):
         if self.kyc_document:
             self.kyc_verified = True
             self.save()
-            
 
     def reject_kyc(self):
         self.kyc_verified = False

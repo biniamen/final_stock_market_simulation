@@ -2,16 +2,17 @@
   <mat-card>
     <mat-card-title>Add New Stock</mat-card-title>
     <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
-      <!-- Company Name -->
+      
+      <!-- Company Name (disabled, from local storage) -->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Company Name</mat-label>
         <input matInput [value]="companyName" disabled />
       </mat-form-field>
 
-      <!-- Ticker Symbol -->
+      <!-- Ticker Symbol (auto-generated, disabled in formGroup) -->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Ticker Symbol</mat-label>
-        <input matInput formControlName="ticker_symbol"  />
+        <input matInput formControlName="ticker_symbol" />
       </mat-form-field>
 
       <!-- Total Shares -->
@@ -26,10 +27,10 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Available Shares -->
+      <!-- Available Shares (auto-synced to total_shares, disabled in form) -->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Available Shares</mat-label>
-        <input matInput type="number" formControlName="available_shares"  />
+        <input matInput type="number" formControlName="available_shares" />
       </mat-form-field>
 
       <!-- Current Price -->

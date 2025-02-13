@@ -1,0 +1,106 @@
+/* src/app/components/listed-companies/listed-companies.component.css */
+
+.container-fluid {
+    padding: 20px;
+  }
+  
+  .page-header {
+    margin-bottom: 20px;
+  }
+  
+  .page-title {
+    font-size: 28px; /* Increased font size */
+    font-weight: bold;
+    color: #3f51b5; /* Material Design primary color */
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .mat-table {
+    width: 100%;
+    font-size: 16px; /* Increased font size */
+  }
+  
+  .mat-header-cell {
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px; /* Increased font size */
+  }
+  
+  .mat-cell {
+    text-align: center;
+    font-size: 14px; /* Increased font size */
+  }
+  
+  .mat-row,
+  .mat-header-row {
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .mat-header-row {
+    background-color: #f5f5f5;
+  }
+  
+  .mat-paginator {
+    margin-top: 10px;
+  }
+  
+  .mat-dialog-title {
+    font-size: 24px; /* Increased font size */
+    font-weight: bold;
+  }
+  
+  .mat-dialog-content {
+    font-size: 16px; /* Increased font size */
+  }
+  
+  .mat-dialog-actions button {
+    font-size: 14px; /* Increased font size */
+  }
+  
+  button.mat-raised-button {
+    padding: 10px 20px;
+  }
+  
+  .mat-form-field {
+    font-size: 16px; /* Increased font size */
+  }
+  
+  mat-checkbox {
+    transform: scale(1.2); /* Make checkboxes larger */
+  }
+  
+  .me-2 {
+    margin-right: 0.5rem !important;
+  }
+  
+  .mt-3 {
+    margin-top: 1rem !important;
+  }
+  
+  .w-100 {
+    width: 100%;
+  }
+  
+  .d-flex {
+    display: flex !important;
+  }
+  
+  .justify-content-between {
+    justify-content: space-between !important;
+  }
+  
+  .align-items-center {
+    align-items: center !important;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-primary {
+    color: #3f51b5 !important;
+  }
+  

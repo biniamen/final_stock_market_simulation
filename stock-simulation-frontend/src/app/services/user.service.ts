@@ -16,6 +16,8 @@ export class UserService {
   private userListUrl = 'http://localhost:8000/api/users/list/'; // Adjust the URL as needed
   private users = 'http://localhost:8000/api/users/';
     private userportfolio = 'http://localhost:8000/api/stocks/portfolios/user'
+    private capitalizeWithraw = 'http://localhost:8000/api/stocks/'
+
 
   constructor(private http: HttpClient) { }
 
@@ -78,5 +80,13 @@ export class UserService {
     });
     const url = `${this.userportfolio}/${userId}/`; // Custom endpoint
     return this.http.get<UsersPortfolio>(url, { headers });
+  }
+
+  capitalizeProfit(): Observable<any> {
+    return this.http.post(`${this.capitalizeWithraw}capitalize_profit/`, {});
+  }
+
+  withdrawProfit(): Observable<any> {
+    return this.http.post(`${this.apiUrl}withdraw_profit/`, {});
   }
 }

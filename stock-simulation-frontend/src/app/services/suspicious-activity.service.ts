@@ -58,4 +58,12 @@ export class SuspiciousActivityService {
     });
     return this.http.post(this.suspensionUrl, payload, { headers });
   }
+
+  updateActivity(activityId: number, updatedActivity: any): Observable<any> {
+    return this.http.put(`${this.activitiesUrl}${activityId}/`, updatedActivity);
+  }
+  deleteActivity(id: number): Observable<any> {
+    return this.http.delete(`${this.activitiesUrl}${id}/`);
+  }
+
 }

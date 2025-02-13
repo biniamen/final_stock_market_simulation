@@ -5,19 +5,19 @@
     <mat-toolbar color="primary" class="sidenav-toolbar">
       <div class="sidebar-header">
         <!-- Larger/clearer logo -->
-        <img src="../../assets/esx.jpg" alt="ESX Simulation Logo" class="sidebar-logo" />
+        <img src="../../assets/esx.jpg"  routerLink="/home" alt="ESX Simulation Logo" class="sidebar-logo" />
         <h3 class="sidebar-title">ESX Simulation</h3>
       </div>
     </mat-toolbar>
 
     <mat-nav-list>
       <!-- COMPANY ADMIN LINKS -->
-      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+      <!-- <a *ngIf="userRole === 'company_admin'" mat-list-item 
          routerLink="/publish-stock" 
          routerLinkActive="active-link">
         <mat-icon>work</mat-icon>
         <span>Company Stock</span>
-      </a>
+      </a> -->
       <a *ngIf="userRole === 'company_admin'" mat-list-item 
          routerLink="/add-stock" 
          routerLinkActive="active-link">
@@ -36,12 +36,12 @@
         <mat-icon>bar_chart</mat-icon>
         <span>Company Stock Traded</span>
       </a>
-      <a *ngIf="userRole === 'company_admin'" mat-list-item 
+      <!-- <a *ngIf="userRole === 'company_admin'" mat-list-item 
          routerLink="/dividend" 
          routerLinkActive="active-link">
         <mat-icon>paid</mat-icon>
         <span>Company Dividend</span>
-      </a>
+      </a> -->
       <a *ngIf="userRole === 'company_admin'" mat-list-item 
          routerLink="/dividend-detailed-holdings" 
          routerLinkActive="active-link">
@@ -72,7 +72,7 @@
          routerLink="/stocks" 
          routerLinkActive="active-link">
         <mat-icon>storefront</mat-icon>
-        <span>Listed Stocks</span>
+        <span>Listed Company Stocks</span>
       </a>
       <a *ngIf="userRole === 'trader'" mat-list-item 
          routerLink="/bid-order" 
@@ -87,6 +87,12 @@
          routerLinkActive="active-link">
         <mat-icon>group</mat-icon>
         <span>User List</span>
+      </a>
+      <a *ngIf="userRole === 'regulator'" mat-list-item 
+         routerLink="/listCompanyAdding" 
+         routerLinkActive="active-link">
+        <mat-icon>group</mat-icon>
+        <span>Add Company</span>
       </a>
       <!-- Listed Company and stocks -->
       <a *ngIf="userRole === 'regulator'" mat-list-item 
@@ -175,16 +181,16 @@
       <div class="user-info">
         <mat-icon class="user-avatar">account_circle</mat-icon>
         <div class="user-details">
-          <span class="user-name">{{ username }}</span>
-          <span class="user-role">{{ userRole }}</span>
+          <!-- <span class="user-name">{{ username }}</span>
+          <span class="user-role">{{ userRole }}</span> -->
           <span class="kyc-status">
             <mat-icon *ngIf="kycStatus" class="verified">verified_user</mat-icon>
             <mat-icon *ngIf="!kycStatus" class="not-verified">error_outline</mat-icon>
             {{ kycStatus ? 'KYC Verified' : 'Not Verified' }}
           </span>
-          <span class="balances">
+          <!-- <span class="balances">
             Bal: {{ account_balance }} | Profit: {{ profit_balance }}
-          </span>
+          </span> -->
         </div>
       </div>
 

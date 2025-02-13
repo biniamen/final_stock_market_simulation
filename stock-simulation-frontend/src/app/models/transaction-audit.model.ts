@@ -17,6 +17,7 @@ export interface DetailsObject {
   }
   
   export interface ITransactionAuditTrail {
+    id: any;
     event_type: string;
     timestamp: string;
     details: string | DetailsObject;

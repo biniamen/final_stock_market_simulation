@@ -1,84 +1,33 @@
-/* src/app/components/transaction-audit-list/transaction-audit-list.component.css */
-
-/* Container to add some padding around the card */
 .container {
-    padding: 20px;
-  }
-  
-  /* Full-width styling for the table */
-  .full-width-table {
-    width: 100%;
-  }
-  
-  /* Align card title content */
-  .mat-card-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  /* Align action buttons with spacing */
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* Center text in table cells */
-  .mat-header-cell,
-  .mat-cell {
-    text-align: center;
-  }
-  
-  /* Bold header text */
-  .mat-header-cell {
-    font-weight: bold;
-  }
-  
-  /* Row hover highlight */
-  .mat-row:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Loading spinner container */
-  .loading-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-  }
-  
-  /* The detail row that expands below each item */
-  .detail-row {
-    height: 0;
-    transition: all 0.3s ease;
-  }
-  
-  /* Container for the expanded detail content */
-  .element-detail {
-    padding: 16px;
-    background-color: #f9f9f9;
-    margin-top: 8px;
-  }
-  
-  /* A mini table for structured detail fields (key-value pairs) */
-  .detail-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .detail-table th,
-  .detail-table td {
-    border-bottom: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .detail-table th {
-    width: 200px; /* Adjust as needed */
-    font-weight: bold;
-  }
-  
-  /* Paginator spacing */
-  .mat-paginator {
-    margin-top: 10px;
-  }
-  
+  padding: 20px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.error-message {
+  color: red;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+.audit-card {
+  margin-bottom: 16px;
+}
+
+mat-card {
+  width: 100%;
+}
+
+mat-card-header mat-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+mat-card-subtitle {
+  font-size: 0.9rem;
+  color: #555;
+}

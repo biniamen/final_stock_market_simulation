@@ -39,25 +39,8 @@ export class RegulationsComponent implements OnInit {
   // Predefined regulation names
   regulationNames: string[] = [
     'Daily Trade Limit',
-    'Maximum Position Size',
-    'Margin Requirements',
-    'Volatility Stop',
-    'Risk Exposure Limit',
-    'Circuit Breaker',
-    'Liquidity Requirement',
-    'Leverage Cap',
-    'Trade Confirmation Time',
-    'Compliance Reporting Frequency',
-    'Market Manipulation Prevention',
-    'Insider Trading Prohibition',
-    'Order Execution Timeframe',
-    'Trade Settlement Period',
-    'Client Fund Segregation',
-    'Anti-Money Laundering (AML) Compliance',
-    'Know Your Customer (KYC) Verification',
-    'Transaction Monitoring',
-    'Record Keeping Requirements',
-    'Data Protection and Privacy'
+    'Daily Trading Amount',
+   
   ];
 
   // For the Add/Edit form:

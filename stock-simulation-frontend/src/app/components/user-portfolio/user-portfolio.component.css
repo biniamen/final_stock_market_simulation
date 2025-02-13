@@ -1,96 +1,89 @@
 /* src/app/components/user-portfolio/user-portfolio.component.scss */
 
 .portfolio-container {
-    display: flex;
-    justify-content: center;
-    padding: 24px;
-  }
-  
-  .portfolio-card {
-    width: 100%;
-    max-width: 800px;
-  }
-  
-  .portfolio-details {
-    margin-top: 16px;
-  }
-  
-  .detail-card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .loading-container, .error-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-  
-  .loading-container p, .error-container p {
-    margin-top: 16px;
-    font-size: 1.2em;
-    color: #555;
-  }
-  .portfolio-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px;
-  }
-  
-  .portfolio-card {
-    width: 100%;
-    max-width: 600px;
-  }
-  
-  .detail-card {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-  }
-  
-  .detail-card mat-card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .detail-card mat-card-header mat-icon {
-    font-size: 36px;
-    margin-bottom: 5px;
-  }
-  
-  .detail-card mat-card-title {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .detail-card mat-card-content h2 {
-    font-size: 24px;
-    color: #3f51b5;
-    margin: 10px 0;
-  }
-  
-  .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .error-container {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  mat-card {
-    margin: 20px auto;
-  }
-  
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.portfolio-card {
+  width: 100%;
+  max-width: 800px;
+}
+
+.portfolio-details {
+  margin-top: 16px;
+}
+
+.detail-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.detail-card mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.detail-card mat-card-header mat-icon {
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+.detail-card mat-card-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.detail-card mat-card-content h2 {
+  font-size: 24px;
+  color: #3f51b5;
+  margin: 10px 0;
+}
+
+.mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.loading-container p,
+.error-container p {
+  margin-top: 16px;
+  font-size: 1.2em;
+  color: #555;
+}
+
+/* Optional: Customize MatDialog Styles */
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  border-radius: 8px;
+}
+
+::ng-deep .mat-dialog-title {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+::ng-deep .mat-dialog-content {
+  padding: 16px;
+}
+
+::ng-deep .mat-dialog-actions {
+  padding: 16px;
+  border-top: 1px solid #e0e0e0;
+}

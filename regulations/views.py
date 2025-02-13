@@ -30,7 +30,7 @@ class WorkingHoursViewSet(viewsets.ModelViewSet):
     serializer_class = WorkingHoursSerializer
 
 class StockSuspensionViewSet(viewsets.ModelViewSet):
-    queryset = StockSuspension.objects.all()
+    queryset = StockSuspension.objects.all().select_related('trader', 'stock')
     serializer_class = StockSuspensionSerializer
 
     @action(detail=True, methods=['post'])
@@ -53,3 +53,4 @@ class StockSuspensionViewSet(viewsets.ModelViewSet):
 
         # Notify the trader if required (add notification logic here if applicable)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    

@@ -1,24 +1,41 @@
+from django.db.models import F, Sum, DecimalField, FloatField, ExpressionWrapper
 from collections import defaultdict
-import datetime
 from decimal import Decimal
-from django.forms import ValidationError
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import action
-import datetime
-from django.utils import timezone
-from django.db.models import Sum, F, Q, DecimalField, ExpressionWrapper
-from django.utils.timezone import make_aware,now
+import datetime  # <-- Use standard library datetime
+import logging
 
-from stocks import permissions
-from rest_framework import generics
+from django.forms import ValidationError
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.db.models import Sum, F, Q, DecimalField, ExpressionWrapper, Avg
+from django.utils import timezone
+from django.utils.timezone import make_aware, now, localtime, localdate
+
+from rest_framework import viewsets, status, generics
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from django.contrib.auth import get_user_model
+from django.core.exceptions import PermissionDenied
+
+from stocks import permissions, serializers
 from stocks.dividend_calculation import distribute_dividend
 from stocks.models_audit import TransactionAuditTrail
 from stocks.permissions import IsRegulator, IsRegulatorUser, IsTrader
-from .models import Disclosure, DividendDetailedHolding, DividendDistribution, UsersPortfolio, ListedCompany, Stocks, Orders, Trade, Dividend
+
+from .models import (
+    Disclosure, 
+    DividendDetailedHolding, 
+    DividendDistribution, 
+    UsersPortfolio, 
+    ListedCompany, 
+    Stocks, 
+    Orders, 
+    Trade, 
+    Dividend
+)
 from .serializers import (
     DirectStockPurchaseSerializer,
     DisclosureSerializer,
@@ -39,18 +56,11 @@ from .serializers import (
     TradeSerializer,
     DividendSerializer,
 )
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
+
 from .models_suspicious import SuspiciousActivity
 from .serializers import SuspiciousActivitySerializer
-from django.db import transaction
-from django.contrib.auth import get_user_model
+from regulations.models import StockSuspension
 
-import logging
-
-from stocks import serializers
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
@@ -775,124 +785,491 @@ class RegulatorDividendListView(generics.ListAPIView):
     
     
 
-class DashboardView(APIView):
+class FinalExtendedDashboardView(APIView):
+    """
+    A final extended dashboard endpoint:
+      - Common data: top-sellers, top dividends, total stats, highest-profit traders.
+      - Trader data: total orders/trades, portfolio, net stock holdings, etc.
+      - Company admin data: e.g., company summary, average selling price.
+      - Regulator data: e.g., system stats, suspicious activities, top profit traders, etc.
+    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
-        """
-        Returns a comprehensive dashboard dataset depending on the user's role.
-        """
         user = request.user
-        role = user.role
+        role = getattr(user, 'role', None)  # e.g., "trader", "company_admin", "regulator", etc.
 
+        # Basic user info
         dashboard_data = {
             "user_info": {
                 "username": user.username,
                 "role": role,
-                "account_balance": str(user.account_balance),
-                "profit_balance": str(getattr(user, 'profit_balance', 0.00)),
-                "date_registered": user.date_registered,
-                "last_login": user.last_login,
+                # Show essential numeric fields (ETB)
+                "account_balance_etb": str(getattr(user, 'account_balance', 0.00)),
+                "profit_balance_etb": str(getattr(user, 'profit_balance', 0.00)),
             },
-            "timestamp": now().isoformat()
+            "timestamp": timezone.now().isoformat(),
         }
 
-        # ---- 1. Common data for all roles (e.g., a list of top Stocks, etc.) ----
-        # Example: Get top 5 stocks by current_price
-        top_stocks = Stocks.objects.order_by('-current_price')[:5]
-        top_stocks_data = []
-        for stk in top_stocks:
-            top_stocks_data.append({
-                "ticker_symbol": stk.ticker_symbol,
-                "company_name": stk.company.company_name,
-                "current_price": str(stk.current_price),
-                "available_shares": stk.available_shares,
-            })
+        # Common data: more aggregator reports
+        common_data = self.get_common_data(role)
+        dashboard_data["common_data"] = common_data
 
-        dashboard_data["top_stocks"] = top_stocks_data
-
-        # ---- 2. Trader-Specific Data ----
+        # Role-based expansions
         if role == 'trader':
-            # e.g. portfolio summary (already in user.account_balance, but let's do more)
-            # Summaries from the user's orders or trades
-            total_orders = Orders.objects.filter(user=user).count()
-            total_trades = Trade.objects.filter(user=user).count()
-            # Could also get the user's portfolio from UsersPortfolio
-            try:
-                portfolio = UsersPortfolio.objects.get(user=user)
-                trader_portfolio = {
-                    "quantity": portfolio.quantity,
-                    "average_purchase_price": str(portfolio.average_purchase_price),
-                    "total_investment": str(portfolio.total_investment),
-                }
-            except UsersPortfolio.DoesNotExist:
-                trader_portfolio = {
-                    "quantity": 0,
-                    "average_purchase_price": "0.00",
-                    "total_investment": "0.00",
-                }
-            
-            # Example aggregator for trader
-            dashboard_data["trader_data"] = {
-                "total_orders": total_orders,
-                "total_trades": total_trades,
-                "portfolio": trader_portfolio,
-            }
-
-        # ---- 3. Regulator-Specific Data ----
-        elif role == 'regulator':
-            # e.g. system-wide stats, total number of trades, suspicious activities, etc.
-            total_users = User.objects.all().count()
-            total_orders = Orders.objects.all().count()
-            total_trades = Trade.objects.all().count()
-            suspicious_count = SuspiciousActivity.objects.filter(reviewed=False).count()
-
-            # Example aggregator for regulator
-            dashboard_data["regulator_data"] = {
-                "total_users": total_users,
-                "total_orders": total_orders,
-                "total_trades": total_trades,
-                "pending_suspicious_activities": suspicious_count,
-            }
-
-        # ---- 4. Company Admin-Specific Data ----
+            trader_data = self.get_trader_data(user)
+            dashboard_data["trader_data"] = trader_data
         elif role == 'company_admin':
-            # e.g. fetch the company linked, plus the disclosures or dividends for that company
-            if user.company_id:
-                # If your approach to linking a company is user.company_id
-                user_company_id = user.company_id
-                try:
-                    company = ListedCompany.objects.get(id=user_company_id)
-                    total_stocks = Stocks.objects.filter(company=company).count()
-                    # example aggregator
-                    admin_info = {
-                        "company_name": company.company_name,
-                        "company_sector": company.sector,
-                        "total_stocks_published": total_stocks,
-                    }
+            admin_data = self.get_company_admin_data(user)
+            dashboard_data["company_admin_data"] = admin_data
+        elif role == 'regulator':
+            regulator_data = self.get_regulator_data()
+            dashboard_data["regulator_data"] = regulator_data
 
-                    # maybe list of disclosures
-                    disclosures = Disclosure.objects.filter(company=company)
-                    admin_info["disclosures_count"] = disclosures.count()
-
-                    # maybe list of dividends for that company
-                    dividends = Dividend.objects.filter(company=company)
-                    admin_info["dividends_count"] = dividends.count()
-
-                    dashboard_data["company_admin_data"] = admin_info
-
-                except ListedCompany.DoesNotExist:
-                    dashboard_data["company_admin_data"] = {
-                        "error": "No linked company found for this admin user."
-                    }
-            else:
-                dashboard_data["company_admin_data"] = {
-                    "error": "Company admin has no company_id linked."
-                }
-
-        else:
-            # If role is something else
-            dashboard_data["message"] = "No additional dashboard data for this role."
-
-        # Return final aggregated data
         return Response(dashboard_data, status=200)
+
+    # ------------------ Common Data & Reports -------------------
+    def get_common_data(self, role):
+        """
+        Returns system-wide or market-level summary.
+        - top_selling_stocks
+        - highest_dividend_paid_stocks
+        - highest_dividend_ratio_companies
+        - total_companies, total_stocks
+        - highest_profit_traders (for a quick highlight of top earners)
+        - total_transaction_fees_etb (only for regulators)
+        """
+        top_selling = self._get_top_selling_stocks(limit=5)
+        top_dividends = self._get_highest_dividend_paid_stocks(limit=5)
+        highest_dividend_ratio = self._get_highest_dividend_ratio_companies(limit=5)
+        total_companies = ListedCompany.objects.count()
+        total_stocks = Stocks.objects.count()
+        highest_profit_traders = self._get_highest_profit_traders(limit=5)
+
+        common_data = {
+            "top_selling_stocks": top_selling,
+            "highest_dividend_paid_stocks": top_dividends,
+            "highest_dividend_ratio_companies": highest_dividend_ratio,
+            "total_companies": total_companies,
+            "total_stocks": total_stocks,
+            "highest_profit_traders": highest_profit_traders,
+        }
+
+        if role == 'regulator':
+            # Sum up all transaction fees in the system
+            total_fees = Trade.objects.aggregate(sum_fees=Sum('transaction_fee'))['sum_fees'] or Decimal('0.00')
+            common_data["total_transaction_fees_etb"] = str(total_fees)
+
+        return common_data
+
+    def _get_top_selling_stocks(self, limit=5):
+        trades = (
+            Trade.objects.filter(order__action='Sell')
+            .values('stock_id')
+            .annotate(total_sold=Sum('quantity'))
+            .order_by('-total_sold')[:limit]
+        )
+        results = []
+        for t in trades:
+            sid = t['stock_id']
+            sold_qty = t['total_sold'] or 0
+            try:
+                s = Stocks.objects.select_related('company').get(id=sid)
+                results.append({
+                    "ticker_symbol": s.ticker_symbol,
+                    "company_name": s.company.company_name,
+                    "total_sold": sold_qty
+                })
+            except Stocks.DoesNotExist:
+                pass
+        return results
+
+    def _get_highest_dividend_paid_stocks(self, limit=5):
+        divs = (
+            Dividend.objects.select_related('company')
+            .order_by('-total_dividend_amount')[:limit]
+        )
+        results = []
+        for d in divs:
+            results.append({
+                "company_name": d.company.company_name,
+                "budget_year": d.budget_year,
+                "total_dividend_amount_etb": str(d.total_dividend_amount),
+            })
+        return results
+
+    def _get_highest_dividend_ratio_companies(self, limit=5):
+        """
+        Example: Dividend ratio = SUM of dividends / SUM of total_shares.
+        Adjust as needed for your real business logic.
+        """
+        # Annotate companies with total dividend & total shares
+        companies = (
+            ListedCompany.objects
+            .annotate(
+                total_dividend=Sum('dividends__total_dividend_amount'),
+                total_shares_published=Sum('stocks__total_shares'),
+                dividend_ratio=ExpressionWrapper(
+                    Sum('dividends__total_dividend_amount') / Sum('stocks__total_shares'),
+                    output_field=FloatField()
+                )
+            )
+            .filter(
+                total_dividend__isnull=False,
+                total_shares_published__gt=0
+            )
+            .order_by('-dividend_ratio')[:limit]
+        )
+
+        results = []
+        for company in companies:
+            results.append({
+                "company_name": company.company_name,
+                "dividend_ratio": round(company.dividend_ratio, 2) if company.dividend_ratio else 0.00,
+                "total_dividend_amount_etb": str(company.total_dividend or Decimal('0.00')),
+            })
+        return results
+
+    def _get_highest_profit_traders(self, limit=5):
+        """
+        Example aggregator: top users by 'profit_balance'.
+        """
+        # If your user model has a 'profit_balance' field:
+        top_users = (
+            User.objects.exclude(profit_balance=None)
+            .order_by('-profit_balance')[:limit]
+        )
+        results = []
+        for u in top_users:
+            results.append({
+                "username": u.username,
+                "profit_balance_etb": str(u.profit_balance)
+            })
+        return results
+
+    # ------------------ Trader Data -------------------
+    def get_trader_data(self, user):
+        total_orders = Orders.objects.filter(user=user).count()
+        total_trades = Trade.objects.filter(user=user).count()
+
+        # Portfolio
+        portfolio_data = {
+            "quantity": 0,
+            "avg_purchase_price_etb": "0.00",
+            "total_investment_etb": "0.00",
+        }
+        try:
+            p = UsersPortfolio.objects.get(user=user)
+            portfolio_data["quantity"] = p.quantity
+            portfolio_data["avg_purchase_price_etb"] = str(p.average_purchase_price)
+            portfolio_data["total_investment_etb"] = str(p.total_investment)
+        except UsersPortfolio.DoesNotExist:
+            pass
+
+        # Net stock holdings
+        holdings = self._get_user_stock_holdings(user)
+
+        return {
+            "total_orders": total_orders,
+            "total_trades": total_trades,
+            "portfolio": portfolio_data,
+            "stock_holdings": holdings,
+        }
+
+    def _get_user_stock_holdings(self, user):
+        buys = (
+            Trade.objects.filter(user=user, order__action='Buy')
+            .values('stock_id')
+            .annotate(total_buys=Sum('quantity'))
+        )
+        sells = (
+            Trade.objects.filter(user=user, order__action='Sell')
+            .values('stock_id')
+            .annotate(total_sells=Sum('quantity'))
+        )
+        buy_map = {b['stock_id']: b['total_buys'] for b in buys}
+        sell_map = {s['stock_id']: s['total_sells'] for s in sells}
+
+        all_ids = set(list(buy_map.keys()) + list(sell_map.keys()))
+        results = []
+        for sid in all_ids:
+            net_qty = buy_map.get(sid, 0) - sell_map.get(sid, 0)
+            if net_qty > 0:
+                try:
+                    stock_obj = Stocks.objects.select_related('company').get(id=sid)
+                    results.append({
+                        "stock_id": stock_obj.id,
+                        "ticker_symbol": stock_obj.ticker_symbol,
+                        "company_name": stock_obj.company.company_name,
+                        "quantity": net_qty
+                    })
+                except Stocks.DoesNotExist:
+                    pass
+        return results
+
+    # ------------------ Company Admin Data -------------------
+    def get_company_admin_data(self, user):
+        """
+        Summaries relevant to the company admin's own company,
+        e.g., total published stocks, average selling price, etc.
+        """
+        if not hasattr(user, 'company_id'):
+            return {"error": "No company linked to this admin."}
+
+        from django.db.models import Sum
+
+        try:
+            comp = ListedCompany.objects.get(id=user.company_id)
+        except ListedCompany.DoesNotExist:
+            return {"error": "No valid company found for this user."}
+
+        # Total stocks for that company
+        total_stocks_count = Stocks.objects.filter(company=comp).count()
+
+        # Average selling price
+        sells = Trade.objects.filter(stock__company=comp, order__action='Sell')
+        total_sold = sells.aggregate(q=Sum('quantity'))['q'] or 0
+        total_price_qty = sells.aggregate(spq=Sum(F('quantity') * F('price')))['spq'] or 0
+        avg_price = Decimal('0.00')
+        if total_sold > 0:
+            avg_price = Decimal(total_price_qty) / Decimal(total_sold)
+
+        return {
+            "company_name": comp.company_name,
+            "company_sector": comp.sector,
+            "total_stocks_published": total_stocks_count,
+            "avg_selling_price_etb": str(avg_price.quantize(Decimal('0.01'))) if total_sold else "0.00",
+        }
+
+    # ------------------ Regulator Data -------------------
+    def get_regulator_data(self):
+        """
+        e.g., system-wide stats, suspicious activities, top profit traders, etc.
+        """
+        total_users = User.objects.all().count()
+        total_orders = Orders.objects.all().count()
+        total_trades = Trade.objects.all().count()
+        suspicious_count = SuspiciousActivity.objects.filter(reviewed=False).count()
+
+        top_profit_traders = self._get_highest_profit_traders(limit=5)
+
+        return {
+            "total_users": total_users,
+            "total_orders": total_orders,
+            "total_trades": total_trades,
+            "pending_suspicious_activities": suspicious_count,
+            "highest_profit_traders": top_profit_traders,
+        }
+class ImportantReportView(APIView):
+    """
+    Returns summarized trade/order data within a specified date range,
+    optionally filtered by stock, company, or other parameters.
+
+    Usage example:
+      GET /api/important_report/?start_date=2024-01-01&end_date=2025-01-01&stock_id=2
+    """
+    def get(self, request, format=None):
+        # 1. Parse query parameters
+        start_date_str = request.query_params.get('start_date')
+        end_date_str = request.query_params.get('end_date')
+        stock_id = request.query_params.get('stock_id')
+        company_id = request.query_params.get('company_id')
+
+        # 2. Validate & convert dates
+        # If no date range is provided, you can default to some range or raise an error
+        try:
+            if start_date_str:
+                start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+                start_date = timezone.make_aware(start_date, timezone.get_current_timezone())
+            else:
+                # default or error
+                start_date = timezone.now() - timezone.timedelta(days=30)  # e.g. last 30 days
+
+            if end_date_str:
+                end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+                end_date = timezone.make_aware(end_date, timezone.get_current_timezone())
+            else:
+                end_date = timezone.now()
+        except ValueError:
+            return Response(
+                {"detail": "Invalid date format. Use YYYY-MM-DD."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # 3. Filter trades based on date range
+        #    (We'll assume you want to filter by Trade.trade_time)
+        trades_qs = Trade.objects.filter(
+            trade_time__gte=start_date,
+            trade_time__lte=end_date
+        )
+
+        # 4. Optionally filter by stock or company
+        if stock_id:
+            trades_qs = trades_qs.filter(stock_id=stock_id)
+
+        if company_id:
+            # Must filter trades whose stock belongs to that company
+            trades_qs = trades_qs.filter(stock__company_id=company_id)
+
+        # 5. Aggregate or gather stats
+        #    Example: total trades, total quantity, sum of transaction_fee, sum of trade value
+        #    trade_value = quantity * price
+        trades_annotated = trades_qs.annotate(
+            trade_value=ExpressionWrapper(
+                F('quantity') * F('price'),
+                output_field=DecimalField(max_digits=20, decimal_places=2)
+            )
+        )
+
+        total_trades = trades_annotated.count()
+        agg_result = trades_annotated.aggregate(
+            total_quantity=Sum('quantity'),
+            total_fees=Sum('transaction_fee'),
+            total_value=Sum('trade_value'),
+            avg_price=Avg('price')
+        )
+
+        total_quantity = agg_result['total_quantity'] or 0
+        total_fees = agg_result['total_fees'] or Decimal('0.00')
+        total_value = agg_result['total_value'] or Decimal('0.00')
+        avg_price = agg_result['avg_price'] or Decimal('0.00')
+
+        # 6. (Optional) Example: You might also want to break down
+        #    stats by Buy vs Sell or group by each Stock, etc.
+
+        # Example grouping by action:
+        buys = trades_annotated.filter(order__action='Buy')
+        sells = trades_annotated.filter(order__action='Sell')
+
+        buy_agg = buys.aggregate(
+            buy_qty=Sum('quantity'),
+            buy_value=Sum('trade_value')
+        )
+        sell_agg = sells.aggregate(
+            sell_qty=Sum('quantity'),
+            sell_value=Sum('trade_value')
+        )
+
+        # 7. Build the response data
+        data = {
+            "start_date": start_date_str or str(start_date.date()),
+            "end_date": end_date_str or str(end_date.date()),
+            "stock_id": stock_id,
+            "company_id": company_id,
+            "total_trades": total_trades,
+            "total_quantity": total_quantity,
+            "total_fees": str(total_fees),
+            "total_value": str(total_value),
+            "average_price": str(avg_price.quantize(Decimal('0.01'))),
+            "buy_summary": {
+                "total_buy_quantity": buy_agg['buy_qty'] or 0,
+                "total_buy_value": str(buy_agg['buy_value'] or Decimal('0.00'))
+            },
+            "sell_summary": {
+                "total_sell_quantity": sell_agg['sell_qty'] or 0,
+                "total_sell_value": str(sell_agg['sell_value'] or Decimal('0.00'))
+            }
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
+    
+class CapitalizeProfitView(APIView):
+    """
+    API endpoint to capitalize profit.
+    Adds the profit_balance to account_balance after deducting a 15% tax.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        user = request.user
+
+        # Ensure the user has the necessary attributes
+        if not hasattr(user, 'account_balance') or not hasattr(user, 'profit_balance'):
+            return Response(
+                {"detail": "User account or profit balance not found."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        profit_balance = user.profit_balance
+
+        if profit_balance <= 0:
+            return Response(
+                {"detail": "No profit available to capitalize."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        tax = (profit_balance * Decimal('0.15')).quantize(Decimal('0.01'))
+        amount_to_capitalize = profit_balance - tax
+
+        # Update user balances
+        user.account_balance += amount_to_capitalize
+        user.profit_balance -= profit_balance  # Reset profit_balance to 0
+        user.save()
+
+        logger.info(
+            f"User {user.username} capitalized profit. "
+            f"Tax: {tax}, Capitalized Amount: {amount_to_capitalize}."
+        )
+
+        return Response(
+            {
+                "detail": "Profit capitalized successfully.",
+                "tax_deducted": str(tax),
+                "capitalized_amount": str(amount_to_capitalize),
+                "new_account_balance": str(user.account_balance),
+                "new_profit_balance": str(user.profit_balance),
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+class WithdrawProfitView(APIView):
+    """
+    API endpoint to withdraw profit.
+    Deducts a 15% tax and transfers the remaining amount to the user's bank account.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        user = request.user
+
+        # Ensure the user has the necessary attributes
+        if not hasattr(user, 'profit_balance'):
+            return Response(
+                {"detail": "User profit balance not found."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        profit_balance = user.profit_balance
+
+        if profit_balance <= 0:
+            return Response(
+                {"detail": "No profit available to withdraw."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        tax = (profit_balance * Decimal('0.15')).quantize(Decimal('0.01'))
+        amount_to_withdraw = profit_balance - tax
+
+        # Here you would integrate with your payment gateway.
+        # For demonstration, we'll assume the withdrawal is successful.
+
+        # Update user balances
+        user.profit_balance -= profit_balance  # Reset profit_balance to 0
+        user.save()
+
+        logger.info(
+            f"User {user.username} withdrew profit. "
+            f"Tax: {tax}, Withdrawn Amount: {amount_to_withdraw}."
+        )
+
+        return Response(
+            {
+                "detail": "After 15% tax deducted, the profit amount is transferred to your bank account.",
+                "tax_deducted": str(tax),
+                "withdrawn_amount": str(amount_to_withdraw),
+                "payment_gateway": "Payment gateway is done here.",
+                "new_profit_balance": str(user.profit_balance),
+            },
+            status=status.HTTP_200_OK
+        )
