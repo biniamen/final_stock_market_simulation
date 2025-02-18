@@ -1,11 +1,6 @@
 # Final Stock Market Simulation
 
-A web application that simulates stock market operations. The project is divided into two main parts:
-
-- **Backend:** A Django application that handles API endpoints, business logic, and data persistence.
-- **Frontend:** An Angular application that provides a dynamic, responsive user interface.
-
-This guide will help you set up the project on your local machine.
+A full-stack web application for simulating stock market operations, built with **Django (Python)** for the backend and **Angular** for the frontend. This project provides user authentication, real-time stock data simulation, and portfolio management features.
 
 ---
 
@@ -26,11 +21,11 @@ This guide will help you set up the project on your local machine.
 
 ## Features
 
-- **User Authentication:** Secure login and registration endpoints.
-- **Stock Market Simulation:** Simulate trading operations such as buying and selling stocks.
-- **Portfolio Management:** Track user investments and real-time updates of gains and losses.
-- **RESTful API:** The backend exposes a set of APIs consumed by the Angular frontend.
-- **Responsive UI:** The Angular frontend is built with modern web standards to work on desktops and mobile devices.
+- **User Authentication:** Secure registration and login with JWT-based authentication.
+- **Stock Market Simulation:** Buy and sell stocks in a simulated environment.
+- **Portfolio Management:** View and track investments with real-time gain/loss updates.
+- **RESTful API:** Django REST Framework powers a comprehensive API consumed by the Angular frontend.
+- **Responsive UI:** Modern, mobile-friendly Angular interface using Bootstrap and Angular Material.
 
 ---
 
@@ -39,20 +34,20 @@ This guide will help you set up the project on your local machine.
 ```plaintext
 final_stock_market_simulation/
 ├── backend/
-│   ├── final_stock_market_simulation/    # Django project settings
-│   ├── apps/                             # Django apps (e.g., accounts, trading, etc.)
-│   ├── manage.py                         # Django management script
-│   ├── requirements.txt                  # Python dependencies
-│   └── README_backend.md                 # (Optional) Backend-specific documentation
+│   ├── final_stock_market_simulation/        # Django project settings (example: ethio_stock_simulation)
+│   ├── apps/                                 # Django apps (e.g., users, stocks, regulations, etc.)
+│   ├── manage.py                             # Django management script
+│   ├── requirements.txt                      # Python dependencies
+│   └── README_backend.md                     # (Optional) Backend-specific documentation
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── app/                          # Angular components, services, and modules
-│   │   ├── assets/                       # Images, styles, and other static assets
-│   │   └── environments/                 # Environment configuration files
-│   ├── angular.json                      # Angular CLI configuration
-│   ├── package.json                      # Node dependencies for Angular
-│   └── README_frontend.md                # (Optional) Frontend-specific documentation
+│   │   ├── app/                              # Angular components, services, and modules
+│   │   ├── assets/                           # Static assets (images, styles, etc.)
+│   │   └── environments/                     # Environment configuration files
+│   ├── angular.json                          # Angular CLI configuration
+│   ├── package.json                          # Node dependencies for Angular
+│   └── README_frontend.md                    # (Optional) Frontend-specific documentation
 │
 ├── .gitignore
-└── README.md                             # This file
+└── README.md                                 # This file
