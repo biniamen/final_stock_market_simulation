@@ -1,4 +1,4 @@
-# Final Stock Market Simulation
+# Stock Market Simulation Guideline
 
 A full-stack web application for simulating stock market operations, built with **Django (Python)** for the backend and **Angular** for the frontend. This project provides user authentication, real-time stock data simulation, and portfolio management features.
 
@@ -14,7 +14,8 @@ A full-stack web application for simulating stock market operations, built with 
    - [Frontend (Angular)](#frontend-angular)
 5. [Configuration](#configuration)
 6. [Running the Application](#running-the-application)
-
+7. [Contributing](#contributing)
+8. [License](#license)
 
 ---
 
@@ -50,33 +51,33 @@ final_stock_market_simulation/
 │
 ├── .gitignore
 └── README.md                                 # This file
-
-
-## Prerequisites
+Prerequisites
 Python 3.9+
-
 Download & Install Python
+
 Node.js (v14+ recommended)
-
 Download & Install Node.js
+
 PostgreSQL
-
 Download & Install PostgreSQL
+
 Virtual Environment (Recommended)
+Ensure you can create and activate a Python virtual environment (e.g., using venv).
 
-Ensure you have a way to create and activate a Python virtual environment (e.g., venv).
-Git (optional but recommended for version control)
-
+Git (optional but recommended)
 Download & Install Git
 
-## Installation
+Installation
 Backend (Django)
 Clone the repository (or download the source code):
+
 
 
 git clone https://github.com/your-username/final_stock_market_simulation.git
 cd final_stock_market_simulation/backend
 Create and activate a virtual environment:
+
+
 
 python -m venv venv
 source venv/bin/activate   # On macOS/Linux
@@ -84,9 +85,12 @@ source venv/bin/activate   # On macOS/Linux
 venv\Scripts\activate      # On Windows
 Install backend dependencies:
 
-pip install -r requirements.txt
-The requirements.txt might include (but is not limited to):
 
+
+pip install -r requirements.txt
+Example contents of requirements.txt:
+
+plaintext
 
 asgiref==3.8.1
 Django==5.1.1
@@ -97,39 +101,46 @@ sqlparse==0.5.1
 tzdata==2024.2
 Configure the database (PostgreSQL):
 
-Make sure PostgreSQL is running.
+Ensure PostgreSQL is running.
 
-Update the database credentials in settings.py or a .env file if needed:
+Update the database credentials in settings.py or in a .env file as needed:
 
+python
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ethio_stock_simulation_db',
         'USER': 'stock_user',
-        'PASSWORD': '',
+        'PASSWORD': 'YOUR_PASSWORD_HERE',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+Run migrations:
 
-Run Migrations:
+
 
 python manage.py migrate
 (Optional) Create a superuser:
 
+
+
 python manage.py createsuperuser
-
-
 Frontend (Angular)
 Navigate to the frontend folder:
+
 
 
 cd ../frontend
 Install Node dependencies:
 
+
+
 npm install
-Your package.json includes (but is not limited to) the following dependencies:
+Example contents of package.json:
+
+json
 
 {
   "name": "stock-simulation-frontend",
@@ -185,9 +196,10 @@ Your package.json includes (but is not limited to) the following dependencies:
     "typescript": "~4.7.2"
   }
 }
-## Configuration
+Configuration
 Environment Variables
-Create a .env file in your backend project directory (at the same level as manage.py) and set the necessary environment variables. For example:
+Create a .env file in your backend project directory (the same level as manage.py) and set the necessary environment variables. For example:
+
 
 
 SENDGRID_API_KEY=YOUR_SENDGRID_API_KEY
@@ -198,10 +210,12 @@ EMAIL_HOST_PASSWORD=YOUR_SENDGRID_API_KEY
 EMAIL_PORT=587
 EMAIL_USE_TLS=True
 DEFAULT_FROM_EMAIL=Ethiopian Stock Market <your_verified_email@example.com>
-Adjust the values to match your own environment and secrets.
+Adjust the values to match your environment and secrets.
 
 Important Settings Snippet
-Below is a snippet of key settings from the Django settings.py for reference:
+Below is an example snippet from the Django settings.py:
+
+python
 
 import os
 from pathlib import Path
@@ -221,7 +235,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ethio_stock_simulation_db',
         'USER': 'stock_user',
-        'PASSWORD': '',
+        'PASSWORD': 'YOUR_PASSWORD_HERE',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -274,25 +288,55 @@ CHANNEL_LAYERS = {
 }
 
 # Logging, SendGrid, reCAPTCHA, etc.
-Note: Always keep secret keys and sensitive credentials in your environment variables (not directly in settings.py).
+Note: Always store secret keys and sensitive credentials in environment variables instead of hard-coding them in settings.py.
 
-## Running the Application
-Backend Server (Django):
-
+Running the Application
+Backend Server (Django)
 Ensure your virtual environment is activated:
+
+
 
 cd backend
 source venv/bin/activate   # or venv\Scripts\activate on Windows
 Start the Django development server:
 
-python manage.py runserver
-By default, the backend will be available at http://127.0.0.1:8000/.
-Frontend Server (Angular):
 
+
+python manage.py runserver
+The backend will be available at http://127.0.0.1:8000/.
+
+Frontend Server (Angular)
 In a new terminal, navigate to the frontend folder:
 
+
+
 cd frontend
-Run the Angular development server:
+Start the Angular development server:
+
+
 
 npm start
-By default, the frontend will be available at http://localhost:4200/.
+The frontend will be available at http://localhost:4200/.
+
+Contributing
+Fork the repository.
+
+Create a new feature branch:
+
+
+
+git checkout -b feature/someFeature
+Make your changes and commit them:
+
+
+
+git commit -m 'Add someFeature'
+Push your branch to your fork:
+
+
+
+git push origin feature/someFeature
+Open a Pull Request detailing your changes.
+
+License
+This project is open-source and available under the MIT License. Feel free to use and modify the code for your own purposes, following the terms of the license.
